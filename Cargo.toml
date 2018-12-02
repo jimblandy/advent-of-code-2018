@@ -1,0 +1,7 @@
+[package]
+name = "advent-of-code-2018"
+version = "0.1.0"
+authors = ["Jim Blandy <jimb@red-bean.com>"]
+
+[dependencies]
+failure = "0.1.3"
