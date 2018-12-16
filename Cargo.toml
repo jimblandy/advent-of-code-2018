@@ -5,3 +5,4 @@ authors = ["Jim Blandy <jimb@red-bean.com>"]
 
 [dependencies]
 failure = "0.1.3"
+ndarray = "0.12.1"

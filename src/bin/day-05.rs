@@ -40,7 +40,7 @@ fn main() {
                 .collect();
             (unit, reduce(&purified).len())
         })
-        .min_by_key(|(unit, len)| *len)
+        .min_by_key(|(_unit, len)| *len)
         .unwrap();
 
     println!("Dropping {:?} yields a length of {}", best_unit, length);
