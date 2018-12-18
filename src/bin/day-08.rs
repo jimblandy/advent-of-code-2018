@@ -102,7 +102,7 @@ fn main() {
         .collect();
 
     let mut summer = SumMetadata::new();
-    let root = parse(&mut summer, &mut numbers.iter().cloned());
+    let _root = parse(&mut summer, &mut numbers.iter().cloned());
     println!("total: {}", summer.meta_total);
 
     let mut fancy = FancyNodes;

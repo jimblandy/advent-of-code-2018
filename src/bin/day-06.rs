@@ -11,7 +11,7 @@ static TEST_INPUT: &'static str = include_str!("day-06.test");
 #[allow(dead_code)]
 static INPUT: &'static str = include_str!("day-06.input");
 
-//const NEW: usize = std::usize::MAX;
+const NEW: usize = std::usize::MAX;
 const TIE: usize = std::usize::MAX - 1;
 
 fn abs_difference(a: usize, b: usize) -> usize {
@@ -26,10 +26,15 @@ fn manhattan(a: &(usize, usize), b: &(usize, usize)) -> usize {
 fn print_map(map: &Array2<usize>) {
     for r in 0..map.len_of(Axis(0)) {
         for c in 0..map.len_of(Axis(1)) {
-            print!("{}", match map[[r, c]] {
-                NEW => '*',
-                TIE => '.',
-                n => (b'a' + (n as u8) % 26) as char
+            print!("{}", {
+                let point = map[[r, c]];
+                if point == NEW {
+                    '*'
+                } else if point == TIE {
+                    '.'
+                } else {
+                    (b'a' + (point as u8) % 26) as char
+                }
             });
         }
         println!();

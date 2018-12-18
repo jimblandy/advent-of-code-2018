@@ -29,10 +29,6 @@ impl<T> TimedQueue<T> {
     fn len(&self) -> usize {
         self.0.len()
     }
-
-    fn is_empty(&self) -> bool {
-        self.0.is_empty()
-    }
 }
 
 #[test]
