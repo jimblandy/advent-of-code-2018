@@ -106,3 +106,24 @@ where A: IntoIterator,
     let b = b.into_iter();
     a.flat_map(move |i| b.clone().map(move |j| (i.clone(), j)))
 }
+
+/// Split `input` into fields separated by the non-underscore sections of
+/// `seps`, trim any surrounding whitespace, and return the result as a vector
+/// of slices.
+pub fn splits<'a, T, E, P>(mut input: &'a str, seps: &str, mut parser: P) -> Result<Vec<T>, E>
+    where P: FnMut(&str) -> Result<T, E>
+{
+    let mut seps = seps.split('_');
+    let mut fields = Vec::new();
+
+    let first = seps.next().expect("seps doesn't even have one separator");
+    assert!(input.starts_with(first));
+    input = &input[first.len()..];
+
+    for sep in seps {
+        let end = input.find(sep).expect("splits: separator not found");
+        fields.push(parser(input[..end].trim())?);
+        input = &input[end + sep.len()..];
+    }
+    Ok(fields)
+}
