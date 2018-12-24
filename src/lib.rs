@@ -3,7 +3,9 @@ extern crate ndarray;
 use std::cmp::Ordering;
 use ndarray::{Array2, Axis};
 
+pub mod astar;
 pub mod ring;
+pub mod shortest;
 
 pub trait IteratorExt: Iterator {
     fn unique_min_by_key<B, F>(self, f: F) -> Option<Self::Item>
