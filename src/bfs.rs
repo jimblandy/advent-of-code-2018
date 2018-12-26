@@ -1,13 +1,18 @@
 use std::collections::{HashSet, VecDeque};
 use std::hash::Hash;
 
-/// Iterate over the edges of a graph in depth-first order.
+/// Iterate over the edges `(from, to, path_length)` of a graph in depth-first
+/// order. In the values produced, `from` and `to` are the edge's origin and
+/// target, and `path_length` is the total length of the path from the starting
+/// node to `to` (that is, including this edge).
 ///
-/// Starting at `start`, and finding nodes' neighbors by calling `neighbors`,
-/// produce every edge in the graph as a triple `(from, to, length)`, where
-/// `length` is the total length of a shortest path from `start` to `to`, in
-/// order of non-decreasing `length`.
-pub fn shortest_paths<N, F, I>(start: N, mut neighbors: F) -> impl Iterator<Item=(N, N, usize)>
+/// Because the traversal is breadth-first, edges are produced in order of
+/// nondecreasing `path_length`. Eventually, every edge of the graph is
+/// produced.
+///
+/// The graph itself is determined by the `neighbors` function. Given any node,
+/// `neighbors` must return an iterator over all its immediate neighbor nodes.
+pub fn breadth_first<N, F, I>(start: N, mut neighbors: F) -> BreadthFirst<N, F>
 where N: Clone + Eq + Hash,
       F: FnMut(&N) -> I,
       I: IntoIterator<Item=N>,
@@ -20,16 +25,16 @@ where N: Clone + Eq + Hash,
     let mut visited = HashSet::new();
     visited.insert(start);
 
-    ShortestPaths { visited, pending, neighbors }
+    BreadthFirst { visited, pending, neighbors }
 }
 
-struct ShortestPaths<N, F> {
+pub struct BreadthFirst<N, F> {
     visited: HashSet<N>,
     pending: VecDeque<(N, N, usize)>,
     neighbors: F,
 }
 
-impl<N, F, I> Iterator for ShortestPaths<N, F>
+impl<N, F, I> Iterator for BreadthFirst<N, F>
 where N: Clone + Eq + Hash,
       F: FnMut(&N) -> I,
       I: IntoIterator<Item=N>,
@@ -64,12 +69,12 @@ mod test {
         }
 
         fn collect_edges(&self, start: i32) -> Vec<(i32, i32, usize)> {
-            shortest_paths(start, |n| self.neighbors(n)).collect::<Vec<_>>()
+            breadth_first(start, |n| self.neighbors(n)).collect::<Vec<_>>()
         }
     }
 
     #[test]
-    fn test_shortest_paths() {
+    fn test_breadth_first() {
         let graph = EdgeList(vec![(2,3), (0,1), (1,2)]);
         assert_eq!(graph.collect_edges(0),
                    vec![(0,1,1), (1,2,2), (2,3,3)]);

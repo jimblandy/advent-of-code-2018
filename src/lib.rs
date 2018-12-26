@@ -4,8 +4,8 @@ use std::cmp::Ordering;
 use ndarray::{Array2, Axis};
 
 pub mod astar;
+pub mod bfs;
 pub mod ring;
-pub mod shortest;
 
 pub trait IteratorExt: Iterator {
     fn unique_min_by_key<B, F>(self, f: F) -> Option<Self::Item>
@@ -83,6 +83,35 @@ impl<I: Iterator> IteratorExt for I {
     }
 }
 
+pub fn select_iter<T, I, J>(which: bool, i: I, j: J) -> SelectIter<I, J>
+where I: Iterator<Item=T>,
+      J: Iterator<Item=T>,
+{
+    if which {
+        SelectIter::I(i)
+    } else {
+        SelectIter::J(j)
+    }
+}
+
+pub enum SelectIter<I, J> {
+    I(I),
+    J(J),
+}
+
+impl<T, I, J> Iterator for SelectIter<I, J>
+where I: Iterator<Item=T>,
+      J: Iterator<Item=T>,
+{
+    type Item = T;
+    fn next(&mut self) -> Option<T> {
+        match self {
+            SelectIter::I(i) => i.next(),
+            SelectIter::J(j) => j.next(),
+        }
+    }
+}
+
 /// Return an iterator over the indexes of the elements at the edges of `array`.
 /// The edges appear in the same order they would in a row-major traversal.
 pub fn edge_indexes2<E>(array: &Array2<E>) -> impl Iterator<Item=[usize; 2]> {
@@ -128,4 +157,70 @@ pub fn splits<'a, T, E, P>(mut input: &'a str, seps: &str, mut parser: P) -> Res
         input = &input[end + sep.len()..];
     }
     Ok(fields)
+}
+
+/// Return an iterator over the first consecutive run of `iter`'s items
+/// indicated by `start`.
+///
+/// Drop the initial run of items from `iter` until `start(item)` returns
+/// `Some(extend)`, for some closure `extend`. Then, produce `item` and all
+/// further items from `iter` for as long as `extend` returns true. Once
+/// `extend` return `false`, iteration is over.
+pub fn first_run<'a, I, S, E>(iter: I, start: S) -> FirstRun<I, S, E>
+where I: Iterator,
+      S: 'a + FnMut(&I::Item) -> Option<E>,
+      E: 'a + FnMut(&I::Item) -> bool,
+{
+    FirstRun::NotYet { iter, start }
+}
+
+pub enum FirstRun<I, S, E> {
+    NotYet { iter: I, start: S },
+    Extending { iter: I, extend: E },
+    Done,
+}
+
+impl<I, S, E> Iterator for FirstRun<I, S, E>
+where I: Iterator,
+      S: FnMut(&I::Item) -> Option<E>,
+      E: FnMut(&I::Item) -> bool,
+{
+    type Item = I::Item;
+    fn next(&mut self) -> Option<Self::Item> {
+        match std::mem::replace(self, FirstRun::Done) {
+            FirstRun::NotYet { mut iter, mut start } => {
+                // Drop items until we get one that `start` likes.
+                while let Some(item) = iter.next() {
+                    if let Some(extend) = start(&item) {
+                        *self = FirstRun::Extending { iter, extend };
+                        return Some(item);
+                    }
+                }
+                *self = FirstRun::Done;
+                None
+            }
+            FirstRun::Extending { mut iter, mut extend } => {
+                if let Some(item) = iter.next() {
+                    if extend(&item) {
+                        *self = FirstRun::Extending { iter, extend };
+                        Some(item)
+                    } else {
+                        *self = FirstRun::Done;
+                        None
+                    }
+                } else {
+                    *self = FirstRun::Done;
+                    None
+                }
+            }
+            FirstRun::Done => None,
+        }
+    }
+}
+
+#[test]
+fn test_first_run() {
+    assert_eq!(first_run(0..10, |n: &i32| if *n > 3 { Some(|m: &i32| *m < 7) } else { None })
+               .collect::<Vec<_>>(),
+               vec![4,5,6]);
 }

@@ -27,6 +27,11 @@ use std::hash::Hash;
 /// distances, so given meaningful estimates, this algorithm can find a shortest
 /// path to `start` exploring many fewer edges than a blind depth-first
 /// traversal.
+///
+/// This iterator eventually produces all edges in the graph; it simply presents
+/// them in an order that efficiently finds shortest paths to a given node.
+/// If you want to iterate only over edges that are part of shortest paths,
+/// use the `shortest_only` adapter.
 pub fn astar<N, F, I>(start: N, mut neighbors: F) -> impl Iterator<Item=Edge<N>>
 where N: Clone + Debug + Eq + Hash,
       F: FnMut(&N) -> I,
@@ -48,12 +53,6 @@ where N: Clone + Debug + Eq + Hash,
     AStar { visited, pending, neighbors }
 }
 
-struct AStar<N, F> {
-    visited: HashSet<N>,
-    pending: BinaryHeap<Edge<N>>,
-    neighbors: F,
-}
-
 /// An edge in the graph, along with some information about its prospects within
 /// the overall traversal.
 #[derive(Debug)]
@@ -69,6 +68,18 @@ pub struct Edge<N> {
 
     /// A lower bound on the distance from from this `node` to the `end` node.
     pub estimate: usize,
+}
+
+impl<N> Edge<N> {
+    fn full_estimate(&self) -> usize {
+        self.path_length + self.estimate
+    }
+}
+
+struct AStar<N, F> {
+    visited: HashSet<N>,
+    pending: BinaryHeap<Edge<N>>,
+    neighbors: F,
 }
 
 impl<N, F, I> Iterator for AStar<N, F>
@@ -93,14 +104,7 @@ where N: Clone + Debug + Eq + Hash,
                 });
             }
         }
-        eprintln!("producing {:?}", edge);
         Some(edge)
-    }
-}
-
-impl<N> Edge<N> {
-    fn full_estimate(&self) -> usize {
-        self.path_length + self.estimate
     }
 }
 
@@ -156,7 +160,7 @@ mod test {
         (i32::abs(a.0 - b.0) + i32::abs(a.1 - b.1)) as usize
     }
 
-    fn diophantine_neighbors(node: (i32, i32), end: (i32, i32)) -> impl Iterator<Item=((i32, i32), usize)> {
+    fn von_neumann_neighbors(node: (i32, i32), end: (i32, i32)) -> impl Iterator<Item=((i32, i32), usize)> {
         const DIRS: [(i32, i32); 4] = [(1, 0), (0, 1), (-1, 0), (0, -1)];
         DIRS.iter()
             .map(move |(dx, dy)| (node.0 + dx, node.1 + dy))
@@ -164,7 +168,7 @@ mod test {
     }
 
     fn collect_manhattan_astar(start: (i32, i32), end: (i32, i32), limit: usize) -> Vec<Edge<(i32, i32)>> {
-        astar(start, |n| diophantine_neighbors(*n, end))
+        astar(start, |n| von_neumann_neighbors(*n, end))
             .take(limit)
             .collect::<Vec<_>>()
     }
