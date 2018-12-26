@@ -32,10 +32,11 @@ use std::hash::Hash;
 /// them in an order that efficiently finds shortest paths to a given node.
 /// If you want to iterate only over edges that are part of shortest paths,
 /// use the `shortest_only` adapter.
-pub fn astar<N, F, I>(start: N, mut neighbors: F) -> impl Iterator<Item=Edge<N>>
-where N: Clone + Debug + Eq + Hash,
-      F: FnMut(&N) -> I,
-      I: IntoIterator<Item=(N, usize)>,
+pub fn astar<N, F, I>(start: N, mut neighbors: F) -> impl Iterator<Item = Edge<N>>
+where
+    N: Clone + Debug + Eq + Hash,
+    F: FnMut(&N) -> I,
+    I: IntoIterator<Item = (N, usize)>,
 {
     let mut pending = BinaryHeap::new();
     for (neighbor, estimate) in neighbors(&start) {
@@ -43,14 +44,18 @@ where N: Clone + Debug + Eq + Hash,
             from: start.clone(),
             to: neighbor,
             path_length: 1,
-            estimate
+            estimate,
         });
     }
 
     let mut visited = HashSet::new();
     visited.insert(start);
 
-    AStar { visited, pending, neighbors }
+    AStar {
+        visited,
+        pending,
+        neighbors,
+    }
 }
 
 /// An edge in the graph, along with some information about its prospects within
@@ -83,11 +88,12 @@ struct AStar<N, F> {
 }
 
 impl<N, F, I> Iterator for AStar<N, F>
-where N: Clone + Debug + Eq + Hash,
-      F: FnMut(&N) -> I,
-      I: IntoIterator<Item=(N, usize)>,
+where
+    N: Clone + Debug + Eq + Hash,
+    F: FnMut(&N) -> I,
+    I: IntoIterator<Item = (N, usize)>,
 {
-    type Item=Edge<N>;
+    type Item = Edge<N>;
 
     fn next(&mut self) -> Option<Edge<N>> {
         let edge = match self.pending.pop() {
@@ -119,13 +125,15 @@ impl<N> PartialEq for Edge<N> {
     }
 }
 
-impl<N> Eq for Edge<N> { }
+impl<N> Eq for Edge<N> {}
 
 impl<N> Ord for Edge<N> {
     fn cmp(&self, other: &Edge<N>) -> Ordering {
         // If two edges are otherwise equal, prefer the one with the shortest
         // estimate, so we focus our attention on closer edges.
-        other.full_estimate().cmp(&self.full_estimate())
+        other
+            .full_estimate()
+            .cmp(&self.full_estimate())
             .then(other.estimate.cmp(&self.estimate))
     }
 }
@@ -143,16 +151,16 @@ mod test {
     struct EdgeList(Vec<(i32, i32)>);
 
     impl EdgeList {
-        fn neighbors<'a>(&'a self, node: i32) -> impl Iterator<Item=i32> + 'a {
-            self.0.iter()
+        fn neighbors<'a>(&'a self, node: i32) -> impl Iterator<Item = i32> + 'a {
+            self.0
+                .iter()
                 .filter_map(move |(from, to)| if *from == node { Some(*to) } else { None })
         }
 
         fn collect_astar(&self, start: i32) -> Vec<Edge<i32>> {
             // We have no meaningful way to estimate on an EdgeList, but at
             // least they let us test the basic pathfinding behavior.
-            astar(start, |n| self.neighbors(*n).map(|n| (n, 0)))
-                .collect::<Vec<_>>()
+            astar(start, |n| self.neighbors(*n).map(|n| (n, 0))).collect::<Vec<_>>()
         }
     }
 
@@ -160,14 +168,21 @@ mod test {
         (i32::abs(a.0 - b.0) + i32::abs(a.1 - b.1)) as usize
     }
 
-    fn von_neumann_neighbors(node: (i32, i32), end: (i32, i32)) -> impl Iterator<Item=((i32, i32), usize)> {
+    fn von_neumann_neighbors(
+        node: (i32, i32),
+        end: (i32, i32),
+    ) -> impl Iterator<Item = ((i32, i32), usize)> {
         const DIRS: [(i32, i32); 4] = [(1, 0), (0, 1), (-1, 0), (0, -1)];
         DIRS.iter()
             .map(move |(dx, dy)| (node.0 + dx, node.1 + dy))
             .map(move |pt| (pt, manhattan(&pt, &end)))
     }
 
-    fn collect_manhattan_astar(start: (i32, i32), end: (i32, i32), limit: usize) -> Vec<Edge<(i32, i32)>> {
+    fn collect_manhattan_astar(
+        start: (i32, i32),
+        end: (i32, i32),
+        limit: usize,
+    ) -> Vec<Edge<(i32, i32)>> {
         astar(start, |n| von_neumann_neighbors(*n, end))
             .take(limit)
             .collect::<Vec<_>>()

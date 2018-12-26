@@ -23,10 +23,15 @@ impl Claim {
 impl FromStr for Claim {
     type Err = Box<Error>;
     fn from_str(s: &str) -> Result<Claim, Self::Err> {
-        let fields = s.split(&['#', '@', ',', ':', 'x'][..]).map(str::trim).collect::<Vec<_>>();
+        let fields = s
+            .split(&['#', '@', ',', ':', 'x'][..])
+            .map(str::trim)
+            .collect::<Vec<_>>();
         if fields.len() != 6 {
-            return Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other,
-                                                    format!("bad claim: {:?}", s))));
+            return Err(Box::new(std::io::Error::new(
+                std::io::ErrorKind::Other,
+                format!("bad claim: {:?}", s),
+            )));
         }
         Ok(Claim {
             id: usize::from_str(fields[1])?,
@@ -41,7 +46,10 @@ impl FromStr for Claim {
 fn main() -> Result<(), Box<Error>> {
     let stdin = std::io::stdin();
     let lines: Vec<_> = stdin.lock().lines().collect::<Result<_, _>>()?;
-    let claims: Vec<_> = lines.iter().map(|l| Claim::from_str(&l)).collect::<Result<_, _>>()?;
+    let claims: Vec<_> = lines
+        .iter()
+        .map(|l| Claim::from_str(&l))
+        .collect::<Result<_, _>>()?;
 
     let width = claims.iter().map(|c| c.right()).max().unwrap();
     let height = claims.iter().map(|c| c.bottom()).max().unwrap();

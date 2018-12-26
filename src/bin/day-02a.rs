@@ -3,8 +3,9 @@ use std::hash::Hash;
 use std::io::BufRead;
 
 fn hist<T, I>(iter: I) -> HashMap<T, usize>
-    where I: IntoIterator<Item=T>,
-          T: Hash + Eq,
+where
+    I: IntoIterator<Item = T>,
+    T: Hash + Eq,
 {
     let mut hist = HashMap::new();
     for elt in iter {
@@ -27,6 +28,11 @@ fn main() -> Result<(), std::io::Error> {
             threes += 1;
         }
     }
-    println!("twos: {}  threes: {}  checksum: {}", twos, threes, twos * threes);
+    println!(
+        "twos: {}  threes: {}  checksum: {}",
+        twos,
+        threes,
+        twos * threes
+    );
     Ok(())
 }

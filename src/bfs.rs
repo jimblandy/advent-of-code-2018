@@ -13,9 +13,10 @@ use std::hash::Hash;
 /// The graph itself is determined by the `neighbors` function. Given any node,
 /// `neighbors` must return an iterator over all its immediate neighbor nodes.
 pub fn breadth_first<N, F, I>(start: N, mut neighbors: F) -> BreadthFirst<N, F>
-where N: Clone + Eq + Hash,
-      F: FnMut(&N) -> I,
-      I: IntoIterator<Item=N>,
+where
+    N: Clone + Eq + Hash,
+    F: FnMut(&N) -> I,
+    I: IntoIterator<Item = N>,
 {
     let mut pending = VecDeque::new();
     for neighbor in neighbors(&start) {
@@ -25,7 +26,11 @@ where N: Clone + Eq + Hash,
     let mut visited = HashSet::new();
     visited.insert(start);
 
-    BreadthFirst { visited, pending, neighbors }
+    BreadthFirst {
+        visited,
+        pending,
+        neighbors,
+    }
 }
 
 pub struct BreadthFirst<N, F> {
@@ -35,11 +40,12 @@ pub struct BreadthFirst<N, F> {
 }
 
 impl<N, F, I> Iterator for BreadthFirst<N, F>
-where N: Clone + Eq + Hash,
-      F: FnMut(&N) -> I,
-      I: IntoIterator<Item=N>,
+where
+    N: Clone + Eq + Hash,
+    F: FnMut(&N) -> I,
+    I: IntoIterator<Item = N>,
 {
-    type Item=(N, N, usize);
+    type Item = (N, N, usize);
 
     fn next(&mut self) -> Option<(N, N, usize)> {
         let (from, to, length) = match self.pending.pop_front() {
@@ -62,7 +68,8 @@ mod test {
     struct EdgeList(Vec<(i32, i32)>);
     impl EdgeList {
         fn neighbors(&self, node: &i32) -> Vec<i32> {
-            self.0.iter()
+            self.0
+                .iter()
                 .filter(|(from, _to)| from == node)
                 .map(|(_from, to)| *to)
                 .collect::<Vec<i32>>()

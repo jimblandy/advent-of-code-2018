@@ -5,9 +5,9 @@ extern crate advent_of_code_2018 as aoc;
 extern crate failure;
 extern crate ndarray;
 
-use aoc::{select_iter, first_run};
-use aoc::bfs::breadth_first;
 use aoc::astar::{astar, Edge};
+use aoc::bfs::breadth_first;
+use aoc::{first_run, select_iter};
 use failure::Error;
 use ndarray::{Array2, Axis};
 use std::cmp::max;
@@ -29,14 +29,18 @@ enum Square {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 enum Tribe {
     Goblin,
-    Elf
+    Elf,
 }
 
 static INPUT: &str = include_str!("day-15.input");
 
 fn manhattan(a: Point, b: Point) -> usize {
     fn manhattan1(a: usize, b: usize) -> usize {
-        if a >= b { a - b } else { b - a }
+        if a >= b {
+            a - b
+        } else {
+            b - a
+        }
     }
 
     manhattan1(a.0, b.0) + manhattan1(a.1, b.1)
@@ -44,7 +48,10 @@ fn manhattan(a: Point, b: Point) -> usize {
 
 impl Square {
     fn new_unit(tribe: Tribe) -> Square {
-        Square::Unit { tribe, hit_points: 200 }
+        Square::Unit {
+            tribe,
+            hit_points: 200,
+        }
     }
 
     fn is_enemy(&self, tribe: Tribe) -> bool {
@@ -65,7 +72,8 @@ impl Tribe {
 impl FromStr for Map {
     type Err = Error;
     fn from_str(s: &str) -> Result<Map, Error> {
-        let (width, height) = s.lines()
+        let (width, height) = s
+            .lines()
             .fold((0, 0), |acc, line| (max(acc.0, line.len()), acc.1 + 1));
 
         let mut map = Array2::from_shape_fn((height, width), |_| Square::Empty);
@@ -104,13 +112,12 @@ impl Map {
         units
     }
 
-    fn neighbors(&self, p: Point) -> impl Iterator<Item=Point> {
+    fn neighbors(&self, p: Point) -> impl Iterator<Item = Point> {
         let mut d = (1, 0);
         (0..)
             .map(move |_| {
                 d = (-d.1, d.0);
-                ((p.0 as isize + d.0) as usize,
-                 (p.1 as isize + d.1) as usize)
+                ((p.0 as isize + d.0) as usize, (p.1 as isize + d.1) as usize)
             })
             .take(4)
     }
@@ -129,29 +136,30 @@ impl Map {
             // this by saying that a node with a unit in it has no outgoing
             // edges. However, the unit we're starting from certainly needs to
             // have outgoing edges: it's going to move.
-            select_iter(self.0[*from] == Square::Empty || *from == start,
-                        self.neighbors(*from)
-                            .filter(|to| self.0[*to] != Square::Wall),
-                        std::iter::empty())
+            select_iter(
+                self.0[*from] == Square::Empty || *from == start,
+                self.neighbors(*from)
+                    .filter(|to| self.0[*to] != Square::Wall),
+                std::iter::empty(),
+            )
         });
 
         // Limit the traversal to edges arriving at the closest enemies.
-        let closest = first_run(paths,
-                                |edge: &(Point, Point, usize)| if self.0[edge.1].is_enemy(tribe) {
-                                    // Once we've reached one enemy, ignore any
-                                    // enemies that are further away.
-                                    let closest = edge.2;
-                                    Some(move |edge: &(Point, Point, usize)| edge.2 <= closest)
-                                } else {
-                                    None
-                                })
-            .filter(|&(_, to, _)| self.0[to].is_enemy(tribe));
+        let closest = first_run(paths, |edge: &(Point, Point, usize)| {
+            if self.0[edge.1].is_enemy(tribe) {
+                // Once we've reached one enemy, ignore any
+                // enemies that are further away.
+                let closest = edge.2;
+                Some(move |edge: &(Point, Point, usize)| edge.2 <= closest)
+            } else {
+                None
+            }
+        })
+        .filter(|&(_, to, _)| self.0[to].is_enemy(tribe));
 
         // All we actually care about are the 'in range' squares from which we
         // can attack some enemy.
-        let mut in_range = closest
-            .map(|(from, _, _)| from)
-            .collect::<Vec<_>>();
+        let mut in_range = closest.map(|(from, _, _)| from).collect::<Vec<_>>();
 
         // Among all 'in range' squares, choose the one that comes first in
         // reading order.
@@ -176,14 +184,15 @@ impl Map {
         });
 
         // Limit the traversal to edges along the shortest paths arriving at the unit.
-        let first_moves = first_run(paths_back,
-                                    |edge: &Edge<Point>| if edge.to == unit {
-                                        let closest = edge.path_length;
-                                        Some(move |edge: &Edge<Point>| edge.path_length <= closest)
-                                    } else {
-                                        None
-                                    })
-            .filter(|edge| edge.to == unit);
+        let first_moves = first_run(paths_back, |edge: &Edge<Point>| {
+            if edge.to == unit {
+                let closest = edge.path_length;
+                Some(move |edge: &Edge<Point>| edge.path_length <= closest)
+            } else {
+                None
+            }
+        })
+        .filter(|edge| edge.to == unit);
 
         // Extract those edge's starting positions.
         let mut first_moves = first_moves.map(|e| e.from).collect::<Vec<_>>();
@@ -225,10 +234,13 @@ mod test_map {
     use super::*;
 
     fn trim(pretty: &str) -> String {
-        String::from_iter(pretty.lines()
-                          .map(str::trim)
-                          .filter(|s| !s.is_empty())
-                          .flat_map(|s| vec![s, "\n"]))
+        String::from_iter(
+            pretty
+                .lines()
+                .map(str::trim)
+                .filter(|s| !s.is_empty())
+                .flat_map(|s| vec![s, "\n"]),
+        )
     }
 
     fn test_map(pretty: &str) -> Map {
@@ -436,15 +448,4 @@ impl fmt::Display for Map {
     }
 }
 
-#[cfg(test)]
-mod test_paths {
-    use super::*;
-
-    #[test]
-    fn test_adjacents() {
-    }
-}
-
-fn main() {
-}
-
+fn main() {}

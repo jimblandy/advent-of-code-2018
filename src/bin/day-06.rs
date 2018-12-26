@@ -3,8 +3,8 @@ extern crate ndarray;
 extern crate advent_of_code_2018 as root;
 
 use ndarray::{Array2, Axis};
+use root::{cartesian_product, edge_indexes2, IteratorExt};
 use std::str::FromStr;
-use root::{cartesian_product, IteratorExt, edge_indexes2};
 
 #[allow(dead_code)]
 static TEST_INPUT: &'static str = include_str!("day-06.test");
@@ -15,7 +15,11 @@ const NEW: usize = std::usize::MAX;
 const TIE: usize = std::usize::MAX - 1;
 
 fn abs_difference(a: usize, b: usize) -> usize {
-    if a > b { a - b } else { b - a }
+    if a > b {
+        a - b
+    } else {
+        b - a
+    }
 }
 
 fn manhattan(a: &(usize, usize), b: &(usize, usize)) -> usize {
@@ -42,9 +46,11 @@ fn print_map(map: &Array2<usize>) {
 }
 
 fn main() {
-    let points: Vec<_> = INPUT.lines()
+    let points: Vec<_> = INPUT
+        .lines()
         .map(|line| {
-            let coords: Vec<_> = line.split(',')
+            let coords: Vec<_> = line
+                .split(',')
                 .map(str::trim)
                 .map(|c| usize::from_str(c).unwrap())
                 .collect();
@@ -54,12 +60,13 @@ fn main() {
         .collect();
 
     let height = points.iter().map(|(r, _c)| *r).max().unwrap() + 1;
-    let width  = points.iter().map(|(_r, c)| *c).max().unwrap() + 1;
+    let width = points.iter().map(|(_r, c)| *c).max().unwrap() + 1;
 
     println!("(rows, cols) = {:?}", (height, width));
 
     let map = Array2::from_shape_fn((height, width), |m| {
-        points.iter()
+        points
+            .iter()
             .enumerate()
             .unique_min_by_key(|(_i, p)| manhattan(&m, p))
             .map(|(i, _p)| i)
@@ -84,15 +91,19 @@ fn main() {
     });
     println!("{:?}", areas);
 
-    println!("largest area closest: {:?}",
-             areas.iter()
-             .enumerate()
-             .unique_max_by_key(|(_owner, &area)| area));
+    println!(
+        "largest area closest: {:?}",
+        areas
+            .iter()
+            .enumerate()
+            .unique_max_by_key(|(_owner, &area)| area)
+    );
 
     let close_area = cartesian_product(0..height, 0..width)
-        .filter(|m| {
-            points.iter().map(|p| manhattan(m, p)).sum::<usize>() < 10000
-        })
+        .filter(|m| points.iter().map(|p| manhattan(m, p)).sum::<usize>() < 10000)
         .count();
-    println!("Number of grid points with a summed distance < 10000: {}", close_area);
+    println!(
+        "Number of grid points with a summed distance < 10000: {}",
+        close_area
+    );
 }

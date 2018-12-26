@@ -9,7 +9,8 @@ const MONTH_START_DAY: [usize; 12] = [0, 31, 59, 90, 120, 151, 181, 212, 243, 27
 fn parse_time(t: &str) -> usize {
     assert_eq!(&t[0..6], "[1518-");
     assert_eq!(&t[17..18], "]");
-    let fields: Vec<usize> = t[6..17].split(&['-', ' ', ':'][..])
+    let fields: Vec<usize> = t[6..17]
+        .split(&['-', ' ', ':'][..])
         .map(|f| usize::from_str(f).unwrap())
         .collect();
     assert_eq!(fields.len(), 4);
@@ -28,14 +29,14 @@ fn test_parse_time() {
 #[derive(Debug, Eq, PartialEq)]
 struct Event {
     time: usize,
-    action: Action
+    action: Action,
 }
 
 #[derive(Debug, Eq, PartialEq)]
 enum Action {
     Begins(usize),
     FallsAsleep,
-    WakesUp
+    WakesUp,
 }
 
 struct Record {
@@ -99,7 +100,10 @@ fn main() -> Result<(), std::io::Error> {
                     State::Nobody => State::Awake(g),
                     State::Awake(_) => State::Awake(g),
                     State::Asleep(prior, start) => {
-                        records.entry(prior).or_insert_with(Record::default).mark(start..event.time);
+                        records
+                            .entry(prior)
+                            .or_insert_with(Record::default)
+                            .mark(start..event.time);
                         State::Awake(g)
                     }
                 };
@@ -116,9 +120,12 @@ fn main() -> Result<(), std::io::Error> {
                     State::Nobody => panic!("Who woke up??"),
                     State::Awake(g) => panic!("I thought {} was already awake?", g),
                     State::Asleep(guard, start) => {
-                        records.entry(guard).or_insert_with(Record::default).mark(start..event.time);
+                        records
+                            .entry(guard)
+                            .or_insert_with(Record::default)
+                            .mark(start..event.time);
                         State::Awake(guard)
-                    },
+                    }
                 };
             }
         }
@@ -128,18 +135,38 @@ fn main() -> Result<(), std::io::Error> {
     records.sort_by_key(|r| r.1.mins_asleep);
 
     let sleepiest = &records[records.len() - 1];
-    let minute = sleepiest.1.times_asleep[0..60].iter().enumerate().max_by_key(|(_i, c)| *c).unwrap();
+    let minute = sleepiest.1.times_asleep[0..60]
+        .iter()
+        .enumerate()
+        .max_by_key(|(_i, c)| *c)
+        .unwrap();
 
-    println!("Guard #{} was asleep most often ({} minutes total)",
-             sleepiest.0, sleepiest.1.mins_asleep);
-    println!("They were asleep most often ({} times) at {}:{}",
-             minute.1, minute.0 / 60, minute.0 % 60);
+    println!(
+        "Guard #{} was asleep most often ({} minutes total)",
+        sleepiest.0, sleepiest.1.mins_asleep
+    );
+    println!(
+        "They were asleep most often ({} times) at {}:{}",
+        minute.1,
+        minute.0 / 60,
+        minute.0 % 60
+    );
 
     {
-        let (guard, record) = records.iter().max_by_key(|(_g, r)| r.times_asleep.iter().max()).unwrap();
-        let (minute, times) = record.times_asleep.iter().enumerate().max_by_key(|(_i, t)| *t).unwrap();
-        println!("Guard #{} was asleep {} times on minute {}",
-                 guard, times, minute);
+        let (guard, record) = records
+            .iter()
+            .max_by_key(|(_g, r)| r.times_asleep.iter().max())
+            .unwrap();
+        let (minute, times) = record
+            .times_asleep
+            .iter()
+            .enumerate()
+            .max_by_key(|(_i, t)| *t)
+            .unwrap();
+        println!(
+            "Guard #{} was asleep {} times on minute {}",
+            guard, times, minute
+        );
     }
 
     Ok(())

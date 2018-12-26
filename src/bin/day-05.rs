@@ -2,9 +2,9 @@ static TEST_INPUT: &'static str = "dabAcCaCBAcCcaDA";
 static INPUT: &'static str = include_str!("day-05.input");
 
 fn reacts(left: char, right: char) -> bool {
-    left.is_ascii_alphabetic() &&
-        right.is_ascii_alphabetic() &&
-        (left as i32 - right as i32).abs() == 32
+    left.is_ascii_alphabetic()
+        && right.is_ascii_alphabetic()
+        && (left as i32 - right as i32).abs() == 32
 }
 
 fn reduce(input: &str) -> String {
@@ -29,13 +29,13 @@ fn main() {
     assert_eq!(&reduce("abAB"), "abAB");
     assert_eq!(&reduce("aabAAB"), "aabAAB");
 
-    println!("{} units remaining after reacting",
-             reduce(INPUT).len());
+    println!("{} units remaining after reacting", reduce(INPUT).len());
 
-    let (best_unit, length) = (b'a' .. b'z')
+    let (best_unit, length) = (b'a'..b'z')
         .map(|unit| {
             let unit = unit as char;
-            let purified: String = INPUT.chars()
+            let purified: String = INPUT
+                .chars()
                 .filter(|c| c.to_ascii_lowercase() != unit)
                 .collect();
             (unit, reduce(&purified).len())

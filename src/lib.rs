@@ -1,7 +1,7 @@
 extern crate ndarray;
 
-use std::cmp::Ordering;
 use ndarray::{Array2, Axis};
+use std::cmp::Ordering;
 
 pub mod astar;
 pub mod bfs;
@@ -9,24 +9,27 @@ pub mod ring;
 
 pub trait IteratorExt: Iterator {
     fn unique_min_by_key<B, F>(self, f: F) -> Option<Self::Item>
-    where B: Ord,
-          F: FnMut(&Self::Item) -> B;
+    where
+        B: Ord,
+        F: FnMut(&Self::Item) -> B;
 
     fn unique_max_by_key<B, F>(self, f: F) -> Option<Self::Item>
-    where B: Ord,
-          F: FnMut(&Self::Item) -> B;
+    where
+        B: Ord,
+        F: FnMut(&Self::Item) -> B;
 }
 
 impl<I: Iterator> IteratorExt for I {
     /// Return the item of `self` for which `f` returns the lowest value, but if
     /// there is a tie, return `None`.
     fn unique_min_by_key<B, F>(mut self, mut f: F) -> Option<Self::Item>
-    where B: Ord,
-          F: FnMut(&Self::Item) -> B
+    where
+        B: Ord,
+        F: FnMut(&Self::Item) -> B,
     {
         let mut best = match self.next() {
             None => return None,
-            Some(b) => b
+            Some(b) => b,
         };
         let mut tied = false;
 
@@ -53,12 +56,13 @@ impl<I: Iterator> IteratorExt for I {
     /// Return the item of `self` for which `f` returns the greatest value, but
     /// if there is a tie, return `None`.
     fn unique_max_by_key<B, F>(mut self, mut f: F) -> Option<Self::Item>
-    where B: Ord,
-          F: FnMut(&Self::Item) -> B
+    where
+        B: Ord,
+        F: FnMut(&Self::Item) -> B,
     {
         let mut best = match self.next() {
             None => return None,
-            Some(b) => b
+            Some(b) => b,
         };
         let mut tied = false;
 
@@ -84,8 +88,9 @@ impl<I: Iterator> IteratorExt for I {
 }
 
 pub fn select_iter<T, I, J>(which: bool, i: I, j: J) -> SelectIter<I, J>
-where I: Iterator<Item=T>,
-      J: Iterator<Item=T>,
+where
+    I: Iterator<Item = T>,
+    J: Iterator<Item = T>,
 {
     if which {
         SelectIter::I(i)
@@ -100,8 +105,9 @@ pub enum SelectIter<I, J> {
 }
 
 impl<T, I, J> Iterator for SelectIter<I, J>
-where I: Iterator<Item=T>,
-      J: Iterator<Item=T>,
+where
+    I: Iterator<Item = T>,
+    J: Iterator<Item = T>,
 {
     type Item = T;
     fn next(&mut self) -> Option<T> {
@@ -114,24 +120,26 @@ where I: Iterator<Item=T>,
 
 /// Return an iterator over the indexes of the elements at the edges of `array`.
 /// The edges appear in the same order they would in a row-major traversal.
-pub fn edge_indexes2<E>(array: &Array2<E>) -> impl Iterator<Item=[usize; 2]> {
+pub fn edge_indexes2<E>(array: &Array2<E>) -> impl Iterator<Item = [usize; 2]> {
     use std::iter::once;
 
     let height = array.len_of(Axis(0));
     let width = array.len_of(Axis(1));
     // top row
-    (0 .. width).map(|c| [0, c])
+    (0..width)
+        .map(|c| [0, c])
         // sides
-        .chain((1 .. height - 1).flat_map(move |r| once([r, 0]).chain(once([r, width - 1]))))
+        .chain((1..height - 1).flat_map(move |r| once([r, 0]).chain(once([r, width - 1]))))
         // bottom
-        .chain((0 .. width).map(move |c| [height - 1, c]))
+        .chain((0..width).map(move |c| [height - 1, c]))
 }
 
-pub fn cartesian_product<A, B>(a: A, b: B) -> impl Iterator<Item=(A::Item, B::Item)>
-where A: IntoIterator,
-      B: IntoIterator,
-      A::Item: Clone,
-      B::IntoIter: Clone,
+pub fn cartesian_product<A, B>(a: A, b: B) -> impl Iterator<Item = (A::Item, B::Item)>
+where
+    A: IntoIterator,
+    B: IntoIterator,
+    A::Item: Clone,
+    B::IntoIter: Clone,
 {
     let a = a.into_iter();
     let b = b.into_iter();
@@ -142,7 +150,8 @@ where A: IntoIterator,
 /// `seps`, trim any surrounding whitespace, and return the result as a vector
 /// of slices.
 pub fn splits<'a, T, E, P>(mut input: &'a str, seps: &str, mut parser: P) -> Result<Vec<T>, E>
-    where P: FnMut(&str) -> Result<T, E>
+where
+    P: FnMut(&str) -> Result<T, E>,
 {
     let mut seps = seps.split('_');
     let mut fields = Vec::new();
@@ -167,9 +176,10 @@ pub fn splits<'a, T, E, P>(mut input: &'a str, seps: &str, mut parser: P) -> Res
 /// further items from `iter` for as long as `extend` returns true. Once
 /// `extend` return `false`, iteration is over.
 pub fn first_run<'a, I, S, E>(iter: I, start: S) -> FirstRun<I, S, E>
-where I: Iterator,
-      S: 'a + FnMut(&I::Item) -> Option<E>,
-      E: 'a + FnMut(&I::Item) -> bool,
+where
+    I: Iterator,
+    S: 'a + FnMut(&I::Item) -> Option<E>,
+    E: 'a + FnMut(&I::Item) -> bool,
 {
     FirstRun::NotYet { iter, start }
 }
@@ -181,14 +191,18 @@ pub enum FirstRun<I, S, E> {
 }
 
 impl<I, S, E> Iterator for FirstRun<I, S, E>
-where I: Iterator,
-      S: FnMut(&I::Item) -> Option<E>,
-      E: FnMut(&I::Item) -> bool,
+where
+    I: Iterator,
+    S: FnMut(&I::Item) -> Option<E>,
+    E: FnMut(&I::Item) -> bool,
 {
     type Item = I::Item;
     fn next(&mut self) -> Option<Self::Item> {
         match std::mem::replace(self, FirstRun::Done) {
-            FirstRun::NotYet { mut iter, mut start } => {
+            FirstRun::NotYet {
+                mut iter,
+                mut start,
+            } => {
                 // Drop items until we get one that `start` likes.
                 while let Some(item) = iter.next() {
                     if let Some(extend) = start(&item) {
@@ -199,7 +213,10 @@ where I: Iterator,
                 *self = FirstRun::Done;
                 None
             }
-            FirstRun::Extending { mut iter, mut extend } => {
+            FirstRun::Extending {
+                mut iter,
+                mut extend,
+            } => {
                 if let Some(item) = iter.next() {
                     if extend(&item) {
                         *self = FirstRun::Extending { iter, extend };
@@ -220,7 +237,13 @@ where I: Iterator,
 
 #[test]
 fn test_first_run() {
-    assert_eq!(first_run(0..10, |n: &i32| if *n > 3 { Some(|m: &i32| *m < 7) } else { None })
-               .collect::<Vec<_>>(),
-               vec![4,5,6]);
+    assert_eq!(
+        first_run(0..10, |n: &i32| if *n > 3 {
+            Some(|m: &i32| *m < 7)
+        } else {
+            None
+        })
+        .collect::<Vec<_>>(),
+        vec![4, 5, 6]
+    );
 }

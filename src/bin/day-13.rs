@@ -17,7 +17,7 @@ enum Legend {
     Horizontal,
     Vertical,
     Intersection,
-    LeftTurn, // if going up
+    LeftTurn,  // if going up
     RightTurn, // if going up
 }
 
@@ -57,8 +57,10 @@ type Position = (usize, usize);
 type Direction = (isize, isize);
 
 fn go(pos: Position, dir: Direction) -> Position {
-    ((pos.0 as isize + dir.0) as usize,
-     (pos.1 as isize + dir.1) as usize)
+    (
+        (pos.0 as isize + dir.0) as usize,
+        (pos.1 as isize + dir.1) as usize,
+    )
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -98,14 +100,14 @@ impl Cart {
         match map[self.position] {
             Legend::Horizontal => {
                 assert_eq!(self.direction.0, 0);
-            },
+            }
             Legend::Vertical => {
                 assert_eq!(self.direction.1, 0);
-            },
+            }
             Legend::Intersection => {
                 self.direction = self.next.apply(self.direction);
                 self.next = self.next.next();
-            },
+            }
             Legend::LeftTurn => {
                 self.direction = (self.direction.1, self.direction.0);
             }
@@ -131,7 +133,8 @@ impl Cart {
 }
 
 fn parse_map(input: &str) -> (Vec<Cart>, Map) {
-    let (width, height) = input.lines()
+    let (width, height) = input
+        .lines()
         .fold((0, 0), |acc, line| (max(acc.0, line.len()), acc.1 + 1));
 
     let mut carts = Vec::new();
@@ -180,16 +183,17 @@ fn tick(carts: &mut Vec<Cart>, map: &Map) -> Vec<Cart> {
         carts[i].step(map);
         // Check for collisions after each cart moves, to prevent
         // face-to-face carts from moving through each other.
-        if let Some((j, _)) = carts.iter()
+        if let Some((j, _)) = carts
+            .iter()
             .enumerate()
             .find(|(j, c)| *j != i && c.position == carts[i].position)
         {
             if i < j {
-                collisions.extend(carts.drain(j..j+1));
-                collisions.extend(carts.drain(i..i+1));
+                collisions.extend(carts.drain(j..j + 1));
+                collisions.extend(carts.drain(i..i + 1));
             } else {
-                collisions.extend(carts.drain(i..i+1));
-                collisions.extend(carts.drain(j..j+1));
+                collisions.extend(carts.drain(i..i + 1));
+                collisions.extend(carts.drain(j..j + 1));
                 i -= 1;
             }
         } else {

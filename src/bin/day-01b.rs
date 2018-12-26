@@ -12,12 +12,15 @@ fn main() -> Result<(), Error> {
         stdin.lock().read_to_string(&mut input)?;
     }
 
-    let changes: Vec<_> = input.split_terminator(&[',', '\n'][..])
+    let changes: Vec<_> = input
+        .split_terminator(&[',', '\n'][..])
         .map(|line| isize::from_str(line.trim()).expect("bad number"))
         .collect();
 
-    let frequencies = changes.iter().cycle()
-        .scan(0, |s, d| { *s += d; Some(*s) });
+    let frequencies = changes.iter().cycle().scan(0, |s, d| {
+        *s += d;
+        Some(*s)
+    });
 
     let mut seen = HashSet::new();
     for frequency in frequencies.take(100_000_000) {

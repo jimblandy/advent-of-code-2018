@@ -9,7 +9,7 @@ use std::ptr::{null, null_mut};
 struct Element<T> {
     next: *mut Element<T>,
     prev: *mut Element<T>,
-    value: T
+    value: T,
 }
 
 impl<T> Element<T> {
@@ -65,7 +65,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
         if self.next.is_null() {
             None
         } else {
-            let elt: &'a Element<T> = unsafe { & *self.next };
+            let elt: &'a Element<T> = unsafe { &*self.next };
             self.next = elt.next;
             if self.next == self.head {
                 self.next = null();
@@ -115,9 +115,7 @@ impl<T> Drop for Ring<T> {
     fn drop(&mut self) {
         let mut next = self.0;
         loop {
-            let mut here = unsafe {
-                Box::from_raw(next)
-            };
+            let mut here = unsafe { Box::from_raw(next) };
 
             next = here.next;
             here.next = null_mut();
@@ -135,7 +133,7 @@ impl<T> Ring<T> {
         let elt = Box::new(Element {
             next: null_mut(),
             prev: null_mut(),
-            value
+            value,
         });
         let raw = Box::into_raw(elt);
         unsafe {

@@ -27,8 +27,12 @@ fn play(p: usize, n: usize) -> Vec<usize> {
         }
     }
     eprintln!();
-    println!("{} players; last marble is worth {} points; high score is {}",
-             p, n, scores.iter().max().unwrap());
+    println!(
+        "{} players; last marble is worth {} points; high score is {}",
+        p,
+        n,
+        scores.iter().max().unwrap()
+    );
     scores
 }
 

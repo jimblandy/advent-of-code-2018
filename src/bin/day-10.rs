@@ -26,11 +26,11 @@ fn bounds(lights: &[Light]) -> (Range<i32>, Range<i32>) {
     (
         Range {
             start: lights.iter().map(|l| l.position.0).min().unwrap(),
-            end:   lights.iter().map(|l| l.position.0).max().unwrap() + 1,
+            end: lights.iter().map(|l| l.position.0).max().unwrap() + 1,
         },
         Range {
             start: lights.iter().map(|l| l.position.1).min().unwrap(),
-            end:   lights.iter().map(|l| l.position.1).max().unwrap() + 1,
+            end: lights.iter().map(|l| l.position.1).max().unwrap() + 1,
         },
     )
 }
@@ -38,9 +38,7 @@ fn bounds(lights: &[Light]) -> (Range<i32>, Range<i32>) {
 fn plot(lights: &[Light]) {
     let b = bounds(lights);
 
-    let mut positions: Vec<(i32, i32)> = lights.iter()
-        .map(|l| l.position)
-        .collect();
+    let mut positions: Vec<(i32, i32)> = lights.iter().map(|l| l.position).collect();
     positions.sort_by_key(|p| (p.1, p.0));
     let mut next = 0;
 
@@ -66,7 +64,8 @@ fn area(lights: &[Light]) -> usize {
 }
 
 fn main() {
-    let mut lights: Vec<Light> = INPUT.lines()
+    let mut lights: Vec<Light> = INPUT
+        .lines()
         .map(|line| {
             let fields = splits(&line, "position=<_,_> velocity=<_,_>", i32::from_str)
                 .expect("failed to parse fields");

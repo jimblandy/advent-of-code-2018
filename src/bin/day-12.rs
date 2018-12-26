@@ -116,7 +116,8 @@ impl State {
     }
 
     fn count_and_sum(&self) -> (usize, usize) {
-        self.pots.iter()
+        self.pots
+            .iter()
             .cloned()
             .enumerate()
             .filter(|(_, p)| *p)
@@ -157,8 +158,7 @@ fn main() {
     println!();
 
     let (count, sum) = state.count_and_sum();
-    println!("count: {}   sum: {}   code: {}",
-             count, sum, state.code());
+    println!("count: {}   sum: {}   code: {}", count, sum, state.code());
 
     if state.pots != next.pots {
         println!("Didn't converge!");

@@ -8,7 +8,7 @@ static INPUT: &'static str = include_str!("day-07.input");
 #[derive(Debug, Eq, PartialEq)]
 struct Event<T> {
     time: usize,
-    value: T
+    value: T,
 }
 
 #[derive(Default)]
@@ -34,15 +34,51 @@ impl<T> TimedQueue<T> {
 #[test]
 fn test_queue() {
     let mut q = TimedQueue::default();
-    q.push(Event { time: 10, value: 'a' });
-    q.push(Event { time: 5, value: 'b' });
-    q.push(Event { time: 15, value: 'c' });
-    q.push(Event { time: 10, value: 'd' });
+    q.push(Event {
+        time: 10,
+        value: 'a',
+    });
+    q.push(Event {
+        time: 5,
+        value: 'b',
+    });
+    q.push(Event {
+        time: 15,
+        value: 'c',
+    });
+    q.push(Event {
+        time: 10,
+        value: 'd',
+    });
 
-    assert_eq!(q.pop(), Some(Event { time: 5, value: 'b' }));
-    assert_eq!(q.pop(), Some(Event { time: 10, value: 'd' }));
-    assert_eq!(q.pop(), Some(Event { time: 10, value: 'a' }));
-    assert_eq!(q.pop(), Some(Event { time: 15, value: 'c' }));
+    assert_eq!(
+        q.pop(),
+        Some(Event {
+            time: 5,
+            value: 'b'
+        })
+    );
+    assert_eq!(
+        q.pop(),
+        Some(Event {
+            time: 10,
+            value: 'd'
+        })
+    );
+    assert_eq!(
+        q.pop(),
+        Some(Event {
+            time: 10,
+            value: 'a'
+        })
+    );
+    assert_eq!(
+        q.pop(),
+        Some(Event {
+            time: 15,
+            value: 'c'
+        })
+    );
 }
 
 fn task_time(task: char) -> usize {
@@ -50,14 +86,17 @@ fn task_time(task: char) -> usize {
 }
 
 fn main() {
-    let deps: Vec<(char, char)> = INPUT.lines()
+    let deps: Vec<(char, char)> = INPUT
+        .lines()
         .map(|line| {
             assert_eq!(&line[..5], "Step ");
-            assert_eq!(&line[6..36]," must be finished before step ");
+            assert_eq!(&line[6..36], " must be finished before step ");
             assert_eq!(&line[37..], " can begin.");
 
-            (line[5..].chars().next().unwrap(),
-             line[36..].chars().next().unwrap())
+            (
+                line[5..].chars().next().unwrap(),
+                line[36..].chars().next().unwrap(),
+            )
         })
         .collect();
 
@@ -84,7 +123,10 @@ fn main() {
             if let Some((&next, _)) = blockers.iter().find(|&(_i, &n)| n == 0) {
                 blockers.remove(&next);
                 busy_workers += 1;
-                pending.push(Event { time: now + task_time(next), value: next });
+                pending.push(Event {
+                    time: now + task_time(next),
+                    value: next,
+                });
             } else {
                 break;
             }

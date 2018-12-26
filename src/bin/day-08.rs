@@ -12,7 +12,7 @@ trait Sink {
     fn add_metadata(&mut self, node: &mut Self::Node, metadata: usize);
 }
 
-fn parse<S: Sink, I: Iterator<Item=usize>>(sink: &mut S, source: &mut I) -> S::Node {
+fn parse<S: Sink, I: Iterator<Item = usize>>(sink: &mut S, source: &mut I) -> S::Node {
     let child_count = source.next().expect("expected child count");
     let meta_count = source.next().expect("expected metadata count");
 
@@ -40,7 +40,7 @@ impl SumMetadata {
     fn new() -> SumMetadata {
         SumMetadata {
             next_name: 'A' as u32,
-            meta_total: 0
+            meta_total: 0,
         }
     }
 }
@@ -97,7 +97,8 @@ impl Sink for FancyNodes {
 }
 
 fn main() {
-    let numbers: Vec<_> = INPUT.split_terminator(&[' ', '\n'][..])
+    let numbers: Vec<_> = INPUT
+        .split_terminator(&[' ', '\n'][..])
         .map(|w| usize::from_str(w).expect("bad number in input"))
         .collect();
 
@@ -108,5 +109,4 @@ fn main() {
     let mut fancy = FancyNodes;
     let root = parse(&mut fancy, &mut numbers.iter().cloned());
     println!("root value: {}", root.value);
-
 }
