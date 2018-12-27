@@ -81,6 +81,7 @@ mod test {
     }
 
     #[test]
+    #[rustfmt::skip]
     fn test_breadth_first() {
         let graph = EdgeList(vec![(2,3), (0,1), (1,2)]);
         assert_eq!(graph.collect_edges(0),
@@ -100,4 +101,3 @@ mod test {
                         (3,10,4)]);
     }
 }
-

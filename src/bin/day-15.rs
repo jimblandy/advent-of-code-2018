@@ -86,9 +86,9 @@ impl FromStr for Map {
             }
         }
 
-        let (width, height) = s
-            .lines()
-            .fold((0, 0), |acc, line| (max(acc.0, map_and_hp(line).0.len()), acc.1 + 1));
+        let (width, height) = s.lines().fold((0, 0), |acc, line| {
+            (max(acc.0, map_and_hp(line).0.len()), acc.1 + 1)
+        });
 
         let mut map = Array2::from_shape_fn((height, width), |_| Square::Empty);
         for (row, line) in s.lines().enumerate() {
@@ -249,12 +249,10 @@ impl Map {
         in_range.sort();
         match in_range.get(0) {
             Some(first) => Ok(*first),
-            None => {
-                Err(self.units().into_iter().any(|u| match self.0[u] {
-                    Square::Unit { tribe: t, .. } => t.is_enemy(tribe),
-                    _ => false,
-                }))
-            }
+            None => Err(self.units().into_iter().any(|u| match self.0[u] {
+                Square::Unit { tribe: t, .. } => t.is_enemy(tribe),
+                _ => false,
+            })),
         }
     }
 
@@ -292,12 +290,12 @@ impl Map {
         let my_tribe = self.tribe_at(unit);
 
         let weakest_enemy = {
-            let adjacent_enemies = self.neighbors(unit)
-                .filter_map(|n| match self.0[n] {
-                    Square::Unit { tribe, hit_points } if my_tribe.is_enemy(tribe) =>
-                        Some((n, hit_points)),
-                    _ => None,
-                });
+            let adjacent_enemies = self.neighbors(unit).filter_map(|n| match self.0[n] {
+                Square::Unit { tribe, hit_points } if my_tribe.is_enemy(tribe) => {
+                    Some((n, hit_points))
+                }
+                _ => None,
+            });
 
             // What is the strength of the weakest enemy?
             let weakest_strength = adjacent_enemies
@@ -322,7 +320,7 @@ impl Map {
                 *hit_points = hit_points.saturating_sub(3);
                 //eprintln!("        attacks {:?}, hp now {}", weakest_enemy, *hit_points);
                 *hit_points == 0
-            },
+            }
             _ => panic!("should have been an enemy"),
         } {
             // Defeated!
@@ -365,7 +363,7 @@ impl Map {
             .into_iter()
             .filter_map(|p| match self.0[p] {
                 Square::Unit { hit_points, .. } => Some(hit_points),
-                _ => None
+                _ => None,
             })
             .sum()
     }
@@ -376,8 +374,13 @@ impl fmt::Display for Square {
         f.write_str(match self {
             Square::Empty => ".",
             Square::Wall => "#",
-            Square::Unit { tribe: Tribe::Goblin, .. } => "G",
-            Square::Unit { tribe: Tribe::Elf, .. } => "E",
+            Square::Unit {
+                tribe: Tribe::Goblin,
+                ..
+            } => "G",
+            Square::Unit {
+                tribe: Tribe::Elf, ..
+            } => "E",
         })
     }
 }
@@ -391,7 +394,7 @@ impl fmt::Display for Map {
             }
             let mut sep = " ";
             for col in 0..self.0.len_of(Axis(1)) {
-                match self.0[[row,col]] {
+                match self.0[[row, col]] {
                     Square::Unit { tribe, hit_points } => {
                         write!(f, "{}{}({})", sep, tribe.symbol(), hit_points)?;
                         sep = ", ";
@@ -431,6 +434,7 @@ mod test_map {
     }
 
     #[test]
+    #[rustfmt::skip]
     fn test_day15_map() {
         let map = test_map("
             ####
@@ -841,8 +845,10 @@ fn main() -> Result<(), Error> {
     let mut map = Map::from_str(INPUT)?;
     println!("Initial map:{}", map);
     let (rounds, total_hp) = map.combat();
-    println!("Combat ends after {} full rounds, with {} total hit points left",
-             rounds, total_hp);
+    println!(
+        "Combat ends after {} full rounds, with {} total hit points left",
+        rounds, total_hp
+    );
     println!("Outcome: {} * {} = {}", rounds, total_hp, rounds * total_hp);
     println!("Final map:{}", map);
     Ok(())
