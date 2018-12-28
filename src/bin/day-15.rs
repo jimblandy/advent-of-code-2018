@@ -12,8 +12,8 @@ use std::cmp::max;
 use std::fmt;
 use std::str::FromStr;
 
-#[derive(Eq, PartialEq)]
-struct Map(Array2<Square>);
+#[derive(Clone, Eq, PartialEq)]
+struct Map(Array2<Square>, Params);
 type Point = (usize, usize);
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -27,6 +27,22 @@ enum Square {
 enum Tribe {
     Goblin,
     Elf,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+struct Params {
+    elf_damage: usize,
+    goblin_damage: usize,
+}
+
+impl std::ops::Index<Tribe> for Params {
+    type Output = usize;
+    fn index(&self, index: Tribe) -> &usize {
+        match index {
+            Tribe::Elf => &self.elf_damage,
+            Tribe::Goblin => &self.goblin_damage,
+        }
+    }
 }
 
 static INPUT: &str = include_str!("day-15.input");
@@ -123,7 +139,7 @@ impl FromStr for Map {
                     loop {
                         units_hp_set += 1;
                         if units_hp_set > width {
-                            return Err(format_err!("hp data has more units that map"));
+                            return Err(format_err!("hp data has more units than map"));
                         }
                         match &mut map[[row, units_hp_set - 1]] {
                             Square::Unit { tribe, hit_points } => {
@@ -139,8 +155,30 @@ impl FromStr for Map {
                 }
             }
         }
-        Ok(Map(map))
+        Ok(Map(map, Params {
+            elf_damage: 3,
+            goblin_damage: 3,
+        }))
     }
+}
+
+struct Census {
+    elves: usize,
+    goblins: usize,
+}
+
+enum TurnOutcome {
+    /// No enemy units exist at all; combat is done, round is incomplete.
+    NoEnemiesLeft,
+
+    /// No enemy units were in range; no action taken.
+    NoEnemiesInRange,
+
+    /// Possibly moved, possibly attacked, but nobody was killed.
+    NoKill,
+
+    /// Killed unit at given location.
+    Killed(Point)
 }
 
 impl Map {
@@ -163,16 +201,21 @@ impl Map {
     }
 
     /// Run a round of combat. Return false if any unit had no enemies when its
-    /// turn arrived, true otherwise.
+    /// turn arrived, ending combat and leaving the round incomplete; return
+    /// true otherwise.
     fn round(&mut self) -> bool {
-        //eprintln!("round");
-        for unit in self.units() {
-            // The unit might have been killed after we gathered the list of units.
-            // Iterator invalidation!
-            if let Square::Unit { .. } = self.0[unit] {
-                if !self.turn(unit) {
-                    return false;
-                }
+        // We need to remove killed units from the list as they fall. Simply
+        // checking whether the square contains a unit doesn't suffice, since
+        // another unit might move into it; see the `no_double_move` test. So
+        // iterate in a way that lets us mutate the remaining list as we go.
+        let mut units = self.units();
+        units.reverse();
+        while let Some(unit) = units.pop() {
+            assert!(if let Square::Unit { .. } = self.0[unit] { true } else { false });
+            match self.turn(unit) {
+                TurnOutcome::NoEnemiesLeft => return false,
+                TurnOutcome::NoEnemiesInRange | TurnOutcome::NoKill => (),
+                TurnOutcome::Killed(casualty) => units.retain(|&u| u != casualty),
             }
         }
         true
@@ -181,13 +224,19 @@ impl Map {
     /// Let the unit at `unit` take a turn. Return true if any enemies existed
     /// at all, regardless of whether they were reachable or the unit was able
     /// to do anything about them.
-    fn turn(&mut self, mut unit: Point) -> bool {
+    fn turn(&mut self, mut unit: Point) -> TurnOutcome {
         //eprintln!("    turn for {:?}", unit);
 
         // First, choose a target.
         let in_range = match self.closest_in_range(unit) {
             Ok(in_range) => in_range,
-            Err(any_at_all) => return any_at_all,
+            Err(any_at_all) => {
+                return if any_at_all {
+                    TurnOutcome::NoEnemiesInRange
+                } else {
+                    TurnOutcome::NoEnemiesLeft
+                }
+            }
         };
 
         // Then, move.
@@ -199,11 +248,11 @@ impl Map {
         }
 
         // Finally, attack if in range.
-        if unit == in_range {
-            self.attack(unit);
+        if unit != in_range {
+            return TurnOutcome::NoKill;
         }
 
-        true
+        self.attack(unit)
     }
 
     /// If any enemies are in range for `unit`, return the closest, earliest unit.
@@ -286,7 +335,7 @@ impl Map {
         first_moves[0]
     }
 
-    fn attack(&mut self, unit: Point) {
+    fn attack(&mut self, unit: Point) -> TurnOutcome {
         let my_tribe = self.tribe_at(unit);
 
         let weakest_enemy = {
@@ -315,9 +364,10 @@ impl Map {
         };
 
         // Attack!
+        let outcome;
         if match &mut self.0[weakest_enemy] {
             Square::Unit { hit_points, .. } => {
-                *hit_points = hit_points.saturating_sub(3);
+                *hit_points = hit_points.saturating_sub(self.1[my_tribe]);
                 //eprintln!("        attacks {:?}, hp now {}", weakest_enemy, *hit_points);
                 *hit_points == 0
             }
@@ -325,7 +375,11 @@ impl Map {
         } {
             // Defeated!
             self.0[weakest_enemy] = Square::Empty;
-        };
+            outcome = TurnOutcome::Killed(weakest_enemy);
+        } else {
+            outcome= TurnOutcome::NoKill;
+        }
+        outcome
     }
 
     fn units(&self) -> Vec<Point> {
@@ -366,6 +420,26 @@ impl Map {
                 _ => None,
             })
             .sum()
+    }
+
+    fn census(&self) -> Census {
+        let mut census = Census { elves: 0, goblins: 0 };
+        for row in 0..self.0.len_of(Axis(0)) {
+            for col in 0..self.0.len_of(Axis(1)) {
+                match &self.0[[row, col]] {
+                    Square::Unit { tribe: Tribe::Elf, .. } => census.elves += 1,
+                    Square::Unit { tribe: Tribe::Goblin, .. } => census.goblins += 1,
+                    _ => (),
+                }
+            }
+        }
+        census
+    }
+
+    #[cfg(test)]
+    fn with_elf_damage(mut self, damage: usize) -> Map {
+        self.1.elf_damage = damage;
+        self
     }
 }
 
@@ -435,7 +509,7 @@ mod test_map {
 
     #[test]
     #[rustfmt::skip]
-    fn test_day15_map() {
+    fn basic() {
         let map = test_map("
             ####
             #GE#
@@ -838,6 +912,116 @@ mod test_map {
             #.......#
             #.......#
             #########"));
+
+        // Modified elf damage tests:
+        let mut map = test_map("
+            #######
+            #.G...#
+            #...EG#
+            #.#.#G#
+            #..G#E#
+            #.....#
+            #######").with_elf_damage(15);
+        assert_eq!(map.combat(), (29, 172));
+        assert_eq!(map, test_map("
+            #######
+            #..E..#   E(158)
+            #...E.#   E(14)
+            #.#.#.#
+            #...#.#
+            #.....#
+            #######").with_elf_damage(15));
+
+        let mut map = test_map("
+            #######
+            #E..EG#
+            #.#G.E#
+            #E.##E#
+            #G..#.#
+            #..E#.#
+            #######").with_elf_damage(4);
+        assert_eq!(map.combat(), (33, 948));
+        assert_eq!(map, test_map("
+            #######
+            #.E.E.#   E(200), E(23)
+            #.#E..#   E(200)
+            #E.##E#   E(125), E(200)
+            #.E.#.#   E(200)
+            #...#.#
+            #######").with_elf_damage(4));
+
+        let mut map = test_map("
+            #######
+            #E.G#.#
+            #.#G..#
+            #G.#.G#
+            #G..#.#
+            #...E.#
+            #######").with_elf_damage(15);
+        assert_eq!(map.combat(), (37, 94));
+        assert_eq!(map, test_map("
+            #######
+            #.E.#.#   E(8)
+            #.#E..#   E(86)
+            #..#..#
+            #...#.#
+            #.....#
+            #######").with_elf_damage(15));
+
+        let mut map = test_map("
+            #######
+            #.E...#
+            #.#..G#
+            #.###.#
+            #E#G#G#
+            #...#G#
+            #######").with_elf_damage(12);
+        assert_eq!(map.combat(), (39, 166));
+        assert_eq!(map, test_map("
+            #######
+            #...E.#   E(14)
+            #.#..E#   E(152)
+            #.###.#
+            #.#.#.#
+            #...#.#
+            #######").with_elf_damage(12));
+
+        let mut map = test_map("
+            #########
+            #G......#
+            #.E.#...#
+            #..##..G#
+            #...##..#
+            #...#...#
+            #.G...G.#
+            #.....G.#
+            #########").with_elf_damage(34);
+        assert_eq!(map.combat(), (30, 38));
+        assert_eq!(map, test_map("
+            #########
+            #.......#
+            #.E.#...#   E(38)
+            #..##...#
+            #...##..#
+            #...#...#
+            #.......#
+            #.......#
+            #########").with_elf_damage(34));
+    }
+
+    #[test]
+    fn no_double_move() {
+        let mut map = test_map("
+            #######
+            #.G...#
+            #GE..E# G(200), E(2), E(200)
+            #######");
+        assert!(map.round());
+        assert_eq!(map, test_map("
+            #######
+            #.G...#
+            #.G.E.# G(200), E(200)
+            #######"));
     }
 }
 
@@ -851,5 +1035,38 @@ fn main() -> Result<(), Error> {
     );
     println!("Outcome: {} * {} = {}", rounds, total_hp, rounds * total_hp);
     println!("Final map:{}", map);
+
+    println!("\nPart 2: What damage would elves need to inflict to all survive?");
+    let mut map = Map::from_str(INPUT)?;
+    let elf_damage = 25;
+    map.1.elf_damage = elf_damage;
+    println!("Let's let elves deal {} points of damage.", map.1.elf_damage);
+    let initial_census = map.census();
+    let mut rounds = 0;
+    loop {
+        //eprintln!("Round #{} begins:", rounds + 1);
+        let just_before = map.clone();
+        if !map.round() {
+            println!("Combat ended with no elf deaths, after {} complete rounds!", rounds);
+            println!("final map:{}", map);
+            break;
+        }
+        rounds += 1;
+        if map.census().elves != initial_census.elves {
+            println!("first elf death during round #{}!", rounds);
+            println!("pre-death map:{}", just_before);
+            break;
+        }
+    }
+
+    let mut map = Map::from_str(INPUT)?;
+    map.1.elf_damage = elf_damage;
+    let (rounds, total_hp) = map.combat();
+    println!(
+        "Combat ends after {} full rounds, with {} total hit points left",
+        rounds, total_hp
+    );
+    println!("Outcome: {} * {} = {}", rounds, total_hp, rounds * total_hp);
+
     Ok(())
 }
