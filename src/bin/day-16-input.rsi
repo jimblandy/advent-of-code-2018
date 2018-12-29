@@ -1,0 +1,5492 @@
+static SAMPLE_EXECUTIONS: &'static [SampleExecution] = &[
+SampleExecution {
+    before: State([3, 0, 0, 1]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 2 },
+    after: State([3, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 0, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 1, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 2 },
+    after: State([0, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([3, 0, 1, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 3 },
+    after: State([3, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 0]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 1 },
+    after: State([1, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 2, 3, 3]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 3 },
+    after: State([0, 2, 3, 1]),
+},
+
+SampleExecution {
+    before: State([2, 0, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 0, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 3 },
+    after: State([2, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 2]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 3 },
+    after: State([0, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 0, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 3, 0, 0]),
+},
+
+SampleExecution {
+    before: State([2, 2, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 2, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 1]),
+    insn: Insn { opcode: 13, a: 2, b: 2, c: 0 },
+    after: State([1, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 1]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 0 },
+    after: State([0, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 3]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 1 },
+    after: State([1, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([1, 0, 3, 2]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 1 },
+    after: State([2, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 1 },
+    after: State([1, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 3]),
+    insn: Insn { opcode: 8, a: 1, b: 0, c: 1 },
+    after: State([3, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 2]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 2 },
+    after: State([1, 3, 0, 2]),
+},
+
+SampleExecution {
+    before: State([2, 0, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 0, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([2, 0, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 2 },
+    after: State([2, 1, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 3 },
+    after: State([3, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 3]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 1 },
+    after: State([2, 2, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 0, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 1, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 0 },
+    after: State([1, 3, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 3, 0]),
+    insn: Insn { opcode: 0, a: 1, b: 0, c: 1 },
+    after: State([3, 1, 3, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 3]),
+    insn: Insn { opcode: 12, a: 3, b: 0, c: 3 },
+    after: State([3, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 0, 3, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 1 },
+    after: State([1, 0, 3, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 3 },
+    after: State([0, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([1, 2, 1, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 1 },
+    after: State([1, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 3]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 2 },
+    after: State([1, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 3, 3, 2]),
+    insn: Insn { opcode: 11, a: 0, b: 2, c: 1 },
+    after: State([3, 1, 3, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 0, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 3 },
+    after: State([2, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([3, 3, 3, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 0 },
+    after: State([3, 3, 3, 3]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 0]),
+    insn: Insn { opcode: 13, a: 0, b: 0, c: 0 },
+    after: State([1, 3, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 3 },
+    after: State([3, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 1]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 1 },
+    after: State([1, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 0 },
+    after: State([0, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 2]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 1 },
+    after: State([1, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 3 },
+    after: State([0, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 3, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 3 },
+    after: State([3, 1, 3, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 3, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 0, 3, 0]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 2 },
+    after: State([2, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 2 },
+    after: State([3, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 3]),
+    insn: Insn { opcode: 0, a: 1, b: 0, c: 2 },
+    after: State([3, 1, 1, 3]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 2, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 3, 3, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 3, c: 0 },
+    after: State([1, 3, 3, 3]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 3 },
+    after: State([2, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 0, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 2 },
+    after: State([3, 0, 0, 3]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 2 },
+    after: State([0, 2, 0, 1]),
+},
+
+SampleExecution {
+    before: State([0, 3, 3, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 2 },
+    after: State([0, 3, 0, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 0 },
+    after: State([2, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([1, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 3]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 3 },
+    after: State([1, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 0 },
+    after: State([0, 3, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 0, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 3, c: 0 },
+    after: State([1, 0, 0, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 0 },
+    after: State([2, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 3 },
+    after: State([0, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 3, 1, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 2 },
+    after: State([3, 3, 3, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 1]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 3 },
+    after: State([1, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 0]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 3 },
+    after: State([1, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 0, c: 2 },
+    after: State([2, 2, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 0 },
+    after: State([0, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 2]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 2 },
+    after: State([1, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 1 },
+    after: State([0, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([0, 0, 0, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 1 },
+    after: State([3, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 0]),
+    insn: Insn { opcode: 8, a: 0, b: 1, c: 3 },
+    after: State([0, 2, 1, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 3, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 3]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 3 },
+    after: State([1, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 2, 1, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 1 },
+    after: State([2, 3, 1, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 3, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 0, 3, 0]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 0]),
+    insn: Insn { opcode: 12, a: 2, b: 1, c: 1 },
+    after: State([3, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 1, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 3 },
+    after: State([3, 2, 2, 3]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 0 },
+    after: State([2, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 0, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 0 },
+    after: State([0, 0, 0, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 0]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 1 },
+    after: State([1, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([0, 0, 1, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 2 },
+    after: State([0, 0, 0, 1]),
+},
+
+SampleExecution {
+    before: State([1, 3, 0, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 3, c: 1 },
+    after: State([1, 1, 0, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 1]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 3 },
+    after: State([1, 1, 3, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 1]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 2 },
+    after: State([1, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([3, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 0]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 2 },
+    after: State([1, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([0, 0, 3, 0]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 0 },
+    after: State([1, 0, 3, 0]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 3]),
+    insn: Insn { opcode: 12, a: 2, b: 1, c: 2 },
+    after: State([0, 2, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 3, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 0, 3, 0]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 3]),
+    insn: Insn { opcode: 13, a: 2, b: 2, c: 2 },
+    after: State([1, 3, 1, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 3 },
+    after: State([1, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 0]),
+    insn: Insn { opcode: 8, a: 0, b: 1, c: 1 },
+    after: State([0, 0, 3, 0]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 2]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 0 },
+    after: State([0, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 3]),
+    insn: Insn { opcode: 8, a: 0, b: 1, c: 3 },
+    after: State([0, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 3 },
+    after: State([0, 2, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 3]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 0 },
+    after: State([1, 3, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 3 },
+    after: State([0, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 2, 3, 2]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 0 },
+    after: State([1, 2, 3, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([3, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([0, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 0, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 1]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 3 },
+    after: State([1, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 3, 3]),
+    insn: Insn { opcode: 8, a: 0, b: 1, c: 3 },
+    after: State([0, 3, 3, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 0, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 3, c: 3 },
+    after: State([0, 3, 0, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 3]),
+    insn: Insn { opcode: 8, a: 0, b: 3, c: 0 },
+    after: State([0, 2, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 0, c: 0 },
+    after: State([1, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 3, 3, 0]),
+    insn: Insn { opcode: 8, a: 0, b: 1, c: 0 },
+    after: State([0, 3, 3, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 3 },
+    after: State([1, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 1, 1]),
+    insn: Insn { opcode: 8, a: 0, b: 3, c: 0 },
+    after: State([0, 3, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 3, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 3, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 2 },
+    after: State([1, 1, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 3 },
+    after: State([3, 3, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 1, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 2, c: 0 },
+    after: State([0, 1, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 2, 0, 2]),
+    insn: Insn { opcode: 13, a: 0, b: 0, c: 1 },
+    after: State([0, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 0 },
+    after: State([0, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 3, 3, 3]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 1 },
+    after: State([0, 1, 3, 3]),
+},
+
+SampleExecution {
+    before: State([0, 2, 3, 2]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 3 },
+    after: State([0, 2, 3, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 0]),
+    insn: Insn { opcode: 0, a: 1, b: 0, c: 0 },
+    after: State([1, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 1]),
+    insn: Insn { opcode: 0, a: 2, b: 0, c: 3 },
+    after: State([2, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 3, c: 1 },
+    after: State([0, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 0]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 3 },
+    after: State([1, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 0]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 0 },
+    after: State([1, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 1, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 1, 3, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 0 },
+    after: State([0, 2, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 3, 3, 1]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 1 },
+    after: State([2, 1, 3, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 1, c: 2 },
+    after: State([0, 2, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 2 },
+    after: State([2, 3, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 3, 3, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 3, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 0 },
+    after: State([3, 1, 3, 3]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 3]),
+    insn: Insn { opcode: 8, a: 0, b: 3, c: 2 },
+    after: State([0, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 3 },
+    after: State([2, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 2]),
+    insn: Insn { opcode: 12, a: 2, b: 1, c: 1 },
+    after: State([2, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 1 },
+    after: State([2, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 0, 3, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 2 },
+    after: State([3, 0, 3, 3]),
+},
+
+SampleExecution {
+    before: State([1, 0, 3, 0]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 3 },
+    after: State([1, 0, 3, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 0]),
+    insn: Insn { opcode: 12, a: 2, b: 1, c: 1 },
+    after: State([0, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 0]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 2 },
+    after: State([1, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 1, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 2 },
+    after: State([1, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 1 },
+    after: State([3, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 3]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 2 },
+    after: State([1, 1, 1, 3]),
+},
+
+SampleExecution {
+    before: State([1, 2, 3, 0]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 3 },
+    after: State([1, 2, 3, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 2]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 2 },
+    after: State([1, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 3, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 3 },
+    after: State([3, 1, 3, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 0 },
+    after: State([2, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 1 },
+    after: State([2, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 3, 1]),
+    insn: Insn { opcode: 0, a: 1, b: 0, c: 2 },
+    after: State([3, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 2]),
+    insn: Insn { opcode: 0, a: 1, b: 0, c: 2 },
+    after: State([3, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([1, 3, 3, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 3, c: 2 },
+    after: State([1, 3, 0, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 3 },
+    after: State([3, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 2]),
+    insn: Insn { opcode: 8, a: 0, b: 3, c: 3 },
+    after: State([0, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([3, 0, 0, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 1 },
+    after: State([3, 3, 0, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 1 },
+    after: State([1, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 1, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 3 },
+    after: State([0, 0, 1, 0]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 3 },
+    after: State([1, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 3 },
+    after: State([2, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 3, 1, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 0 },
+    after: State([1, 3, 1, 1]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 2 },
+    after: State([3, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 0, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 3, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 1]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 1 },
+    after: State([2, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 3 },
+    after: State([1, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 1, 3]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 1 },
+    after: State([0, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([1, 3, 3, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 0 },
+    after: State([3, 3, 3, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 0]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 1 },
+    after: State([3, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([1, 3, 3, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 3 },
+    after: State([1, 3, 3, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 1]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 2 },
+    after: State([1, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 1]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 1 },
+    after: State([1, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 0 },
+    after: State([3, 3, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 2 },
+    after: State([2, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 2 },
+    after: State([0, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 2 },
+    after: State([0, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 0]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 2 },
+    after: State([1, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([1, 0, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 2 },
+    after: State([1, 0, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 1, 0, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 3 },
+    after: State([3, 1, 0, 3]),
+},
+
+SampleExecution {
+    before: State([0, 2, 0, 1]),
+    insn: Insn { opcode: 8, a: 0, b: 3, c: 0 },
+    after: State([0, 2, 0, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 0]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 1 },
+    after: State([3, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 1 },
+    after: State([1, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 2, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 3 },
+    after: State([1, 2, 1, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 3, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 3, 2]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 2 },
+    after: State([2, 2, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 2, 1, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 1, 3]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 1 },
+    after: State([0, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([2, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 3 },
+    after: State([2, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 2, c: 1 },
+    after: State([3, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 3, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 1]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 0 },
+    after: State([2, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 0 },
+    after: State([0, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([0, 0, 3, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 0]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 2 },
+    after: State([1, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 0, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 3, 0, 3]),
+},
+
+SampleExecution {
+    before: State([0, 2, 0, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 0 },
+    after: State([0, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 1]),
+    insn: Insn { opcode: 13, a: 2, b: 2, c: 3 },
+    after: State([0, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 2]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 2 },
+    after: State([0, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 3, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 3 },
+    after: State([3, 1, 3, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 0]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 0 },
+    after: State([2, 3, 2, 0]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 1]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 1 },
+    after: State([1, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 3 },
+    after: State([1, 3, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 3, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 3, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 3, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 3, c: 0 },
+    after: State([0, 2, 3, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 2]),
+    insn: Insn { opcode: 13, a: 0, b: 0, c: 1 },
+    after: State([0, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 2 },
+    after: State([1, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([0, 3, 3, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 2 },
+    after: State([0, 3, 0, 0]),
+},
+
+SampleExecution {
+    before: State([3, 0, 3, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 2, c: 0 },
+    after: State([1, 0, 3, 1]),
+},
+
+SampleExecution {
+    before: State([1, 2, 0, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 0 },
+    after: State([0, 2, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 0 },
+    after: State([0, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 0 },
+    after: State([3, 3, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 0 },
+    after: State([3, 3, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 1, 3, 0]),
+},
+
+SampleExecution {
+    before: State([0, 0, 3, 1]),
+    insn: Insn { opcode: 13, a: 0, b: 0, c: 1 },
+    after: State([0, 1, 3, 1]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 2 },
+    after: State([0, 3, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 0 },
+    after: State([0, 2, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 3]),
+    insn: Insn { opcode: 12, a: 2, b: 1, c: 0 },
+    after: State([1, 2, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 1, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 0, 1, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 2]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 0 },
+    after: State([1, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 3 },
+    after: State([3, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 3 },
+    after: State([3, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 1, c: 0 },
+    after: State([0, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 3]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 3 },
+    after: State([0, 3, 2, 0]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 2]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 0 },
+    after: State([0, 3, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 1]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 1 },
+    after: State([1, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 1 },
+    after: State([0, 0, 0, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 1, c: 0 },
+    after: State([1, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 3, 3, 1]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 3 },
+    after: State([3, 3, 3, 1]),
+},
+
+SampleExecution {
+    before: State([3, 3, 0, 1]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 1 },
+    after: State([3, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 0 },
+    after: State([0, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([3, 3, 3, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 3 },
+    after: State([3, 3, 3, 3]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 1 },
+    after: State([1, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 2]),
+    insn: Insn { opcode: 12, a: 2, b: 1, c: 3 },
+    after: State([1, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([0, 0, 1, 2]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 2]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 2 },
+    after: State([1, 0, 0, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([1, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 3, 1, 1]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 1 },
+    after: State([3, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 12, a: 2, b: 0, c: 0 },
+    after: State([1, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 0, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 0, 3, 2]),
+},
+
+SampleExecution {
+    before: State([2, 2, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 2, 3, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 3, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 3, c: 2 },
+    after: State([2, 3, 1, 3]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([3, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 0]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 2 },
+    after: State([0, 3, 0, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 2]),
+    insn: Insn { opcode: 13, a: 2, b: 1, c: 1 },
+    after: State([0, 0, 3, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 2]),
+    insn: Insn { opcode: 13, a: 0, b: 0, c: 0 },
+    after: State([1, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 2, 1, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 0 },
+    after: State([0, 2, 1, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 0]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 1 },
+    after: State([1, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 2 },
+    after: State([2, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 3]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 3 },
+    after: State([1, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 0, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 0, 3, 1]),
+},
+
+SampleExecution {
+    before: State([3, 0, 3, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 3 },
+    after: State([3, 0, 3, 3]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 1]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 1 },
+    after: State([0, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 0]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 3 },
+    after: State([1, 3, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 1 },
+    after: State([0, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 0]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 1 },
+    after: State([1, 1, 3, 0]),
+},
+
+SampleExecution {
+    before: State([2, 0, 1, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 0 },
+    after: State([3, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 1]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 1 },
+    after: State([1, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 0 },
+    after: State([2, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 2]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 3 },
+    after: State([1, 1, 3, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 2, 1, 1]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 0]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 1 },
+    after: State([0, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 2 },
+    after: State([0, 1, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 0 },
+    after: State([2, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 2]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 2 },
+    after: State([1, 2, 0, 2]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 1]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 1 },
+    after: State([2, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([1, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 0, 0, 1]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 3 },
+    after: State([3, 0, 0, 1]),
+},
+
+SampleExecution {
+    before: State([3, 2, 3, 3]),
+    insn: Insn { opcode: 12, a: 3, b: 0, c: 3 },
+    after: State([3, 2, 3, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([3, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 0, 1, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 2, c: 1 },
+    after: State([1, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 0, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 0, 2]),
+},
+
+SampleExecution {
+    before: State([3, 0, 3, 1]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 1 },
+    after: State([3, 1, 3, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 3 },
+    after: State([1, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 1 },
+    after: State([3, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 3, 0, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 3, c: 2 },
+    after: State([3, 3, 1, 3]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 2 },
+    after: State([3, 3, 0, 3]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 1]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 2 },
+    after: State([1, 2, 0, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 0, 1]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 1 },
+    after: State([3, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 2, 3, 2]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([2, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 2 },
+    after: State([1, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 2 },
+    after: State([0, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([3, 3, 0, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 3 },
+    after: State([3, 3, 0, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 3, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 2, c: 2 },
+    after: State([3, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 3 },
+    after: State([0, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([1, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 0, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 2 },
+    after: State([3, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 2 },
+    after: State([0, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 3, 0, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 3 },
+    after: State([0, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 1]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 1 },
+    after: State([1, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 2 },
+    after: State([0, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 2 },
+    after: State([1, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 3, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 3, c: 3 },
+    after: State([2, 3, 3, 0]),
+},
+
+SampleExecution {
+    before: State([2, 0, 3, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 3, c: 0 },
+    after: State([0, 0, 3, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 2 },
+    after: State([2, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 0 },
+    after: State([2, 3, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 1]),
+    insn: Insn { opcode: 8, a: 0, b: 1, c: 1 },
+    after: State([0, 0, 0, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 2 },
+    after: State([1, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 2]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 0 },
+    after: State([0, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 3, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 2 },
+    after: State([3, 3, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 2, 1, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 1 },
+    after: State([3, 3, 1, 3]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 2]),
+    insn: Insn { opcode: 13, a: 2, b: 2, c: 2 },
+    after: State([3, 3, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 1 },
+    after: State([3, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 0, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 0]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 3 },
+    after: State([3, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 3, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 3 },
+    after: State([0, 0, 3, 3]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 1, c: 0 },
+    after: State([0, 1, 0, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 2, 1, 2]),
+},
+
+SampleExecution {
+    before: State([0, 3, 0, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 2 },
+    after: State([0, 3, 0, 1]),
+},
+
+SampleExecution {
+    before: State([3, 3, 3, 0]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 2 },
+    after: State([3, 3, 1, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 3, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 3, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 1, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 2 },
+    after: State([2, 2, 0, 1]),
+},
+
+SampleExecution {
+    before: State([3, 2, 0, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 0 },
+    after: State([3, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 1 },
+    after: State([2, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 1 },
+    after: State([2, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([0, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 1 },
+    after: State([0, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 0]),
+    insn: Insn { opcode: 0, a: 1, b: 0, c: 2 },
+    after: State([3, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 0]),
+    insn: Insn { opcode: 0, a: 2, b: 0, c: 1 },
+    after: State([2, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 0]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 0 },
+    after: State([1, 1, 3, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 0, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 0 },
+    after: State([3, 3, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 3, 3, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 0 },
+    after: State([3, 3, 3, 3]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 0]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 2 },
+    after: State([3, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 0 },
+    after: State([0, 3, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 3]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 0 },
+    after: State([0, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 0]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 1 },
+    after: State([2, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 3, 3, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 3, c: 3 },
+    after: State([3, 3, 3, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 2 },
+    after: State([1, 1, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 2]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 2 },
+    after: State([3, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 2]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 3 },
+    after: State([1, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 1]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 2 },
+    after: State([1, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 2 },
+    after: State([0, 1, 0, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 2 },
+    after: State([2, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 3, 3, 3]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 3 },
+    after: State([0, 3, 3, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 3 },
+    after: State([0, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 3, 3, 0]),
+    insn: Insn { opcode: 8, a: 0, b: 1, c: 1 },
+    after: State([0, 0, 3, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 3, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([3, 0, 3, 2]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 3]),
+    insn: Insn { opcode: 12, a: 2, b: 1, c: 2 },
+    after: State([3, 2, 1, 3]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 0]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 0 },
+    after: State([2, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([3, 0, 1, 2]),
+},
+
+SampleExecution {
+    before: State([3, 0, 3, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 2, c: 2 },
+    after: State([3, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 0, 3]),
+    insn: Insn { opcode: 0, a: 1, b: 0, c: 1 },
+    after: State([3, 1, 0, 3]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 2 },
+    after: State([0, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 0]),
+    insn: Insn { opcode: 12, a: 2, b: 0, c: 1 },
+    after: State([2, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 2 },
+    after: State([0, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 1]),
+    insn: Insn { opcode: 0, a: 2, b: 0, c: 3 },
+    after: State([2, 3, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([1, 0, 0, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 3, c: 2 },
+    after: State([3, 1, 1, 3]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 3]),
+    insn: Insn { opcode: 0, a: 2, b: 0, c: 1 },
+    after: State([2, 2, 2, 3]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 3 },
+    after: State([3, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 2, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 2, 1, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 3, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 0, 3, 1]),
+},
+
+SampleExecution {
+    before: State([3, 2, 3, 0]),
+    insn: Insn { opcode: 11, a: 0, b: 2, c: 3 },
+    after: State([3, 2, 3, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 1, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 1 },
+    after: State([2, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 2]),
+    insn: Insn { opcode: 12, a: 2, b: 1, c: 2 },
+    after: State([3, 2, 1, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 2 },
+    after: State([0, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 1 },
+    after: State([1, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 3, 3]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 3 },
+    after: State([0, 0, 3, 0]),
+},
+
+SampleExecution {
+    before: State([2, 0, 0, 0]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 1 },
+    after: State([2, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([3, 2, 3, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 2 },
+    after: State([3, 2, 3, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 2, 1, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 3]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 0 },
+    after: State([1, 1, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 0]),
+    insn: Insn { opcode: 8, a: 0, b: 1, c: 0 },
+    after: State([0, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 3, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 3, c: 0 },
+    after: State([0, 1, 3, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 2 },
+    after: State([1, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 1 },
+    after: State([3, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 1]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 0 },
+    after: State([1, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 3 },
+    after: State([2, 3, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 0, 3, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 3, c: 2 },
+    after: State([2, 0, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 0, 0, 3]),
+    insn: Insn { opcode: 8, a: 1, b: 0, c: 0 },
+    after: State([0, 0, 0, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 0]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 0 },
+    after: State([1, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 0, 0, 0]),
+    insn: Insn { opcode: 8, a: 2, b: 0, c: 3 },
+    after: State([3, 0, 0, 0]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 2]),
+    insn: Insn { opcode: 0, a: 2, b: 0, c: 3 },
+    after: State([2, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 2 },
+    after: State([0, 2, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 0, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 1 },
+    after: State([2, 0, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 2 },
+    after: State([2, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([2, 0, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 0 },
+    after: State([0, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 0, 0, 1]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 0 },
+    after: State([2, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 1]),
+    insn: Insn { opcode: 8, a: 0, b: 1, c: 0 },
+    after: State([0, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 3]),
+    insn: Insn { opcode: 8, a: 0, b: 3, c: 2 },
+    after: State([0, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 0]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 3 },
+    after: State([0, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 0, 3, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 3, c: 0 },
+    after: State([0, 0, 3, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 0 },
+    after: State([0, 2, 1, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 0 },
+    after: State([0, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 0]),
+    insn: Insn { opcode: 0, a: 2, b: 0, c: 2 },
+    after: State([2, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 3 },
+    after: State([0, 1, 3, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 0]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 3 },
+    after: State([1, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 0 },
+    after: State([0, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 3, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 3 },
+    after: State([1, 3, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 0]),
+    insn: Insn { opcode: 12, a: 2, b: 0, c: 1 },
+    after: State([2, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 0, 3, 3]),
+    insn: Insn { opcode: 12, a: 3, b: 0, c: 2 },
+    after: State([3, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 0 },
+    after: State([0, 1, 1, 3]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 3 },
+    after: State([3, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 3 },
+    after: State([2, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 1]),
+    insn: Insn { opcode: 6, a: 2, b: 3, c: 3 },
+    after: State([1, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 3]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 2 },
+    after: State([2, 3, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 3, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 1]),
+    insn: Insn { opcode: 13, a: 2, b: 2, c: 2 },
+    after: State([0, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 2]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 3 },
+    after: State([1, 3, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 0, 0, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 0, 3]),
+},
+
+SampleExecution {
+    before: State([0, 2, 0, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 2 },
+    after: State([0, 2, 0, 0]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 1]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 3 },
+    after: State([1, 3, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 2, c: 1 },
+    after: State([3, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 0]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 0 },
+    after: State([0, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 1]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 1 },
+    after: State([0, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 1 },
+    after: State([3, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 3, 1, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 2 },
+    after: State([0, 3, 0, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 1, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 2, c: 1 },
+    after: State([2, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 3 },
+    after: State([0, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 0]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 0 },
+    after: State([0, 1, 3, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 2]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 2 },
+    after: State([1, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 2]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 3 },
+    after: State([0, 1, 3, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 3]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 0 },
+    after: State([1, 1, 3, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 1, 2]),
+    insn: Insn { opcode: 11, a: 0, b: 1, c: 0 },
+    after: State([1, 2, 1, 2]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 0 },
+    after: State([2, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 0 },
+    after: State([2, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 0 },
+    after: State([2, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 0]),
+    insn: Insn { opcode: 12, a: 2, b: 0, c: 0 },
+    after: State([1, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 0, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 0, 0, 0]),
+},
+
+SampleExecution {
+    before: State([1, 3, 3, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 3, c: 2 },
+    after: State([1, 3, 1, 3]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 0 },
+    after: State([3, 2, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 1]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 1 },
+    after: State([1, 1, 3, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 3, 1, 2]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 1 },
+    after: State([3, 3, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 0]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 3 },
+    after: State([1, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 0]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 2 },
+    after: State([1, 2, 0, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([0, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 3]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 0 },
+    after: State([2, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 0, 1, 2]),
+},
+
+SampleExecution {
+    before: State([3, 3, 1, 1]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 2 },
+    after: State([3, 3, 1, 1]),
+},
+
+SampleExecution {
+    before: State([0, 3, 3, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 3, 0]),
+},
+
+SampleExecution {
+    before: State([3, 2, 1, 1]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 1 },
+    after: State([3, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 0 },
+    after: State([1, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 2, 1, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 0 },
+    after: State([0, 2, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([1, 0, 1, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 0]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 0 },
+    after: State([1, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 3]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 1 },
+    after: State([1, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 0, 1, 2]),
+},
+
+SampleExecution {
+    before: State([1, 3, 3, 3]),
+    insn: Insn { opcode: 12, a: 3, b: 2, c: 3 },
+    after: State([1, 3, 3, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 2]),
+    insn: Insn { opcode: 0, a: 1, b: 0, c: 0 },
+    after: State([1, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 1]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 3 },
+    after: State([3, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 3, 0, 1]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 0 },
+    after: State([1, 3, 0, 1]),
+},
+
+SampleExecution {
+    before: State([1, 3, 3, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 2 },
+    after: State([1, 3, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 0]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 2 },
+    after: State([0, 2, 0, 0]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 0]),
+    insn: Insn { opcode: 12, a: 2, b: 0, c: 2 },
+    after: State([2, 2, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 3]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 0 },
+    after: State([2, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 1, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 3 },
+    after: State([0, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 3]),
+    insn: Insn { opcode: 13, a: 2, b: 2, c: 2 },
+    after: State([1, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 3]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 2 },
+    after: State([1, 1, 1, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 3 },
+    after: State([2, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 1]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 2 },
+    after: State([1, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 3]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 0 },
+    after: State([1, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 1 },
+    after: State([1, 0, 0, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 0, c: 1 },
+    after: State([2, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 2]),
+    insn: Insn { opcode: 8, a: 0, b: 1, c: 1 },
+    after: State([0, 0, 1, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 1 },
+    after: State([1, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 0 },
+    after: State([0, 3, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 3, c: 2 },
+    after: State([0, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([2, 1, 3, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([2, 0, 3, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 3 },
+    after: State([1, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 0, 3, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 2 },
+    after: State([0, 0, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 3 },
+    after: State([0, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 0, 3, 2]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 3 },
+    after: State([1, 0, 3, 1]),
+},
+
+SampleExecution {
+    before: State([3, 2, 3, 3]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 1 },
+    after: State([3, 1, 3, 3]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 2 },
+    after: State([0, 3, 0, 2]),
+},
+
+SampleExecution {
+    before: State([3, 2, 1, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 2 },
+    after: State([3, 2, 0, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 0 },
+    after: State([0, 2, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 2, 1, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 3 },
+    after: State([1, 2, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([2, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 2 },
+    after: State([1, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 1, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([3, 3, 3, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 2, c: 1 },
+    after: State([3, 1, 3, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 12, a: 2, b: 0, c: 2 },
+    after: State([2, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 2]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 1 },
+    after: State([1, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 3 },
+    after: State([3, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 1, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 3 },
+    after: State([2, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 2, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 2 },
+    after: State([2, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 1 },
+    after: State([3, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 1]),
+    insn: Insn { opcode: 0, a: 2, b: 0, c: 0 },
+    after: State([2, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 3, 1]),
+},
+
+SampleExecution {
+    before: State([2, 0, 3, 1]),
+    insn: Insn { opcode: 8, a: 1, b: 0, c: 0 },
+    after: State([0, 0, 3, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 3, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 1 },
+    after: State([2, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 3, 2]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 2 },
+    after: State([0, 0, 0, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 2 },
+    after: State([3, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 2 },
+    after: State([3, 2, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 1 },
+    after: State([1, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 2]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 1 },
+    after: State([3, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 2, 0, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 2, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 1]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 0 },
+    after: State([2, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 1 },
+    after: State([2, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 3, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 2]),
+    insn: Insn { opcode: 12, a: 2, b: 0, c: 0 },
+    after: State([1, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 2 },
+    after: State([1, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 3, 3]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 3 },
+    after: State([2, 2, 3, 1]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 0]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 2 },
+    after: State([3, 3, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 2 },
+    after: State([3, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 1, 2]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 1 },
+    after: State([2, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 2 },
+    after: State([0, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 2, 1, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 0]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 1 },
+    after: State([1, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 1 },
+    after: State([0, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 3, 1, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 3, 1, 0]),
+},
+
+SampleExecution {
+    before: State([0, 2, 3, 2]),
+    insn: Insn { opcode: 8, a: 0, b: 3, c: 0 },
+    after: State([0, 2, 3, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 3]),
+    insn: Insn { opcode: 13, a: 0, b: 0, c: 0 },
+    after: State([1, 1, 3, 3]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 0]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 0 },
+    after: State([0, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 0, 1, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 0 },
+    after: State([1, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 2, 1, 0]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 3, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 3, 0]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 1 },
+    after: State([2, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 3 },
+    after: State([3, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 0 },
+    after: State([0, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 3, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 2 },
+    after: State([2, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 3 },
+    after: State([2, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 2, 1, 1]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 3 },
+    after: State([3, 2, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 3 },
+    after: State([2, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 0]),
+    insn: Insn { opcode: 0, a: 2, b: 0, c: 1 },
+    after: State([2, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 0, 3, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 3 },
+    after: State([3, 0, 3, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 1, 1]),
+    insn: Insn { opcode: 6, a: 2, b: 3, c: 2 },
+    after: State([2, 3, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 0, 3, 2]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 0 },
+    after: State([1, 0, 3, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 3 },
+    after: State([0, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 3]),
+    insn: Insn { opcode: 12, a: 3, b: 2, c: 2 },
+    after: State([0, 1, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 1, 1, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 1, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 3]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 2 },
+    after: State([0, 1, 0, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 3 },
+    after: State([1, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([2, 0, 0, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 1 },
+    after: State([2, 0, 0, 1]),
+},
+
+SampleExecution {
+    before: State([1, 2, 1, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 2, c: 3 },
+    after: State([1, 2, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 3 },
+    after: State([2, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 3 },
+    after: State([0, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 0, 2]),
+    insn: Insn { opcode: 8, a: 2, b: 0, c: 0 },
+    after: State([0, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 3]),
+    insn: Insn { opcode: 12, a: 3, b: 2, c: 0 },
+    after: State([1, 1, 3, 3]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 1]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 3 },
+    after: State([0, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 0, 3, 0]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 0 },
+    after: State([1, 0, 3, 0]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 1]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 0 },
+    after: State([2, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 0, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 3 },
+    after: State([3, 0, 1, 0]),
+},
+
+SampleExecution {
+    before: State([2, 3, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 3, 3, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 2]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 2 },
+    after: State([1, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 0 },
+    after: State([0, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 0]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 3 },
+    after: State([3, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 1, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 1, c: 0 },
+    after: State([0, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 1 },
+    after: State([1, 0, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 1 },
+    after: State([2, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 2]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 2 },
+    after: State([0, 0, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 2]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 1 },
+    after: State([1, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 0]),
+    insn: Insn { opcode: 12, a: 2, b: 1, c: 0 },
+    after: State([1, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 1, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 1, 3, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 1 },
+    after: State([0, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 0, 3, 3]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 0 },
+    after: State([1, 0, 3, 3]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 3]),
+    insn: Insn { opcode: 12, a: 3, b: 0, c: 0 },
+    after: State([1, 1, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 3 },
+    after: State([1, 1, 3, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 1 },
+    after: State([1, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 0, 1, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 0 },
+    after: State([0, 0, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 0]),
+    insn: Insn { opcode: 0, a: 2, b: 0, c: 3 },
+    after: State([2, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 2, 3, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 3, c: 0 },
+    after: State([1, 2, 3, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 3]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 3 },
+    after: State([1, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 0, 1, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 2 },
+    after: State([2, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 0, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 2 },
+    after: State([2, 3, 0, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 0, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 1 },
+    after: State([2, 0, 0, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 0 },
+    after: State([0, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 2 },
+    after: State([2, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 0, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 2 },
+    after: State([2, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 2 },
+    after: State([1, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 3, 0, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 0 },
+    after: State([0, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 3, c: 0 },
+    after: State([1, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 1 },
+    after: State([3, 3, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 0 },
+    after: State([0, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 2, 1, 1]),
+},
+
+SampleExecution {
+    before: State([3, 3, 0, 3]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 0 },
+    after: State([1, 3, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 1 },
+    after: State([3, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 0 },
+    after: State([0, 3, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 3]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 0 },
+    after: State([0, 2, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 0]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 2 },
+    after: State([2, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 2 },
+    after: State([3, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 0, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([3, 0, 0, 2]),
+},
+
+SampleExecution {
+    before: State([3, 0, 3, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 3, c: 2 },
+    after: State([3, 0, 0, 1]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 2]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 3 },
+    after: State([1, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 1 },
+    after: State([0, 3, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 0, c: 2 },
+    after: State([2, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 1, 2]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 3 },
+    after: State([2, 3, 1, 1]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 0, 3, 0]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 2 },
+    after: State([1, 0, 1, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 3, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 3 },
+    after: State([2, 2, 3, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 1 },
+    after: State([3, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 2, 3, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 1, c: 2 },
+    after: State([1, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([1, 2, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 2 },
+    after: State([1, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 1, 0, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 3 },
+    after: State([3, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 3, 3]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 3 },
+    after: State([3, 1, 3, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 1, 2]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 2 },
+    after: State([2, 2, 1, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 3, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 3, 2]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 2 },
+    after: State([3, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 0, 3]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 3 },
+    after: State([2, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 2 },
+    after: State([2, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([3, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 3]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 0 },
+    after: State([0, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 2 },
+    after: State([3, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 3, 1, 2]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 0]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 3 },
+    after: State([0, 2, 1, 0]),
+},
+
+SampleExecution {
+    before: State([3, 0, 1, 1]),
+    insn: Insn { opcode: 6, a: 2, b: 3, c: 3 },
+    after: State([3, 0, 1, 0]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 0]),
+    insn: Insn { opcode: 12, a: 2, b: 1, c: 2 },
+    after: State([1, 2, 1, 0]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 1]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 2 },
+    after: State([1, 3, 0, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 1, 3]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 1 },
+    after: State([1, 1, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 0, 3]),
+    insn: Insn { opcode: 8, a: 0, b: 3, c: 2 },
+    after: State([0, 0, 0, 3]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 0]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 2 },
+    after: State([3, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 2 },
+    after: State([2, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 1]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 1 },
+    after: State([1, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 0]),
+    insn: Insn { opcode: 13, a: 2, b: 1, c: 0 },
+    after: State([0, 1, 3, 0]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([0, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 3, 0]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 3 },
+    after: State([2, 1, 3, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 3, 0]),
+    insn: Insn { opcode: 0, a: 1, b: 0, c: 3 },
+    after: State([3, 1, 3, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 3]),
+    insn: Insn { opcode: 13, a: 2, b: 1, c: 1 },
+    after: State([1, 0, 3, 3]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 3]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 3 },
+    after: State([1, 3, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 3, 1, 3]),
+    insn: Insn { opcode: 8, a: 0, b: 3, c: 1 },
+    after: State([0, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([2, 1, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 3 },
+    after: State([2, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 1, 0]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 0 },
+    after: State([1, 3, 1, 0]),
+},
+
+SampleExecution {
+    before: State([3, 2, 3, 2]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 2 },
+    after: State([3, 2, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 0, 3, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 1 },
+    after: State([3, 3, 3, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([2, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 2 },
+    after: State([2, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 2 },
+    after: State([1, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 2]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 0 },
+    after: State([2, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 3, 2]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 3 },
+    after: State([0, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 3, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 3, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 3, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 2 },
+    after: State([2, 2, 1, 2]),
+},
+
+SampleExecution {
+    before: State([3, 2, 1, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 2 },
+    after: State([3, 2, 1, 1]),
+},
+
+SampleExecution {
+    before: State([0, 3, 3, 1]),
+    insn: Insn { opcode: 13, a: 0, b: 0, c: 1 },
+    after: State([0, 1, 3, 1]),
+},
+
+SampleExecution {
+    before: State([3, 0, 2, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 2, c: 2 },
+    after: State([3, 0, 0, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 0, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 2 },
+    after: State([0, 0, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 3]),
+    insn: Insn { opcode: 0, a: 2, b: 0, c: 3 },
+    after: State([2, 3, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 0]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 0 },
+    after: State([0, 3, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 2]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 0 },
+    after: State([0, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 2 },
+    after: State([0, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 1]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 1 },
+    after: State([0, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 0, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 1 },
+    after: State([2, 3, 0, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 3, a: 2, b: 3, c: 3 },
+    after: State([1, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 3, 2]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 1 },
+    after: State([0, 1, 3, 2]),
+},
+
+SampleExecution {
+    before: State([0, 3, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 3 },
+    after: State([0, 3, 1, 0]),
+},
+
+SampleExecution {
+    before: State([3, 3, 3, 3]),
+    insn: Insn { opcode: 11, a: 2, b: 0, c: 0 },
+    after: State([1, 3, 3, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 0, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 0, 0, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 1 },
+    after: State([0, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 2 },
+    after: State([2, 3, 1, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 2, 3, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 3 },
+    after: State([0, 2, 3, 0]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 1, c: 1 },
+    after: State([3, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 3 },
+    after: State([1, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([0, 2, 1, 3]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 2 },
+    after: State([0, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 3 },
+    after: State([1, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 3 },
+    after: State([0, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 2]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 0 },
+    after: State([1, 1, 3, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 0]),
+    insn: Insn { opcode: 13, a: 0, b: 0, c: 2 },
+    after: State([0, 0, 1, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 3]),
+    insn: Insn { opcode: 11, a: 0, b: 0, c: 2 },
+    after: State([3, 1, 1, 3]),
+},
+
+SampleExecution {
+    before: State([3, 2, 1, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 3 },
+    after: State([3, 2, 1, 3]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 0]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 0 },
+    after: State([0, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 0, 0, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 0 },
+    after: State([3, 0, 0, 3]),
+},
+
+SampleExecution {
+    before: State([1, 0, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 0 },
+    after: State([0, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 3 },
+    after: State([0, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 3 },
+    after: State([1, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 1, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 2, 0, 2]),
+    insn: Insn { opcode: 8, a: 0, b: 3, c: 0 },
+    after: State([0, 2, 0, 2]),
+},
+
+SampleExecution {
+    before: State([3, 1, 0, 3]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 0 },
+    after: State([3, 1, 0, 3]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 1 },
+    after: State([2, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 3]),
+    insn: Insn { opcode: 0, a: 2, b: 0, c: 0 },
+    after: State([2, 1, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 3]),
+    insn: Insn { opcode: 8, a: 1, b: 0, c: 3 },
+    after: State([2, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 1 },
+    after: State([1, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 2]),
+    insn: Insn { opcode: 8, a: 0, b: 3, c: 1 },
+    after: State([0, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 3, 2, 3]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 2 },
+    after: State([1, 3, 0, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 3]),
+    insn: Insn { opcode: 11, a: 2, b: 2, c: 1 },
+    after: State([1, 1, 3, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 0, 3]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 1 },
+    after: State([1, 1, 0, 3]),
+},
+
+SampleExecution {
+    before: State([2, 3, 3, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 3, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 0, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 0 },
+    after: State([0, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 2 },
+    after: State([1, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 3 },
+    after: State([2, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 2]),
+    insn: Insn { opcode: 13, a: 2, b: 2, c: 3 },
+    after: State([2, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 1, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 1, 1, 0]),
+},
+
+SampleExecution {
+    before: State([0, 1, 3, 2]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 3, 2]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 3]),
+    insn: Insn { opcode: 8, a: 0, b: 1, c: 2 },
+    after: State([0, 3, 0, 3]),
+},
+
+SampleExecution {
+    before: State([2, 3, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 0 },
+    after: State([0, 3, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 0, 1, 1]),
+    insn: Insn { opcode: 8, a: 0, b: 2, c: 0 },
+    after: State([0, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 0 },
+    after: State([0, 1, 0, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 3, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 3 },
+    after: State([2, 3, 3, 3]),
+},
+
+SampleExecution {
+    before: State([0, 3, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 2 },
+    after: State([0, 3, 1, 1]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 1 },
+    after: State([1, 0, 2, 3]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 3 },
+    after: State([2, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 1, 1]),
+    insn: Insn { opcode: 0, a: 1, b: 0, c: 0 },
+    after: State([1, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 0, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 3 },
+    after: State([2, 3, 0, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 0]),
+    insn: Insn { opcode: 13, a: 2, b: 2, c: 0 },
+    after: State([1, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 2, 2, 3]),
+    insn: Insn { opcode: 13, a: 3, b: 2, c: 2 },
+    after: State([3, 2, 0, 3]),
+},
+
+SampleExecution {
+    before: State([2, 0, 2, 1]),
+    insn: Insn { opcode: 0, a: 2, b: 0, c: 2 },
+    after: State([2, 0, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 0]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 0 },
+    after: State([0, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([1, 2, 2, 1]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 3 },
+    after: State([1, 2, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 0, 1, 1]),
+    insn: Insn { opcode: 0, a: 3, b: 0, c: 0 },
+    after: State([1, 0, 1, 1]),
+},
+
+SampleExecution {
+    before: State([3, 1, 3, 3]),
+    insn: Insn { opcode: 0, a: 1, b: 0, c: 2 },
+    after: State([3, 1, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 1, 1, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 1 },
+    after: State([0, 0, 1, 3]),
+},
+
+SampleExecution {
+    before: State([0, 3, 3, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 1 },
+    after: State([0, 3, 3, 3]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 2]),
+    insn: Insn { opcode: 13, a: 2, b: 2, c: 3 },
+    after: State([3, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 3 },
+    after: State([1, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 2]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 0 },
+    after: State([1, 1, 3, 2]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 2]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 1 },
+    after: State([1, 2, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 2, 1, 1]),
+    insn: Insn { opcode: 11, a: 0, b: 1, c: 1 },
+    after: State([2, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([0, 0, 3, 1]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 1 },
+    after: State([0, 0, 3, 1]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 1 },
+    after: State([2, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 1, 0, 2]),
+    insn: Insn { opcode: 10, a: 1, b: 3, c: 3 },
+    after: State([0, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 2]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 3 },
+    after: State([3, 1, 2, 0]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 1]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 3 },
+    after: State([1, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([2, 1, 2, 2]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 1 },
+    after: State([2, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 3, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 3, 3]),
+    insn: Insn { opcode: 5, a: 3, b: 3, c: 3 },
+    after: State([2, 1, 3, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 3, 3]),
+    insn: Insn { opcode: 2, a: 1, b: 3, c: 0 },
+    after: State([0, 2, 3, 3]),
+},
+
+SampleExecution {
+    before: State([1, 1, 3, 2]),
+    insn: Insn { opcode: 15, a: 1, b: 0, c: 1 },
+    after: State([1, 1, 3, 2]),
+},
+
+SampleExecution {
+    before: State([2, 3, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 1 },
+    after: State([2, 1, 2, 1]),
+},
+
+SampleExecution {
+    before: State([1, 0, 2, 0]),
+    insn: Insn { opcode: 9, a: 0, b: 2, c: 2 },
+    after: State([1, 0, 0, 0]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 3]),
+    insn: Insn { opcode: 5, a: 2, b: 2, c: 1 },
+    after: State([3, 2, 2, 3]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 2]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 1 },
+    after: State([3, 0, 2, 2]),
+},
+
+SampleExecution {
+    before: State([0, 0, 2, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 3 },
+    after: State([0, 0, 2, 0]),
+},
+
+SampleExecution {
+    before: State([3, 3, 1, 3]),
+    insn: Insn { opcode: 2, a: 2, b: 3, c: 0 },
+    after: State([0, 3, 1, 3]),
+},
+
+SampleExecution {
+    before: State([2, 2, 2, 3]),
+    insn: Insn { opcode: 0, a: 2, b: 0, c: 1 },
+    after: State([2, 2, 2, 3]),
+},
+
+SampleExecution {
+    before: State([3, 1, 2, 1]),
+    insn: Insn { opcode: 0, a: 1, b: 0, c: 2 },
+    after: State([3, 1, 1, 1]),
+},
+
+SampleExecution {
+    before: State([3, 3, 2, 1]),
+    insn: Insn { opcode: 7, a: 3, b: 2, c: 0 },
+    after: State([1, 3, 2, 1]),
+},
+
+SampleExecution {
+    before: State([0, 1, 2, 0]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 2 },
+    after: State([0, 1, 0, 0]),
+},
+
+SampleExecution {
+    before: State([0, 0, 1, 0]),
+    insn: Insn { opcode: 14, a: 0, b: 0, c: 0 },
+    after: State([0, 0, 1, 0]),
+},
+
+SampleExecution {
+    before: State([0, 2, 2, 1]),
+    insn: Insn { opcode: 12, a: 2, b: 1, c: 3 },
+    after: State([0, 2, 2, 1]),
+},
+
+SampleExecution {
+    before: State([3, 2, 3, 1]),
+    insn: Insn { opcode: 6, a: 3, b: 3, c: 3 },
+    after: State([3, 2, 3, 0]),
+},
+
+SampleExecution {
+    before: State([1, 1, 2, 1]),
+    insn: Insn { opcode: 1, a: 1, b: 2, c: 2 },
+    after: State([1, 1, 0, 1]),
+},
+
+SampleExecution {
+    before: State([2, 3, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 3 },
+    after: State([2, 3, 1, 1]),
+},
+
+SampleExecution {
+    before: State([2, 2, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 1 },
+    after: State([2, 1, 1, 2]),
+},
+
+SampleExecution {
+    before: State([2, 1, 1, 2]),
+    insn: Insn { opcode: 4, a: 0, b: 3, c: 0 },
+    after: State([1, 1, 1, 2]),
+},
+];
+
+static SAMPLE_PROGRAM: &'static [Insn] = &[
+Insn { opcode: 9, a: 2, b: 0, c: 1 },
+Insn { opcode: 9, a: 0, b: 1, c: 0 },
+Insn { opcode: 9, a: 3, b: 0, c: 3 },
+Insn { opcode: 10, a: 3, b: 1, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 1, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 2, c: 1 },
+Insn { opcode: 9, a: 1, b: 3, c: 3 },
+Insn { opcode: 9, a: 1, b: 2, c: 0 },
+Insn { opcode: 9, a: 3, b: 0, c: 2 },
+Insn { opcode: 8, a: 3, b: 2, c: 3 },
+Insn { opcode: 8, a: 3, b: 1, c: 3 },
+Insn { opcode: 14, a: 3, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 3, c: 2 },
+Insn { opcode: 9, a: 1, b: 2, c: 3 },
+Insn { opcode: 8, a: 0, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 2, c: 0 },
+Insn { opcode: 8, a: 1, b: 0, c: 1 },
+Insn { opcode: 0, a: 1, b: 3, c: 1 },
+Insn { opcode: 15, a: 3, b: 0, c: 0 },
+Insn { opcode: 8, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 2, b: 0, c: 2 },
+Insn { opcode: 7, a: 2, b: 1, c: 1 },
+Insn { opcode: 9, a: 1, b: 2, c: 2 },
+Insn { opcode: 8, a: 0, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 3, c: 0 },
+Insn { opcode: 9, a: 0, b: 3, c: 3 },
+Insn { opcode: 1, a: 0, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 1, c: 2 },
+Insn { opcode: 14, a: 2, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 0, c: 2 },
+Insn { opcode: 8, a: 2, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 2, c: 3 },
+Insn { opcode: 9, a: 2, b: 1, c: 0 },
+Insn { opcode: 9, a: 3, b: 3, c: 1 },
+Insn { opcode: 4, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 3, c: 0 },
+Insn { opcode: 14, a: 0, b: 2, c: 2 },
+Insn { opcode: 9, a: 1, b: 1, c: 3 },
+Insn { opcode: 9, a: 1, b: 2, c: 1 },
+Insn { opcode: 9, a: 1, b: 0, c: 0 },
+Insn { opcode: 14, a: 1, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 1, c: 0 },
+Insn { opcode: 14, a: 0, b: 2, c: 2 },
+Insn { opcode: 9, a: 2, b: 1, c: 1 },
+Insn { opcode: 9, a: 2, b: 2, c: 0 },
+Insn { opcode: 6, a: 0, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 14, a: 1, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 2, c: 1 },
+Insn { opcode: 9, a: 1, b: 0, c: 0 },
+Insn { opcode: 8, a: 1, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 0, c: 3 },
+Insn { opcode: 9, a: 3, b: 0, c: 2 },
+Insn { opcode: 12, a: 3, b: 2, c: 0 },
+Insn { opcode: 8, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 1, c: 0 },
+Insn { opcode: 14, a: 0, b: 1, c: 1 },
+Insn { opcode: 9, a: 1, b: 2, c: 0 },
+Insn { opcode: 8, a: 3, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 1, c: 3 },
+Insn { opcode: 9, a: 0, b: 0, c: 2 },
+Insn { opcode: 8, a: 0, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 2, c: 2 },
+Insn { opcode: 14, a: 1, b: 2, c: 1 },
+Insn { opcode: 9, a: 2, b: 0, c: 0 },
+Insn { opcode: 8, a: 0, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 2, c: 2 },
+Insn { opcode: 6, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 1, c: 0 },
+Insn { opcode: 8, a: 0, b: 3, c: 0 },
+Insn { opcode: 14, a: 0, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 0, c: 3 },
+Insn { opcode: 9, a: 2, b: 3, c: 0 },
+Insn { opcode: 9, a: 3, b: 3, c: 2 },
+Insn { opcode: 9, a: 3, b: 0, c: 1 },
+Insn { opcode: 1, a: 1, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 2, c: 2 },
+Insn { opcode: 14, a: 3, b: 2, c: 3 },
+Insn { opcode: 7, a: 3, b: 3, c: 0 },
+Insn { opcode: 9, a: 0, b: 1, c: 2 },
+Insn { opcode: 9, a: 0, b: 1, c: 1 },
+Insn { opcode: 9, a: 3, b: 1, c: 3 },
+Insn { opcode: 1, a: 3, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 3, c: 2 },
+Insn { opcode: 14, a: 0, b: 2, c: 0 },
+Insn { opcode: 7, a: 0, b: 0, c: 3 },
+Insn { opcode: 9, a: 2, b: 2, c: 0 },
+Insn { opcode: 9, a: 1, b: 1, c: 1 },
+Insn { opcode: 9, a: 3, b: 2, c: 2 },
+Insn { opcode: 13, a: 0, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 14, a: 3, b: 1, c: 3 },
+Insn { opcode: 7, a: 3, b: 0, c: 1 },
+Insn { opcode: 9, a: 2, b: 2, c: 3 },
+Insn { opcode: 9, a: 0, b: 1, c: 2 },
+Insn { opcode: 12, a: 2, b: 3, c: 2 },
+Insn { opcode: 8, a: 2, b: 1, c: 2 },
+Insn { opcode: 14, a: 1, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 2, c: 2 },
+Insn { opcode: 9, a: 1, b: 2, c: 3 },
+Insn { opcode: 8, a: 2, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 1, c: 0 },
+Insn { opcode: 7, a: 0, b: 2, c: 0 },
+Insn { opcode: 8, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 1, b: 0, c: 1 },
+Insn { opcode: 7, a: 1, b: 0, c: 0 },
+Insn { opcode: 8, a: 3, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 1, c: 2 },
+Insn { opcode: 9, a: 1, b: 3, c: 1 },
+Insn { opcode: 14, a: 1, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 1, c: 3 },
+Insn { opcode: 8, a: 3, b: 3, c: 3 },
+Insn { opcode: 14, a: 0, b: 3, c: 0 },
+Insn { opcode: 9, a: 2, b: 1, c: 1 },
+Insn { opcode: 9, a: 0, b: 1, c: 3 },
+Insn { opcode: 9, a: 2, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 2, c: 3 },
+Insn { opcode: 8, a: 3, b: 3, c: 3 },
+Insn { opcode: 14, a: 0, b: 3, c: 0 },
+Insn { opcode: 7, a: 0, b: 2, c: 1 },
+Insn { opcode: 9, a: 1, b: 2, c: 3 },
+Insn { opcode: 9, a: 2, b: 1, c: 0 },
+Insn { opcode: 6, a: 0, b: 3, c: 2 },
+Insn { opcode: 8, a: 2, b: 3, c: 2 },
+Insn { opcode: 14, a: 1, b: 2, c: 1 },
+Insn { opcode: 7, a: 1, b: 2, c: 3 },
+Insn { opcode: 9, a: 1, b: 1, c: 0 },
+Insn { opcode: 9, a: 2, b: 1, c: 2 },
+Insn { opcode: 9, a: 3, b: 1, c: 1 },
+Insn { opcode: 0, a: 0, b: 1, c: 2 },
+Insn { opcode: 8, a: 2, b: 2, c: 2 },
+Insn { opcode: 14, a: 2, b: 3, c: 3 },
+Insn { opcode: 7, a: 3, b: 1, c: 0 },
+Insn { opcode: 9, a: 2, b: 1, c: 3 },
+Insn { opcode: 8, a: 0, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 3, c: 2 },
+Insn { opcode: 9, a: 0, b: 0, c: 1 },
+Insn { opcode: 9, a: 2, b: 1, c: 2 },
+Insn { opcode: 8, a: 2, b: 3, c: 2 },
+Insn { opcode: 8, a: 2, b: 3, c: 2 },
+Insn { opcode: 14, a: 0, b: 2, c: 0 },
+Insn { opcode: 7, a: 0, b: 1, c: 2 },
+Insn { opcode: 9, a: 1, b: 2, c: 3 },
+Insn { opcode: 9, a: 2, b: 3, c: 1 },
+Insn { opcode: 9, a: 3, b: 2, c: 0 },
+Insn { opcode: 10, a: 0, b: 1, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 2, b: 0, c: 2 },
+Insn { opcode: 7, a: 2, b: 0, c: 3 },
+Insn { opcode: 8, a: 2, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 3, c: 2 },
+Insn { opcode: 9, a: 2, b: 1, c: 0 },
+Insn { opcode: 8, a: 1, b: 0, c: 1 },
+Insn { opcode: 0, a: 1, b: 3, c: 1 },
+Insn { opcode: 10, a: 1, b: 0, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 14, a: 1, b: 3, c: 3 },
+Insn { opcode: 7, a: 3, b: 2, c: 0 },
+Insn { opcode: 9, a: 1, b: 0, c: 1 },
+Insn { opcode: 9, a: 1, b: 3, c: 3 },
+Insn { opcode: 9, a: 2, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 14, a: 1, b: 0, c: 0 },
+Insn { opcode: 7, a: 0, b: 3, c: 2 },
+Insn { opcode: 9, a: 2, b: 3, c: 0 },
+Insn { opcode: 9, a: 3, b: 0, c: 3 },
+Insn { opcode: 9, a: 2, b: 1, c: 1 },
+Insn { opcode: 10, a: 3, b: 0, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 14, a: 2, b: 1, c: 2 },
+Insn { opcode: 7, a: 2, b: 0, c: 0 },
+Insn { opcode: 9, a: 3, b: 0, c: 2 },
+Insn { opcode: 9, a: 3, b: 0, c: 1 },
+Insn { opcode: 9, a: 2, b: 1, c: 3 },
+Insn { opcode: 10, a: 1, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 2, c: 3 },
+Insn { opcode: 14, a: 3, b: 0, c: 0 },
+Insn { opcode: 7, a: 0, b: 0, c: 2 },
+Insn { opcode: 9, a: 1, b: 3, c: 3 },
+Insn { opcode: 9, a: 2, b: 0, c: 0 },
+Insn { opcode: 9, a: 1, b: 1, c: 1 },
+Insn { opcode: 6, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 1, c: 0 },
+Insn { opcode: 14, a: 0, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 0, c: 3 },
+Insn { opcode: 8, a: 2, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 1, c: 0 },
+Insn { opcode: 9, a: 2, b: 0, c: 2 },
+Insn { opcode: 9, a: 2, b: 3, c: 1 },
+Insn { opcode: 7, a: 0, b: 2, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 0, b: 3, c: 3 },
+Insn { opcode: 9, a: 3, b: 2, c: 1 },
+Insn { opcode: 9, a: 1, b: 0, c: 2 },
+Insn { opcode: 9, a: 1, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 1, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 3, b: 0, c: 3 },
+Insn { opcode: 7, a: 3, b: 3, c: 1 },
+Insn { opcode: 9, a: 2, b: 2, c: 3 },
+Insn { opcode: 9, a: 2, b: 0, c: 2 },
+Insn { opcode: 9, a: 1, b: 3, c: 0 },
+Insn { opcode: 7, a: 0, b: 2, c: 3 },
+Insn { opcode: 8, a: 3, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 2, c: 3 },
+Insn { opcode: 14, a: 1, b: 3, c: 1 },
+Insn { opcode: 9, a: 0, b: 3, c: 2 },
+Insn { opcode: 9, a: 3, b: 3, c: 3 },
+Insn { opcode: 8, a: 0, b: 2, c: 3 },
+Insn { opcode: 8, a: 3, b: 2, c: 3 },
+Insn { opcode: 8, a: 3, b: 2, c: 3 },
+Insn { opcode: 14, a: 3, b: 1, c: 1 },
+Insn { opcode: 8, a: 1, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 0, c: 0 },
+Insn { opcode: 9, a: 1, b: 3, c: 3 },
+Insn { opcode: 9, a: 3, b: 0, c: 2 },
+Insn { opcode: 8, a: 3, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 2, c: 2 },
+Insn { opcode: 14, a: 1, b: 2, c: 1 },
+Insn { opcode: 7, a: 1, b: 0, c: 2 },
+Insn { opcode: 9, a: 2, b: 0, c: 0 },
+Insn { opcode: 9, a: 0, b: 2, c: 1 },
+Insn { opcode: 9, a: 2, b: 1, c: 3 },
+Insn { opcode: 5, a: 0, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 1, c: 3 },
+Insn { opcode: 8, a: 3, b: 3, c: 3 },
+Insn { opcode: 14, a: 2, b: 3, c: 2 },
+Insn { opcode: 9, a: 1, b: 2, c: 3 },
+Insn { opcode: 9, a: 1, b: 0, c: 1 },
+Insn { opcode: 15, a: 3, b: 0, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 0, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 0, c: 0 },
+Insn { opcode: 9, a: 1, b: 2, c: 2 },
+Insn { opcode: 9, a: 2, b: 0, c: 3 },
+Insn { opcode: 15, a: 1, b: 3, c: 2 },
+Insn { opcode: 8, a: 2, b: 1, c: 2 },
+Insn { opcode: 14, a: 2, b: 0, c: 0 },
+Insn { opcode: 9, a: 0, b: 0, c: 3 },
+Insn { opcode: 8, a: 3, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 2, c: 2 },
+Insn { opcode: 9, a: 0, b: 1, c: 1 },
+Insn { opcode: 5, a: 2, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 14, a: 0, b: 1, c: 0 },
+Insn { opcode: 9, a: 3, b: 2, c: 2 },
+Insn { opcode: 9, a: 3, b: 0, c: 1 },
+Insn { opcode: 9, a: 2, b: 2, c: 3 },
+Insn { opcode: 1, a: 1, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 3, c: 2 },
+Insn { opcode: 14, a: 2, b: 0, c: 0 },
+Insn { opcode: 7, a: 0, b: 1, c: 3 },
+Insn { opcode: 9, a: 2, b: 3, c: 2 },
+Insn { opcode: 9, a: 2, b: 2, c: 0 },
+Insn { opcode: 11, a: 0, b: 1, c: 2 },
+Insn { opcode: 8, a: 2, b: 1, c: 2 },
+Insn { opcode: 14, a: 3, b: 2, c: 3 },
+Insn { opcode: 7, a: 3, b: 0, c: 1 },
+Insn { opcode: 9, a: 2, b: 3, c: 2 },
+Insn { opcode: 9, a: 1, b: 1, c: 0 },
+Insn { opcode: 9, a: 3, b: 3, c: 3 },
+Insn { opcode: 7, a: 0, b: 2, c: 3 },
+Insn { opcode: 8, a: 3, b: 1, c: 3 },
+Insn { opcode: 14, a: 1, b: 3, c: 1 },
+Insn { opcode: 9, a: 3, b: 3, c: 2 },
+Insn { opcode: 8, a: 1, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 2, c: 0 },
+Insn { opcode: 13, a: 0, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 2, c: 2 },
+Insn { opcode: 14, a: 1, b: 2, c: 1 },
+Insn { opcode: 9, a: 2, b: 2, c: 2 },
+Insn { opcode: 9, a: 1, b: 3, c: 3 },
+Insn { opcode: 6, a: 0, b: 3, c: 2 },
+Insn { opcode: 8, a: 2, b: 3, c: 2 },
+Insn { opcode: 14, a: 1, b: 2, c: 1 },
+Insn { opcode: 7, a: 1, b: 0, c: 2 },
+Insn { opcode: 9, a: 3, b: 3, c: 1 },
+Insn { opcode: 9, a: 1, b: 0, c: 0 },
+Insn { opcode: 0, a: 3, b: 1, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 14, a: 2, b: 1, c: 2 },
+Insn { opcode: 7, a: 2, b: 1, c: 1 },
+Insn { opcode: 9, a: 2, b: 1, c: 0 },
+Insn { opcode: 8, a: 3, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 3, c: 3 },
+Insn { opcode: 9, a: 3, b: 3, c: 2 },
+Insn { opcode: 3, a: 0, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 1, c: 2 },
+Insn { opcode: 8, a: 2, b: 1, c: 2 },
+Insn { opcode: 14, a: 2, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 1, c: 3 },
+Insn { opcode: 9, a: 0, b: 1, c: 1 },
+Insn { opcode: 6, a: 0, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 2, b: 1, c: 2 },
+Insn { opcode: 9, a: 0, b: 3, c: 1 },
+Insn { opcode: 9, a: 3, b: 2, c: 0 },
+Insn { opcode: 9, a: 2, b: 3, c: 3 },
+Insn { opcode: 10, a: 0, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 14, a: 2, b: 1, c: 2 },
+Insn { opcode: 7, a: 2, b: 3, c: 3 },
+Insn { opcode: 9, a: 0, b: 1, c: 2 },
+Insn { opcode: 9, a: 1, b: 0, c: 0 },
+Insn { opcode: 9, a: 3, b: 3, c: 1 },
+Insn { opcode: 8, a: 0, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 3, b: 1, c: 3 },
+Insn { opcode: 7, a: 3, b: 1, c: 2 },
+Insn { opcode: 9, a: 2, b: 0, c: 1 },
+Insn { opcode: 9, a: 0, b: 2, c: 3 },
+Insn { opcode: 9, a: 2, b: 3, c: 0 },
+Insn { opcode: 5, a: 1, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 1, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 0, c: 1 },
+Insn { opcode: 9, a: 3, b: 2, c: 0 },
+Insn { opcode: 8, a: 0, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 0, c: 2 },
+Insn { opcode: 9, a: 3, b: 2, c: 3 },
+Insn { opcode: 13, a: 2, b: 0, c: 0 },
+Insn { opcode: 8, a: 0, b: 3, c: 0 },
+Insn { opcode: 14, a: 1, b: 0, c: 1 },
+Insn { opcode: 8, a: 3, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 2, c: 2 },
+Insn { opcode: 8, a: 1, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 1, c: 0 },
+Insn { opcode: 7, a: 0, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 3, c: 2 },
+Insn { opcode: 8, a: 2, b: 1, c: 2 },
+Insn { opcode: 14, a: 1, b: 2, c: 1 },
+Insn { opcode: 7, a: 1, b: 2, c: 2 },
+Insn { opcode: 9, a: 0, b: 0, c: 3 },
+Insn { opcode: 8, a: 2, b: 0, c: 1 },
+Insn { opcode: 0, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 0, b: 0, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 2, b: 0, c: 2 },
+Insn { opcode: 7, a: 2, b: 3, c: 3 },
+Insn { opcode: 8, a: 2, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 0, c: 1 },
+Insn { opcode: 0, a: 1, b: 3, c: 1 },
+Insn { opcode: 9, a: 0, b: 0, c: 2 },
+Insn { opcode: 1, a: 0, b: 2, c: 0 },
+Insn { opcode: 8, a: 0, b: 1, c: 0 },
+Insn { opcode: 14, a: 0, b: 3, c: 3 },
+Insn { opcode: 7, a: 3, b: 2, c: 1 },
+Insn { opcode: 9, a: 1, b: 2, c: 3 },
+Insn { opcode: 9, a: 2, b: 1, c: 0 },
+Insn { opcode: 6, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 8, a: 0, b: 3, c: 0 },
+Insn { opcode: 14, a: 0, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 0, c: 3 },
+Insn { opcode: 9, a: 2, b: 0, c: 2 },
+Insn { opcode: 9, a: 1, b: 1, c: 0 },
+Insn { opcode: 8, a: 2, b: 0, c: 1 },
+Insn { opcode: 0, a: 1, b: 2, c: 1 },
+Insn { opcode: 7, a: 0, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 14, a: 3, b: 1, c: 3 },
+Insn { opcode: 9, a: 1, b: 1, c: 1 },
+Insn { opcode: 7, a: 0, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 1, b: 3, c: 3 },
+Insn { opcode: 7, a: 3, b: 3, c: 2 },
+Insn { opcode: 9, a: 2, b: 0, c: 3 },
+Insn { opcode: 9, a: 3, b: 1, c: 1 },
+Insn { opcode: 0, a: 0, b: 1, c: 0 },
+Insn { opcode: 8, a: 0, b: 1, c: 0 },
+Insn { opcode: 14, a: 2, b: 0, c: 2 },
+Insn { opcode: 7, a: 2, b: 0, c: 3 },
+Insn { opcode: 8, a: 0, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 1, c: 2 },
+Insn { opcode: 9, a: 2, b: 0, c: 0 },
+Insn { opcode: 1, a: 1, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 1, b: 3, c: 3 },
+Insn { opcode: 7, a: 3, b: 1, c: 2 },
+Insn { opcode: 9, a: 1, b: 2, c: 1 },
+Insn { opcode: 9, a: 2, b: 0, c: 3 },
+Insn { opcode: 15, a: 1, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 0, b: 2, c: 2 },
+Insn { opcode: 9, a: 3, b: 2, c: 3 },
+Insn { opcode: 9, a: 2, b: 0, c: 0 },
+Insn { opcode: 9, a: 3, b: 2, c: 1 },
+Insn { opcode: 11, a: 0, b: 1, c: 0 },
+Insn { opcode: 8, a: 0, b: 3, c: 0 },
+Insn { opcode: 14, a: 0, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 3, c: 3 },
+Insn { opcode: 9, a: 3, b: 1, c: 0 },
+Insn { opcode: 9, a: 3, b: 3, c: 2 },
+Insn { opcode: 9, a: 1, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 14, a: 3, b: 1, c: 3 },
+Insn { opcode: 7, a: 3, b: 0, c: 0 },
+Insn { opcode: 9, a: 2, b: 2, c: 2 },
+Insn { opcode: 8, a: 1, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 0, c: 3 },
+Insn { opcode: 9, a: 0, b: 2, c: 1 },
+Insn { opcode: 2, a: 3, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 1, b: 0, c: 0 },
+Insn { opcode: 7, a: 0, b: 0, c: 1 },
+Insn { opcode: 9, a: 2, b: 1, c: 0 },
+Insn { opcode: 9, a: 3, b: 2, c: 2 },
+Insn { opcode: 12, a: 3, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 3, c: 2 },
+Insn { opcode: 14, a: 2, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 0, c: 2 },
+Insn { opcode: 8, a: 0, b: 0, c: 1 },
+Insn { opcode: 0, a: 1, b: 3, c: 1 },
+Insn { opcode: 9, a: 2, b: 3, c: 3 },
+Insn { opcode: 10, a: 1, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 14, a: 1, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 2, c: 1 },
+Insn { opcode: 9, a: 1, b: 0, c: 2 },
+Insn { opcode: 5, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 1, c: 0 },
+Insn { opcode: 14, a: 0, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 3, c: 3 },
+Insn { opcode: 9, a: 3, b: 3, c: 2 },
+Insn { opcode: 9, a: 2, b: 0, c: 0 },
+Insn { opcode: 9, a: 3, b: 1, c: 1 },
+Insn { opcode: 13, a: 0, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 3, c: 2 },
+Insn { opcode: 8, a: 2, b: 1, c: 2 },
+Insn { opcode: 14, a: 3, b: 2, c: 3 },
+Insn { opcode: 9, a: 3, b: 3, c: 2 },
+Insn { opcode: 8, a: 2, b: 0, c: 1 },
+Insn { opcode: 0, a: 1, b: 0, c: 1 },
+Insn { opcode: 3, a: 0, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 14, a: 1, b: 3, c: 3 },
+Insn { opcode: 7, a: 3, b: 2, c: 1 },
+Insn { opcode: 9, a: 1, b: 3, c: 3 },
+Insn { opcode: 13, a: 0, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 2, c: 2 },
+Insn { opcode: 14, a: 2, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 2, c: 0 },
+Insn { opcode: 9, a: 2, b: 1, c: 3 },
+Insn { opcode: 9, a: 1, b: 0, c: 1 },
+Insn { opcode: 9, a: 2, b: 0, c: 2 },
+Insn { opcode: 5, a: 2, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 1, c: 3 },
+Insn { opcode: 14, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 1, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 2, c: 3 },
+Insn { opcode: 9, a: 3, b: 1, c: 1 },
+Insn { opcode: 10, a: 1, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 0, b: 1, c: 0 },
+Insn { opcode: 9, a: 3, b: 3, c: 1 },
+Insn { opcode: 9, a: 3, b: 2, c: 3 },
+Insn { opcode: 11, a: 2, b: 1, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 1, b: 0, c: 0 },
+Insn { opcode: 7, a: 0, b: 0, c: 1 },
+Insn { opcode: 9, a: 0, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 1, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 2, c: 3 },
+Insn { opcode: 13, a: 2, b: 0, c: 3 },
+Insn { opcode: 8, a: 3, b: 3, c: 3 },
+Insn { opcode: 14, a: 3, b: 1, c: 1 },
+Insn { opcode: 9, a: 1, b: 1, c: 2 },
+Insn { opcode: 8, a: 1, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 1, c: 3 },
+Insn { opcode: 14, a: 3, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 3, c: 3 },
+Insn { opcode: 14, a: 3, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 3, c: 3 },
+Insn { opcode: 9, a: 3, b: 0, c: 2 },
+Insn { opcode: 9, a: 1, b: 0, c: 1 },
+Insn { opcode: 9, a: 2, b: 1, c: 0 },
+Insn { opcode: 8, a: 0, b: 1, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 0, b: 3, c: 3 },
+Insn { opcode: 7, a: 3, b: 3, c: 2 },
+Insn { opcode: 8, a: 3, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 2, c: 0 },
+Insn { opcode: 8, a: 3, b: 0, c: 1 },
+Insn { opcode: 0, a: 1, b: 3, c: 1 },
+Insn { opcode: 9, a: 1, b: 1, c: 3 },
+Insn { opcode: 6, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 2, b: 0, c: 2 },
+Insn { opcode: 9, a: 1, b: 0, c: 1 },
+Insn { opcode: 9, a: 2, b: 1, c: 3 },
+Insn { opcode: 9, a: 0, b: 2, c: 0 },
+Insn { opcode: 15, a: 1, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 14, a: 2, b: 1, c: 2 },
+Insn { opcode: 7, a: 2, b: 3, c: 1 },
+Insn { opcode: 9, a: 1, b: 3, c: 0 },
+Insn { opcode: 9, a: 3, b: 1, c: 2 },
+Insn { opcode: 9, a: 0, b: 0, c: 3 },
+Insn { opcode: 12, a: 3, b: 2, c: 3 },
+Insn { opcode: 8, a: 3, b: 1, c: 3 },
+Insn { opcode: 14, a: 3, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 1, c: 2 },
+Insn { opcode: 9, a: 1, b: 1, c: 3 },
+Insn { opcode: 9, a: 2, b: 3, c: 0 },
+Insn { opcode: 9, a: 0, b: 1, c: 1 },
+Insn { opcode: 15, a: 3, b: 0, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 0, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 3, c: 0 },
+Insn { opcode: 8, a: 1, b: 0, c: 1 },
+Insn { opcode: 0, a: 1, b: 2, c: 1 },
+Insn { opcode: 9, a: 0, b: 2, c: 3 },
+Insn { opcode: 9, a: 2, b: 2, c: 2 },
+Insn { opcode: 2, a: 3, b: 2, c: 3 },
+Insn { opcode: 8, a: 3, b: 3, c: 3 },
+Insn { opcode: 14, a: 0, b: 3, c: 0 },
+Insn { opcode: 7, a: 0, b: 0, c: 2 },
+Insn { opcode: 9, a: 3, b: 3, c: 0 },
+Insn { opcode: 9, a: 2, b: 2, c: 3 },
+Insn { opcode: 3, a: 1, b: 0, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 1, b: 2, c: 2 },
+Insn { opcode: 9, a: 0, b: 1, c: 1 },
+Insn { opcode: 10, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 1, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 0, b: 2, c: 2 },
+Insn { opcode: 8, a: 3, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 2, c: 0 },
+Insn { opcode: 4, a: 0, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 3, c: 3 },
+Insn { opcode: 14, a: 3, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 1, c: 3 },
+Insn { opcode: 9, a: 3, b: 2, c: 1 },
+Insn { opcode: 9, a: 2, b: 0, c: 2 },
+Insn { opcode: 14, a: 3, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 14, a: 1, b: 0, c: 0 },
+Insn { opcode: 7, a: 0, b: 1, c: 2 },
+Insn { opcode: 9, a: 1, b: 0, c: 0 },
+Insn { opcode: 9, a: 2, b: 0, c: 3 },
+Insn { opcode: 9, a: 3, b: 0, c: 1 },
+Insn { opcode: 10, a: 1, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 2, c: 3 },
+Insn { opcode: 14, a: 2, b: 3, c: 2 },
+Insn { opcode: 7, a: 2, b: 2, c: 1 },
+Insn { opcode: 8, a: 3, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 0, c: 3 },
+Insn { opcode: 9, a: 2, b: 1, c: 2 },
+Insn { opcode: 8, a: 3, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 3, c: 0 },
+Insn { opcode: 11, a: 2, b: 0, c: 3 },
+Insn { opcode: 8, a: 3, b: 1, c: 3 },
+Insn { opcode: 8, a: 3, b: 1, c: 3 },
+Insn { opcode: 14, a: 1, b: 3, c: 1 },
+Insn { opcode: 9, a: 1, b: 0, c: 3 },
+Insn { opcode: 9, a: 3, b: 2, c: 2 },
+Insn { opcode: 9, a: 2, b: 0, c: 0 },
+Insn { opcode: 13, a: 0, b: 2, c: 3 },
+Insn { opcode: 8, a: 3, b: 2, c: 3 },
+Insn { opcode: 14, a: 3, b: 1, c: 1 },
+Insn { opcode: 8, a: 3, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 3, c: 3 },
+Insn { opcode: 8, a: 0, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 1, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 8, a: 0, b: 3, c: 0 },
+Insn { opcode: 14, a: 1, b: 0, c: 1 },
+Insn { opcode: 7, a: 1, b: 1, c: 3 },
+Insn { opcode: 9, a: 1, b: 3, c: 1 },
+Insn { opcode: 9, a: 2, b: 1, c: 0 },
+Insn { opcode: 13, a: 0, b: 2, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 3, b: 0, c: 3 },
+Insn { opcode: 7, a: 3, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 3, c: 3 },
+Insn { opcode: 9, a: 0, b: 2, c: 1 },
+Insn { opcode: 1, a: 3, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 2, c: 2 },
+Insn { opcode: 14, a: 2, b: 0, c: 0 },
+Insn { opcode: 9, a: 3, b: 2, c: 2 },
+Insn { opcode: 9, a: 3, b: 1, c: 1 },
+Insn { opcode: 1, a: 3, b: 2, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 1, b: 0, c: 0 },
+Insn { opcode: 7, a: 0, b: 2, c: 2 },
+Insn { opcode: 9, a: 3, b: 3, c: 1 },
+Insn { opcode: 9, a: 1, b: 2, c: 0 },
+Insn { opcode: 9, a: 1, b: 0, c: 3 },
+Insn { opcode: 0, a: 0, b: 1, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 14, a: 2, b: 1, c: 2 },
+Insn { opcode: 7, a: 2, b: 3, c: 1 },
+Insn { opcode: 8, a: 3, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 3, c: 2 },
+Insn { opcode: 8, a: 3, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 2, c: 0 },
+Insn { opcode: 9, a: 2, b: 1, c: 3 },
+Insn { opcode: 4, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 1, c: 0 },
+Insn { opcode: 14, a: 0, b: 1, c: 1 },
+Insn { opcode: 9, a: 3, b: 1, c: 3 },
+Insn { opcode: 9, a: 2, b: 3, c: 2 },
+Insn { opcode: 9, a: 2, b: 0, c: 0 },
+Insn { opcode: 10, a: 3, b: 0, c: 0 },
+Insn { opcode: 8, a: 0, b: 3, c: 0 },
+Insn { opcode: 14, a: 1, b: 0, c: 1 },
+Insn { opcode: 8, a: 0, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 0, c: 3 },
+Insn { opcode: 9, a: 1, b: 0, c: 0 },
+Insn { opcode: 7, a: 0, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 1, c: 2 },
+Insn { opcode: 14, a: 1, b: 2, c: 1 },
+Insn { opcode: 9, a: 3, b: 0, c: 0 },
+Insn { opcode: 8, a: 2, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 0, c: 2 },
+Insn { opcode: 13, a: 2, b: 0, c: 2 },
+Insn { opcode: 8, a: 2, b: 3, c: 2 },
+Insn { opcode: 14, a: 1, b: 2, c: 1 },
+Insn { opcode: 9, a: 3, b: 0, c: 2 },
+Insn { opcode: 9, a: 2, b: 2, c: 3 },
+Insn { opcode: 9, a: 2, b: 2, c: 0 },
+Insn { opcode: 3, a: 0, b: 2, c: 3 },
+Insn { opcode: 8, a: 3, b: 2, c: 3 },
+Insn { opcode: 14, a: 3, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 2, c: 2 },
+Insn { opcode: 9, a: 2, b: 0, c: 3 },
+Insn { opcode: 8, a: 1, b: 0, c: 1 },
+Insn { opcode: 0, a: 1, b: 1, c: 1 },
+Insn { opcode: 4, a: 0, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 1, c: 3 },
+Insn { opcode: 14, a: 3, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 2, c: 1 },
+Insn { opcode: 9, a: 3, b: 0, c: 0 },
+Insn { opcode: 8, a: 0, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 0, c: 2 },
+Insn { opcode: 9, a: 2, b: 1, c: 3 },
+Insn { opcode: 13, a: 2, b: 0, c: 2 },
+Insn { opcode: 8, a: 2, b: 3, c: 2 },
+Insn { opcode: 14, a: 1, b: 2, c: 1 },
+Insn { opcode: 7, a: 1, b: 1, c: 2 },
+Insn { opcode: 9, a: 0, b: 1, c: 1 },
+Insn { opcode: 9, a: 1, b: 0, c: 0 },
+Insn { opcode: 8, a: 3, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 3, c: 3 },
+Insn { opcode: 0, a: 0, b: 1, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 1, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 3, c: 1 },
+Insn { opcode: 9, a: 2, b: 3, c: 0 },
+Insn { opcode: 9, a: 2, b: 1, c: 3 },
+Insn { opcode: 9, a: 2, b: 0, c: 2 },
+Insn { opcode: 4, a: 0, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 3, c: 3 },
+Insn { opcode: 14, a: 1, b: 3, c: 1 },
+Insn { opcode: 9, a: 1, b: 1, c: 3 },
+Insn { opcode: 8, a: 1, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 0, c: 2 },
+Insn { opcode: 6, a: 0, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 3, c: 3 },
+Insn { opcode: 14, a: 3, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 1, c: 3 },
+Insn { opcode: 9, a: 1, b: 2, c: 0 },
+Insn { opcode: 9, a: 3, b: 0, c: 1 },
+Insn { opcode: 9, a: 3, b: 1, c: 2 },
+Insn { opcode: 0, a: 0, b: 1, c: 0 },
+Insn { opcode: 8, a: 0, b: 1, c: 0 },
+Insn { opcode: 14, a: 0, b: 3, c: 3 },
+Insn { opcode: 7, a: 3, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 1, c: 0 },
+Insn { opcode: 9, a: 2, b: 2, c: 3 },
+Insn { opcode: 9, a: 2, b: 0, c: 2 },
+Insn { opcode: 7, a: 0, b: 2, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 0, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 0, c: 2 },
+Insn { opcode: 9, a: 1, b: 0, c: 3 },
+Insn { opcode: 9, a: 2, b: 1, c: 1 },
+Insn { opcode: 9, a: 1, b: 1, c: 0 },
+Insn { opcode: 14, a: 0, b: 0, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 14, a: 1, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 1, c: 3 },
+Insn { opcode: 9, a: 2, b: 3, c: 0 },
+Insn { opcode: 9, a: 3, b: 1, c: 2 },
+Insn { opcode: 9, a: 2, b: 3, c: 1 },
+Insn { opcode: 13, a: 0, b: 2, c: 0 },
+Insn { opcode: 8, a: 0, b: 3, c: 0 },
+Insn { opcode: 14, a: 3, b: 0, c: 3 },
+Insn { opcode: 7, a: 3, b: 0, c: 2 },
+Insn { opcode: 9, a: 3, b: 1, c: 1 },
+Insn { opcode: 9, a: 1, b: 0, c: 3 },
+Insn { opcode: 9, a: 2, b: 2, c: 0 },
+Insn { opcode: 11, a: 0, b: 1, c: 3 },
+Insn { opcode: 8, a: 3, b: 1, c: 3 },
+Insn { opcode: 14, a: 2, b: 3, c: 2 },
+Insn { opcode: 7, a: 2, b: 2, c: 1 },
+Insn { opcode: 8, a: 2, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 1, c: 0 },
+Insn { opcode: 9, a: 2, b: 1, c: 2 },
+Insn { opcode: 9, a: 1, b: 3, c: 3 },
+Insn { opcode: 7, a: 0, b: 2, c: 3 },
+Insn { opcode: 8, a: 3, b: 3, c: 3 },
+Insn { opcode: 14, a: 3, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 2, c: 0 },
+Insn { opcode: 9, a: 0, b: 1, c: 3 },
+Insn { opcode: 9, a: 1, b: 1, c: 1 },
+Insn { opcode: 2, a: 3, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 1, c: 2 },
+Insn { opcode: 14, a: 2, b: 0, c: 0 },
+Insn { opcode: 7, a: 0, b: 3, c: 3 },
+Insn { opcode: 9, a: 3, b: 0, c: 1 },
+Insn { opcode: 9, a: 1, b: 3, c: 0 },
+Insn { opcode: 8, a: 3, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 2, c: 2 },
+Insn { opcode: 0, a: 0, b: 1, c: 1 },
+Insn { opcode: 8, a: 1, b: 2, c: 1 },
+Insn { opcode: 14, a: 1, b: 3, c: 3 },
+Insn { opcode: 7, a: 3, b: 1, c: 2 },
+Insn { opcode: 9, a: 2, b: 1, c: 1 },
+Insn { opcode: 9, a: 1, b: 2, c: 3 },
+Insn { opcode: 9, a: 2, b: 1, c: 0 },
+Insn { opcode: 6, a: 0, b: 3, c: 0 },
+Insn { opcode: 8, a: 0, b: 1, c: 0 },
+Insn { opcode: 8, a: 0, b: 3, c: 0 },
+Insn { opcode: 14, a: 0, b: 2, c: 2 },
+Insn { opcode: 9, a: 2, b: 1, c: 3 },
+Insn { opcode: 9, a: 1, b: 3, c: 1 },
+Insn { opcode: 9, a: 2, b: 1, c: 0 },
+Insn { opcode: 4, a: 0, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 3, c: 1 },
+Insn { opcode: 8, a: 1, b: 1, c: 1 },
+Insn { opcode: 14, a: 1, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 3, c: 1 },
+Insn { opcode: 9, a: 1, b: 3, c: 2 },
+Insn { opcode: 9, a: 3, b: 3, c: 0 },
+Insn { opcode: 9, a: 0, b: 2, c: 3 },
+Insn { opcode: 9, a: 2, b: 0, c: 2 },
+Insn { opcode: 8, a: 2, b: 1, c: 2 },
+Insn { opcode: 14, a: 2, b: 1, c: 1 },
+Insn { opcode: 9, a: 3, b: 2, c: 3 },
+Insn { opcode: 8, a: 1, b: 0, c: 2 },
+Insn { opcode: 0, a: 2, b: 0, c: 2 },
+Insn { opcode: 9, a: 2, b: 2, c: 0 },
+Insn { opcode: 10, a: 3, b: 0, c: 3 },
+Insn { opcode: 8, a: 3, b: 2, c: 3 },
+Insn { opcode: 14, a: 1, b: 3, c: 1 },
+Insn { opcode: 9, a: 0, b: 1, c: 3 },
+Insn { opcode: 9, a: 2, b: 1, c: 2 },
+Insn { opcode: 2, a: 3, b: 2, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 1, b: 0, c: 1 },
+Insn { opcode: 7, a: 1, b: 0, c: 3 },
+Insn { opcode: 9, a: 3, b: 0, c: 0 },
+Insn { opcode: 9, a: 0, b: 3, c: 1 },
+Insn { opcode: 11, a: 2, b: 0, c: 0 },
+Insn { opcode: 8, a: 0, b: 2, c: 0 },
+Insn { opcode: 14, a: 3, b: 0, c: 3 },
+Insn { opcode: 9, a: 3, b: 3, c: 2 },
+Insn { opcode: 9, a: 3, b: 2, c: 0 },
+Insn { opcode: 9, a: 2, b: 1, c: 1 },
+Insn { opcode: 1, a: 0, b: 2, c: 0 },
+Insn { opcode: 8, a: 0, b: 3, c: 0 },
+Insn { opcode: 14, a: 3, b: 0, c: 3 },
+Insn { opcode: 7, a: 3, b: 0, c: 2 },
+Insn { opcode: 8, a: 1, b: 0, c: 0 },
+Insn { opcode: 0, a: 0, b: 2, c: 0 },
+Insn { opcode: 9, a: 1, b: 0, c: 3 },
+Insn { opcode: 8, a: 0, b: 0, c: 1 },
+Insn { opcode: 0, a: 1, b: 0, c: 1 },
+Insn { opcode: 6, a: 0, b: 3, c: 3 },
+Insn { opcode: 8, a: 3, b: 2, c: 3 },
+Insn { opcode: 8, a: 3, b: 1, c: 3 },
+Insn { opcode: 14, a: 3, b: 2, c: 2 },
+Insn { opcode: 7, a: 2, b: 0, c: 3 },
+Insn { opcode: 9, a: 3, b: 2, c: 2 },
+Insn { opcode: 13, a: 0, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 1, c: 2 },
+Insn { opcode: 14, a: 3, b: 2, c: 3 },
+Insn { opcode: 7, a: 3, b: 3, c: 1 },
+Insn { opcode: 8, a: 0, b: 0, c: 3 },
+Insn { opcode: 0, a: 3, b: 1, c: 3 },
+Insn { opcode: 9, a: 3, b: 1, c: 0 },
+Insn { opcode: 9, a: 2, b: 0, c: 2 },
+Insn { opcode: 11, a: 2, b: 0, c: 3 },
+Insn { opcode: 8, a: 3, b: 1, c: 3 },
+Insn { opcode: 14, a: 3, b: 1, c: 1 },
+Insn { opcode: 9, a: 0, b: 1, c: 3 },
+Insn { opcode: 9, a: 0, b: 1, c: 0 },
+Insn { opcode: 2, a: 3, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 2, c: 2 },
+Insn { opcode: 14, a: 2, b: 1, c: 1 },
+Insn { opcode: 7, a: 1, b: 3, c: 3 },
+Insn { opcode: 9, a: 0, b: 2, c: 2 },
+Insn { opcode: 9, a: 3, b: 1, c: 1 },
+Insn { opcode: 1, a: 1, b: 2, c: 2 },
+Insn { opcode: 8, a: 2, b: 3, c: 2 },
+Insn { opcode: 14, a: 2, b: 3, c: 3 },
+Insn { opcode: 7, a: 3, b: 3, c: 0 },
+];
