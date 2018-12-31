@@ -5,10 +5,9 @@ extern crate ndarray;
 
 use aoc::astar::{astar, Edge};
 use aoc::bfs::breadth_first;
-use aoc::{first_run, select_iter};
+use aoc::{first_run, map_bounds, select_iter};
 use failure::Error;
 use ndarray::{Array2, Axis};
-use std::cmp::max;
 use std::fmt;
 use std::str::FromStr;
 
@@ -102,9 +101,7 @@ impl FromStr for Map {
             }
         }
 
-        let (width, height) = s.lines().fold((0, 0), |acc, line| {
-            (max(acc.0, map_and_hp(line).0.len()), acc.1 + 1)
-        });
+        let (height, width) = map_bounds(s.lines().map(|l| map_and_hp(l).0));
 
         let mut map = Array2::from_shape_fn((height, width), |_| Square::Empty);
         for (row, line) in s.lines().enumerate() {

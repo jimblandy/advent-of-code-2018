@@ -1,11 +1,13 @@
 extern crate ndarray;
 
 use ndarray::{Array2, Axis};
-use std::cmp::Ordering;
+use std::cmp::{max, min, Ordering};
+use std::ops::Range;
 
 pub mod astar;
 pub mod bfs;
 pub mod ring;
+pub mod unfold;
 
 pub trait IteratorExt: Iterator {
     fn unique_min_by_key<B, F>(self, f: F) -> Option<Self::Item>
@@ -134,11 +136,12 @@ pub fn edge_indexes2<E>(array: &Array2<E>) -> impl Iterator<Item = [usize; 2]> {
         .chain((0..width).map(move |c| [height - 1, c]))
 }
 
-pub fn cartesian_product<A, B>(a: A, b: B) -> impl Iterator<Item = (A::Item, B::Item)>
+pub fn cartesian_product<A, B>(a: A, b: B) -> impl Iterator<Item = (A::Item, B::Item)> + Clone
 where
     A: IntoIterator,
     B: IntoIterator,
     A::Item: Clone,
+    A::IntoIter: Clone,
     B::IntoIter: Clone,
 {
     let a = a.into_iter();
@@ -246,4 +249,41 @@ fn test_first_run() {
         .collect::<Vec<_>>(),
         vec![4, 5, 6]
     );
+}
+
+pub fn cover_ranges<Idx: Ord>(a: Range<Idx>, b: Range<Idx>) -> Range<Idx>
+{
+    min(a.start, b.start) .. max(a.end, b.end)
+}
+
+/// Given an iterable producing string slices representing rows of some sort of
+/// map, return the height and width of the map, as a pair `(rows, columns)`.
+pub fn map_bounds<'a, I>(lines: I) -> (usize, usize)
+where I: IntoIterator<Item=&'a str>
+{
+    lines
+        .into_iter()
+        .fold((0, 0), |(rows, columns), line| {
+            (rows + 1, max(columns, line.len()))
+        })
+}
+
+/// Given an iterable producing string slices representing rows of some sort of
+/// map, and whose iterator is clonable, return the map as an `Array2<char>`.
+/// Use `default` to pad shorter lines out to the full length.
+pub fn parse_map<'a, I>(lines: I, default: char) -> Array2<char>
+where I: IntoIterator<Item=&'a str>,
+      I::IntoIter: Clone
+
+{
+    let iter = lines.into_iter();
+    let mut map = Array2::from_elem(map_bounds(iter.clone()), default);
+
+    for (row, line) in iter.enumerate() {
+        for (col, ch) in line.chars().enumerate() {
+            map[[row, col]] = ch;
+        }
+    }
+
+    map
 }
