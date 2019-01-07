@@ -251,11 +251,6 @@ fn test_first_run() {
     );
 }
 
-pub fn cover_ranges<Idx: Ord>(a: Range<Idx>, b: Range<Idx>) -> Range<Idx>
-{
-    min(a.start, b.start) .. max(a.end, b.end)
-}
-
 /// Given an iterable producing string slices representing rows of some sort of
 /// map, return the height and width of the map, as a pair `(rows, columns)`.
 pub fn map_bounds<'a, I>(lines: I) -> (usize, usize)
@@ -286,4 +281,33 @@ where I: IntoIterator<Item=&'a str>,
     }
 
     map
+}
+
+pub fn union_ranges<Idx: Ord + Copy>(a: &Range<Idx>, b: &Range<Idx>) -> Range<Idx>
+{
+    min(a.start, b.start) .. max(a.end, b.end)
+}
+
+pub fn extend_range<Idx: Ord + Copy>(a: Range<Idx>, b:Idx) -> Range<Idx>
+{
+    min(a.start, b) .. max(a.end, b)
+}
+
+pub struct Cursor<'a>(std::iter::Peekable<std::str::Chars<'a>>);
+
+impl<'a> Cursor<'a> {
+    pub fn new(slice: &str) -> Cursor {
+        Cursor(slice.chars().peekable())
+    }
+
+    pub fn peek(&mut self) -> Option<char> {
+        self.0.peek().cloned()
+    }
+}
+
+impl<'a> Iterator for Cursor<'a> {
+    type Item = char;
+    fn next(&mut self) -> Option<char> {
+        self.0.next()
+    }
 }

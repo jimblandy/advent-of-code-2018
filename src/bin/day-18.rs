@@ -90,15 +90,6 @@ fn step_in_place(now: &mut Array2<char>, other: &mut Array2<char>) {
     std::mem::swap(now, other);
 }
 
-fn print(map: &Array2<char>) {
-    for row in 0..map.len_of(Axis(0)) {
-        for col in 0..map.len_of(Axis(1)) {
-            print!("{}", map[[row, col]]);
-        }
-        println!();
-    }
-}
-
 fn main() {
     let mut map = parse_map(INPUT.lines(), '.');
     let mut temp = map.clone();

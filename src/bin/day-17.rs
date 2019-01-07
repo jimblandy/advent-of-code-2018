@@ -7,7 +7,7 @@ extern crate failure;
 extern crate itertools;
 extern crate ndarray;
 
-use aoc::cover_ranges;
+use aoc::union_ranges;
 use failure::Error;
 use itertools::Itertools;
 use ndarray::{Array2, Axis};
@@ -242,8 +242,8 @@ fn main() -> Result<(), Error> {
         .iter()
         .cloned()
         .fold1(|a, b| Vein {
-            x: cover_ranges(a.x, b.x),
-            y: cover_ranges(a.y, b.y),
+            x: union_ranges(&a.x, &b.x),
+            y: union_ranges(&a.y, &b.y),
         })
         .expect("empty veins list?");
 
