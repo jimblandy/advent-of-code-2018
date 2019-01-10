@@ -1,0 +1,57 @@
+#ip 5
+ 0: seti 123 0 3        ;
+ 1: bani 3 456 3        ;
+ 2: eqri 3 72 3         ;
+ 3: addr 3 5 5          ;
+ 4: seti 0 0 5          ; if (123 & 456) != 72 jump 1 // iloop
+ 5: seti 0 9 3          ; r3 = 0
+
+; from 30
+ 6: bori 3 65536 1      ; r1 = r3 | 0x10000
+ 7: seti 9450265 6 3    ; r3 = 0x903319
+
+; from 27
+ 8: bani 1 255 4        ;
+ 9: addr 3 4 3          ;
+10: bani 3 16777215 3   ;
+11: muli 3 65899 3      ;
+12: bani 3 16777215 3   ; r3 = (((r3@9 + (r1 & 0xff)) & 0xffffff) * 0x1016b) & 0xffffff
+13: gtir 256 1 4        ;
+14: addr 4 5 5          ;
+15: addi 5 1 5          ;
+16: seti 27 1 5         ; if r1 < 256 { jump 28 }
+17: seti 0 9 4          ; r4 = 0                                ; for (r4 = 0; r4*256 + 256 <= r1; r4++) {}
+
+; from 25
+18: addi 4 1 2          ;
+19: muli 2 256 2        ;
+20: gtrr 2 1 2          ;
+21: addr 2 5 5          ;
+22: addi 5 1 5          ;
+23: seti 25 7 5         ; if ((r4 + 1) * 256) > r1 { jump 26 }
+24: addi 4 1 4          ; r4 = r4 + 1
+25: seti 17 5 5         ; jump 18
+
+; from 23
+26: setr 4 6 1          ; r1 = r4                               ; r1 = r1/256
+27: seti 7 8 5          ; jump 8
+
+; from 16
+28: eqrr 3 0 4          ;
+29: addr 4 5 5          ;
+30: seti 5 8 5          ; if r3 == r0 { exit } else { jump 6 }
+
+
+
+r3 = 0;
+loop {
+    r1 = r3 | 0x10000;
+    r3 = 0x903319;
+    loop {
+        r3 = (((r3 + (r1 & 0xff)) & 0xffffff) * 0x1016b) & 0xffffff;
+        if r1 < 256 {
+            break;
+        }
+        r1 = r1 / 256;
+    }
+}

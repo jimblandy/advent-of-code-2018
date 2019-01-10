@@ -2,10 +2,12 @@ extern crate ndarray;
 
 use ndarray::{Array2, Axis};
 use std::cmp::{max, min, Ordering};
-use std::ops::Range;
+use std::ops::{Add, Range, Sub};
 
 pub mod astar;
+pub mod astar_weighted;
 pub mod bfs;
+pub mod machine;
 pub mod ring;
 pub mod unfold;
 
@@ -310,4 +312,20 @@ impl<'a> Iterator for Cursor<'a> {
     fn next(&mut self) -> Option<char> {
         self.0.next()
     }
+}
+
+pub fn manhattan<T>(a: (T, T), b: (T, T)) -> T
+where T: PartialOrd + Add<Output=T> + Sub<Output=T>
+{
+    fn manhattan1<T>(a: T, b: T) -> T
+    where T: PartialOrd + Add<Output=T> + Sub<Output=T>
+    {
+        if a >= b {
+            a - b
+        } else {
+            b - a
+        }
+    }
+
+    manhattan1(a.0, b.0) + manhattan1(a.1, b.1)
 }

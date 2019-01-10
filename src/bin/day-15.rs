@@ -3,9 +3,9 @@ extern crate advent_of_code_2018 as aoc;
 extern crate failure;
 extern crate ndarray;
 
+use aoc::{first_run, manhattan, map_bounds, select_iter};
 use aoc::astar::{astar, Edge};
 use aoc::bfs::breadth_first;
-use aoc::{first_run, map_bounds, select_iter};
 use failure::Error;
 use ndarray::{Array2, Axis};
 use std::fmt;
@@ -45,18 +45,6 @@ impl std::ops::Index<Tribe> for Params {
 }
 
 static INPUT: &str = include_str!("day-15.input");
-
-fn manhattan(a: Point, b: Point) -> usize {
-    fn manhattan1(a: usize, b: usize) -> usize {
-        if a >= b {
-            a - b
-        } else {
-            b - a
-        }
-    }
-
-    manhattan1(a.0, b.0) + manhattan1(a.1, b.1)
-}
 
 impl Square {
     fn new_unit(tribe: Tribe) -> Square {

@@ -8,7 +8,9 @@
 ///
 /// For example:
 ///
-///     let mut fib = unfold((0, 1), |(a, b)| Some(((b, a+b), b)));
+///     # extern crate advent_of_code_2018 as aoc;
+///     # use aoc::unfold::unfold;
+///     let fib = unfold((0, 1), |(a, b)| Some(((b, a+b), b)));
 ///     assert_eq!(fib.take(5).collect::<Vec<_>>(), vec![1,1,2,3,5]);
 pub fn unfold<T, U, F>(initial: T, step: F) -> impl Iterator<Item=U>
     where F: FnMut(T) -> Option<(T, U)>
@@ -41,7 +43,7 @@ impl<T, U, F> Iterator for Unfolder<F, T>
 
 #[test]
 fn test_unfold() {
-     let mut fib = unfold((0, 1), |(a, b)| Some(((b, a+b), b)));
+     let fib = unfold((0, 1), |(a, b)| Some(((b, a+b), b)));
      assert_eq!(fib.take(10).collect::<Vec<_>>(),
                 vec![1,1,2,3,5,8,13,21,34,55]);
 }

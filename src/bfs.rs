@@ -6,6 +6,8 @@ use std::hash::Hash;
 /// target, and `path_length` is the total length of the path from the starting
 /// node to `to` (that is, including this edge).
 ///
+/// All edges are assumed to have equal cost.
+///
 /// Because the traversal is breadth-first, edges are produced in order of
 /// nondecreasing `path_length`. Eventually, every edge of the graph is
 /// produced.
