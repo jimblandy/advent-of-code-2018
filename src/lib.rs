@@ -318,18 +318,35 @@ impl<'a> Iterator for Cursor<'a> {
     }
 }
 
-pub fn manhattan<T>(a: (T, T), b: (T, T)) -> T
+pub fn manhattan<T>(a: T, b: T) -> T
 where T: PartialOrd + Add<Output=T> + Sub<Output=T>
 {
-    fn manhattan1<T>(a: T, b: T) -> T
-    where T: PartialOrd + Add<Output=T> + Sub<Output=T>
-    {
-        if a >= b {
-            a - b
-        } else {
-            b - a
-        }
+    if a >= b {
+        a - b
+    } else {
+        b - a
     }
+}
 
-    manhattan1(a.0, b.0) + manhattan1(a.1, b.1)
+pub trait Manhattan {
+    type Output;
+    fn manhattan(self, b: Self) -> Self::Output;
+}
+
+impl<T> Manhattan for (T, T)
+where T: PartialOrd + Add<Output=T> + Sub<Output=T>
+{
+    type Output = T;
+    fn manhattan(self, b: (T, T)) -> T {
+        manhattan(self.0, b.0) + manhattan(self.1, b.1)
+    }
+}
+
+impl<T> Manhattan for (T, T, T)
+where T: PartialOrd + Add<Output=T> + Sub<Output=T>
+{
+    type Output = T;
+    fn manhattan(self, b: (T, T, T)) -> T {
+        manhattan(self.0, b.0) + manhattan(self.1, b.1) + manhattan(self.2, b.2)
+    }
 }

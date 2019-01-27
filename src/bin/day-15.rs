@@ -3,7 +3,7 @@ extern crate advent_of_code_2018 as aoc;
 extern crate failure;
 extern crate ndarray;
 
-use aoc::{first_run, manhattan, map_bounds, select_iter};
+use aoc::{first_run, Manhattan, map_bounds, select_iter};
 use aoc::astar::{astar, Edge};
 use aoc::bfs::breadth_first;
 use failure::Error;
@@ -299,7 +299,7 @@ impl Map {
         let paths_back = astar(chosen, |from| {
             self.neighbors(*from)
                 .filter(|to| self.0[*to] == Square::Empty || *to == unit)
-                .map(|n| (n, manhattan(n, unit)))
+                .map(|n| (n, n.manhattan(unit)))
         });
 
         // Limit the traversal to edges along the shortest paths arriving at the unit.

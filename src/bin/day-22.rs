@@ -3,7 +3,7 @@
 extern crate advent_of_code_2018 as aoc;
 extern crate ndarray;
 
-use aoc::manhattan;
+use aoc::Manhattan;
 use aoc::astar_weighted::astar_weighted;
 use ndarray::{Array2, Axis};
 use std::collections::HashMap;
@@ -160,7 +160,7 @@ impl RescueState {
             .filter(|&pos| Region::from(erosion_level(gi[pos], depth)).is_compatible(self.equipped))
             .map(|position| (RescueState { position, ..*self },
                              1,
-                             manhattan(position, goal)));
+                             position.manhattan(goal)));
 
         let mut neighbors = Vec::from_iter(adjacents);
 
@@ -169,7 +169,7 @@ impl RescueState {
             if equipped != self.equipped {
                 neighbors.push((RescueState { equipped, ..*self },
                                 7,
-                                manhattan(self.position, goal)));
+                                self.position.manhattan(goal)));
             }
         }
 
