@@ -10,10 +10,10 @@ use std::collections::HashMap;
 use std::fmt;
 use std::iter::{FromIterator, unfold};
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 struct GeologicIndex(usize);
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 struct ErosionLevel(usize);
 
 type Map = Array2<GeologicIndex>;
@@ -67,12 +67,12 @@ fn risk_level(gi: &Map, depth: usize, target: Point) -> usize {
 #[test]
 fn test_erosion_level() {
     let gi = geologic_index((10, 10), 510, (10,10));
-    assert_eq!(erosion_level(gi[(0,0)], 510), 510);
-    assert_eq!(erosion_level(gi[(1,0)], 510), 17317);
-    assert_eq!(erosion_level(gi[(0,1)], 510), 8415);
-    assert_eq!(gi[[1,1]], 145722555 % MODULUS);
-    assert_eq!(erosion_level(gi[(1,1)], 510), 1805);
-    assert_eq!(erosion_level(gi[(10,10)], 510), 510);
+    assert_eq!(erosion_level(gi[(0,0)], 510), ErosionLevel(510));
+    assert_eq!(erosion_level(gi[(1,0)], 510), ErosionLevel(17317));
+    assert_eq!(erosion_level(gi[(0,1)], 510), ErosionLevel(8415));
+    assert_eq!(gi[[1,1]], GeologicIndex(145722555 % MODULUS));
+    assert_eq!(erosion_level(gi[(1,1)], 510), ErosionLevel(1805));
+    assert_eq!(erosion_level(gi[(10,10)], 510), ErosionLevel(510));
     assert_eq!(risk_level(&gi, 510, (10,10)), 114);
 }
 
@@ -186,6 +186,7 @@ fn test_rescue_state() {
                      [2, 2, 0],   // narrow, narrow, rocky
                      [1, 1, 0],   // wet, wet, goal (rocky)
                      [0, 0, 0]]);
+    let map = map.map(|&i| GeologicIndex(i));
     let state = RescueState { position: (0,0), equipped: Equipage::Torch };
     assert_eq!(state.neighbors(&map, 0, (2,2)),
                vec![(RescueState { position: (1,0), equipped: Equipage::Torch }, 1, 3),
