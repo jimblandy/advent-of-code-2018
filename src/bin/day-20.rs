@@ -226,6 +226,7 @@ fn run_delta_bounds(run: &Run) -> (Delta, DeltaBounds) {
 }
 
 impl Concat {
+    #[allow(dead_code)]
     fn num_matches(&self) -> usize {
         self.head.iter().map(|(_, alt)| alt.num_matches()).product()
     }
@@ -254,6 +255,7 @@ impl Concat {
 }
 
 impl Alt {
+    #[allow(dead_code)]
     fn num_matches(&self) -> usize {
         self.alternatives.iter().map(Concat::num_matches).sum()
     }
