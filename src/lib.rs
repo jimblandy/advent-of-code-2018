@@ -1,3 +1,5 @@
+#![feature(range_is_empty)]
+
 extern crate ndarray;
 
 use ndarray::{Array2, Axis};
@@ -7,6 +9,8 @@ use std::ops::{Add, Range, Sub};
 pub mod astar;
 pub mod astar_weighted;
 pub mod bfs;
+pub mod enclose;
+pub mod intersection;
 pub mod machine;
 pub mod ring;
 pub mod unfold;
