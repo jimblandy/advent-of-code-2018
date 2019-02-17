@@ -8,7 +8,7 @@ use aoc::astar_weighted::astar_weighted;
 use ndarray::{Array2, Axis};
 use std::collections::HashMap;
 use std::fmt;
-use std::iter::{FromIterator, unfold};
+use std::iter::{FromIterator, from_fn};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 struct GeologicIndex(usize);
@@ -143,7 +143,8 @@ impl RescueState {
     fn neighbors(&self, gi: &Map, depth: usize, goal: Point) -> Vec<(RescueState, usize, usize)> {
 
         // Compute adjacent states that are moves.
-        let adjacents = unfold((1,0), |state| { *state = (-state.1, state.0); Some(*state) })
+        let mut state = (1,0);
+        let adjacents = from_fn(|| { state = (-state.1, state.0); Some(state) })
             .take(4)
             .filter_map(|(dx, dy)| {
                 let (x,y) = self.position;

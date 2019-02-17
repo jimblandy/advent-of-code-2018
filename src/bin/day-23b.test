@@ -1,0 +1,8 @@
+[
+Nanobot { pos: (10,12,12), radius: 2 },
+Nanobot { pos: (12,14,12), radius: 2 },
+Nanobot { pos: (16,12,12), radius: 4 },
+Nanobot { pos: (14,14,14), radius: 6 },
+Nanobot { pos: (50,50,50), radius: 200 },
+Nanobot { pos: (10,10,10), radius: 5 },
+]
