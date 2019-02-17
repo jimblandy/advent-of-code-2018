@@ -1,18 +1,9 @@
 #![feature(euclidean_division)]
 
 extern crate advent_of_code_2018 as aoc;
-#[macro_use]
-extern crate lazy_static;
 
-use std::borrow::Cow;
-use std::cell::RefCell;
 use std::cmp::{max, min};
-use std::collections::{HashMap, HashSet};
-use std::collections::hash_map::Entry;
-use std::hash::Hash;
 use std::iter::FromIterator;
-use std::rc::Rc;
-use std::sync::{atomic, Mutex};
 
 type Point=(isize, isize, isize);
 
@@ -274,10 +265,8 @@ impl OctaSection {
         OctaSection::from_bounds(&enclosure)
     }
 
-    fn outset(&mut self, delta: isize) {
-        for elt in &mut self.0 {
-            *elt += delta;
-        }
+    fn shortest_distance_to_origin(&self) -> isize {
+        self.0.iter().map(|&b| -min(b, 0)).max().unwrap()
     }
 }
 
@@ -310,205 +299,18 @@ fn test_octasection() {
     assert_eq!(OctaSection::intersection(&OctaSection::from_center_radius((0,0,0), 1),
                                          &OctaSection::from_center_radius((1,1,0), 1)),
                OctaSection::from_bounds(&[1,1,1,1,1,1,-1,-1]));
+
+    assert_eq!(OctaSection::from_center_radius((0,0,0), 10).shortest_distance_to_origin(), 0);
+    assert_eq!(OctaSection::from_center_radius((10,0,0), 5).shortest_distance_to_origin(), 5);
+    assert_eq!(OctaSection::from_center_radius((10,1,0), 5).shortest_distance_to_origin(), 6);
+    assert_eq!(OctaSection::from_center_radius((10,1,2), 5).shortest_distance_to_origin(), 8);
+    assert_eq!(OctaSection::from_center_radius((10,5,0), 5).shortest_distance_to_origin(), 10);
+    assert_eq!(OctaSection::from_center_radius((-10,5,0), 5).shortest_distance_to_origin(), 10);
+    assert_eq!(OctaSection::from_center_radius((10,-5,0), 5).shortest_distance_to_origin(), 10);
+    assert_eq!(OctaSection::from_center_radius((-10,-5,0), 5).shortest_distance_to_origin(), 10);
 }
 
-static NEXT_ID: atomic::AtomicUsize = atomic::AtomicUsize::new(0);
-
-fn generate_id() -> usize {
-    NEXT_ID.fetch_add(1, atomic::Ordering::SeqCst)
-}
-
-struct LatticeNode {
-    /// The extent of this lattice node, a strict subset of each of its parents'
-    /// extents.
-    extent: OctaSection,
-
-    /// The number of nanobots whose range is exactly `extent`.
-    bots: usize,
-
-    /// All nodes in the lattice whose extents are strict subsets of `extent`,
-    /// but not of any other node in this vector.
-    ///
-    /// It follows that no child contains any other child. If some child1 would
-    /// be fully contained within some other child2, then child1 should be a
-    /// descendant of child2, not a direct child of this node.
-    children: Vec<Rc<RefCell<LatticeNode>>>,
-
-    /// Unique identifier for this node.
-    id: usize,
-}
-
-impl LatticeNode {
-    fn make_enclosing<I: IntoIterator<Item=OctaSection>>(iter: I) -> LatticeNode {
-        let enclosure = iter.into_iter().fold(OctaSection::empty(), |e, i| {
-            e.enclosure(&i)
-        });
-
-        LatticeNode {
-            extent: enclosure,
-            bots: 0,
-            children: vec![],
-            id: generate_id(),
-        }
-    }
-
-    fn from_intersection(extent: OctaSection) -> LatticeNode {
-        LatticeNode {
-            extent,
-            bots: 0,
-            children: vec![],
-            id: generate_id(),
-        }
-    }
-
-    fn outset(&mut self, delta: isize) {
-        self.extent.outset(delta);
-    }
-
-    fn insert(&mut self, mut new: LatticeNode) -> Rc<RefCell<LatticeNode>> {
-        // If this node encloses us, this method shouldn't have been called. We
-        // checked that it's not equal to us above, so it must be a subset.
-        assert!(self.extent != new.extent &&
-                self.extent.intersection(&new.extent) == new.extent);
-
-        let mut no_overlap = vec![];
-        let mut partial_overlap = vec![];
-        let mut contained_by_new = vec![];
-        let mut contains_new = None;
-        for child in self.children.drain(..) {
-            let child_extent = child.borrow().extent.clone();
-            let int = child_extent.intersection(&new.extent);
-
-            if int.is_empty() {
-                no_overlap.push(child);
-            } else if int == new.extent {
-                if contains_new.is_none() {
-                    contains_new = Some(child);
-                } else {
-                    partial_overlap.push(child);
-                }
-            } else if int == child_extent {
-                contained_by_new.push(child);
-            } else {
-                partial_overlap.push(child);
-            }
-        }
-
-        self.children.extend(no_overlap);
-        new.children = contained_by_new;
-
-        if let Some(container) = contains_new {
-            let result;
-            if container.borrow().extent == new.extent {
-                // The new node is exactly equal to container. Merge the two
-                // nodes. Intersections between `new` and other children are
-                // covered by their existing intersections with `container`.
-                container.borrow_mut().bots += new.bots;
-                result = container.clone();
-            } else {
-                // `new` is a strict subset of `container`. Recurse.
-                result = container.borrow_mut().insert(new);
-            }
-
-            // The container remains this node's child.
-            self.children.push(container);
-
-            // We actually don't need to do anything with the `partial_overlap`
-            // list. Let `child2` be any element of `partial_overlap`. Since
-            // `new ⊆ container`, it follows that `new ∩ child2 ⊆ container`,
-            // and hence `new ∩ child2 ⊆ container ∩ child2`. Since `new ∩
-            // child2` is non-empty, `container ∩ child2` must be non-empty too.
-            // Thus, `container` and `child2` must already have a common
-            // descendant representing their intersection. Some direct child of
-            // `container` must enclose that intersection, so if we recursively
-            // insert `new` into `child`, `new ∩ child2` will end up being a
-            // descendant of `child2` as well. (If new == container, then
-            // `container ∩ child2` is already a descendant of `child2`.) So we
-            // don't need to do any work for `partial_overlap`, beyond making
-            // sure they remain our children.
-            self.children.extend(partial_overlap);
-
-            return result;
-        }
-
-        // Add child nodes for all the partial overlaps. (We don't do this
-        // earlier, because we can skip this if `new` is fully contained by some
-        // other child.)
-        for overlap in &mut partial_overlap {
-            let int = overlap.borrow().extent.intersection(&new.extent);
-            /*
-            int.set_label(format!("({} ∩ {})",
-                                  overlap.borrow().extent.get_label(),
-                                  new.extent.get_label()));
-            */
-            let int_node = LatticeNode::from_intersection(int);
-            let int_node = overlap.borrow_mut().insert(int_node);
-            new.children.push(int_node);
-        }
-
-        // Put them back in the list.
-        self.children.extend(partial_overlap);
-
-        // The new node is a sibling to the other children.
-        let new = Rc::new(RefCell::new(new));
-        self.children.push(new.clone());
-        return new;
-    }
-
-    fn traverse<F>(&self, visitor: &mut F)
-        where F: FnMut(&LatticeNode, usize, bool)
-    {
-        fn visit<F>(node: &LatticeNode, visited: &mut HashSet<usize>, visitor: &mut F, depth: usize)
-            where F: FnMut(&LatticeNode, usize, bool)
-        {
-            let first = visited.insert(node.id);
-            visitor(node, depth, first);
-            if !first {
-                return;
-            }
-
-            let depth = depth + 1;
-            for child in &node.children {
-                visit(&*child.borrow(), visited, visitor, depth);
-            }
-        }
-
-        let mut visited = HashSet::new();
-        visit(self, &mut visited, visitor, 0);
-    }
-}
-
-trait Labeled: 'static + Clone + Eq + Hash {
-    fn table() -> &'static Mutex<HashMap<Self, String>>;
-
-    fn set_label(&self, label: String) {
-        let mut lock = Self::table().lock().expect("locking label table for set");
-        match lock.entry(self.clone()) {
-            Entry::Occupied(mut o) => {
-                let combined = format!("{}, {}", o.get(), label);
-                o.insert(combined);
-            }
-            Entry::Vacant(v) => { v.insert(label); }
-        }
-    }
-
-    fn get_label(&self) -> Cow<'static, str> {
-        let lock = Self::table().lock().expect("locking label table for get");
-        lock.get(self).map_or(Cow::Borrowed("<unlabeled>"), |l| Cow::Owned(l.to_owned()))
-    }
-}
-
-lazy_static! {
-    static ref OCTASECTION_LABELS: Mutex<HashMap<OctaSection, String>>
-        = Mutex::new(HashMap::new());
-}
-
-impl Labeled for OctaSection {
-    fn table() -> &'static Mutex<HashMap<OctaSection, String>> {
-        &OCTASECTION_LABELS
-    }
-}
-
+#[allow(unused_variables)]
 fn main() {
     let bots =
         Vec::from_iter(
@@ -516,43 +318,40 @@ fn main() {
                 .iter()
                 .map(|bot| OctaSection::from_center_radius(bot.pos, bot.radius)));
 
-    for (i, bot) in bots.iter().enumerate() {
-        bot.set_label(format!("b{}", i));
+    let enclosure = bots.iter().fold(OctaSection::empty(), |e, b| e.enclosure(b));
+
+    let mut index_overlaps: Vec<(usize, usize)> = bots
+        .iter()
+        .enumerate()
+        .map(|(i, bot_i)| {
+            let overlaps = bots
+                .iter()
+                .enumerate()
+                .filter(|(j, bot_j)| *j != i && !bot_i.intersection(bot_j).is_empty())
+                .count();
+            (i, overlaps)
+        })
+        .collect();
+    index_overlaps.sort_by_key(|(i, overlaps)| *overlaps);
+
+    for &(i, overlaps) in &index_overlaps {
+        println!("bot {} overlaps {} other bots", i, overlaps);
     }
 
-    for i in 0..min(bots.len(), 8) {
-        print!("{}:", i);
-        for j in 0..i {
-            if !bots[i].intersection(&bots[j]).is_empty() {
-                print!(" {}", j);
-            }
-        }
-        println!();
-    }
-
-    let mut universe = LatticeNode::make_enclosing(bots.iter().cloned());
-    universe.outset(1);
-    universe.extent.set_label("universe".to_owned());
-
-    for (i, bot) in bots.into_iter().enumerate() {
-        eprintln!("Inserting bot {:?}", i);
-        universe.insert(LatticeNode::from_intersection(bot));
-    }
-
-
-        let mut unique = HashSet::new();
-        universe.traverse(&mut |node, depth, first| {
-            /*
-            println!("{:indent$}{}{}: {}", "", node.id,
-                     if first { "" } else { "*" },
-                     node.extent.get_label(),
-                     indent = depth * 4);
-            */
-            if first {
-                assert!(unique.insert(node.extent.clone()))
-            }
+    const START: usize = 30;
+    let intersection = index_overlaps[START..]
+        .iter()
+        .fold(enclosure.clone(), |int, &(i, _)| {
+            int.intersection(&bots[i])
         });
-        println!("{} unique nodes", unique.len());
-        println!();
 
+    if intersection.is_empty() {
+        println!("Bots from {} onwards have no intersection.", START);
+    } else {
+        println!("Bots from {} onwards have a non-empty intersection.", START);
+    }
+
+    println!("Intersection: {:?}", intersection);
+    println!("Shortest distance from origin to point in intersection: {}",
+             intersection.shortest_distance_to_origin());
 }
