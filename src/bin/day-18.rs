@@ -12,25 +12,24 @@ static INPUT: &str = include_str!("day-18.input");
 type Point = (usize, usize);
 
 fn neighborhood(p: Point, bounds: Point) -> impl Iterator<Item = Point> + Clone {
-    cartesian_product(-1 ..= 1, -1 ..= 1)
-        .filter_map(move |(dx, dy)| {
-            if dx == 0 && dy == 0 {
-                return None;
-            }
-            let x = p.0 as isize + dx;
-            let y = p.1 as isize + dy;
-            if x < 0 || y < 0 {
-                return None;
-            }
-            let x = x as usize;
-            let y = y as usize;
+    cartesian_product(-1..=1, -1..=1).filter_map(move |(dx, dy)| {
+        if dx == 0 && dy == 0 {
+            return None;
+        }
+        let x = p.0 as isize + dx;
+        let y = p.1 as isize + dy;
+        if x < 0 || y < 0 {
+            return None;
+        }
+        let x = x as usize;
+        let y = y as usize;
 
-            if x >= bounds.0 || y >= bounds.1 {
-                return None;
-            }
+        if x >= bounds.0 || y >= bounds.1 {
+            return None;
+        }
 
-            Some((x, y))
-        })
+        Some((x, y))
+    })
 }
 
 #[derive(Debug, Default)]
@@ -46,7 +45,7 @@ impl Census {
             '.' => self.open += 1,
             '|' => self.wooded += 1,
             '#' => self.lumberyard += 1,
-            _ => panic!("unexpected character {:?} in map", ch)
+            _ => panic!("unexpected character {:?} in map", ch),
         }
     }
 }
@@ -78,7 +77,12 @@ fn step(prev: &Array2<char>, next: &mut Array2<char>) {
             next[p] = match (prev[p], neighborhood_census(prev, p)) {
                 ('.', Census { wooded, .. }) if wooded >= 3 => '|',
                 ('|', Census { lumberyard, .. }) if lumberyard >= 3 => '#',
-                ('#', Census { lumberyard, wooded, .. }) if lumberyard == 0 || wooded == 0 => '.',
+                (
+                    '#',
+                    Census {
+                        lumberyard, wooded, ..
+                    },
+                ) if lumberyard == 0 || wooded == 0 => '.',
                 _ => prev[p],
             };
         }
@@ -128,7 +132,7 @@ fn main() {
     let additional = 1_000_000_000 - slow_gen;
     let just_as_good_additional = additional % period;
 
-    for _ in 0.. just_as_good_additional {
+    for _ in 0..just_as_good_additional {
         step_in_place(&mut slow_map, &mut slow_map_temp);
     }
 

@@ -58,12 +58,12 @@ fn display(map: &Array2<char>, bounds: &Vein) -> Result<(), Error> {
 impl FromStr for Vein {
     type Err = Error;
     fn from_str(s: &str) -> Result<Vein, Error> {
-        let comma = s.find(',')
+        let comma = s
+            .find(',')
             .ok_or_else(|| format_err!("missing comma in vein: {:?}", s))?;
         let eq1 = s[..comma].trim();
-        let eq2 = s[comma + 1 ..].trim();
-        if eq1.len() < 2 || &eq1[1..2] != "=" ||
-            eq2.len() < 2 || &eq2[1..2] != "=" {
+        let eq2 = s[comma + 1..].trim();
+        if eq1.len() < 2 || &eq1[1..2] != "=" || eq2.len() < 2 || &eq2[1..2] != "=" {
             return Err(format_err!("missing '=' in vein: {:?}", s));
         }
         let (xeq, yeq) = match (&eq1[..1], &eq2[..1]) {
@@ -76,7 +76,7 @@ impl FromStr for Vein {
             match s.find("..") {
                 Some(range) => Ok(Range {
                     start: usize::from_str(&s[..range])?,
-                    end: usize::from_str(&s[range + 2 ..])? + 1,
+                    end: usize::from_str(&s[range + 2..])? + 1,
                 }),
                 None => {
                     let val = usize::from_str(s)?;
@@ -228,7 +228,7 @@ fn horizontal(map: &mut Array2<char>, bounds: &Vein, p: Point) {
         r.1 += 1;
     }
 
-    for c in (l.1+1)..r.1 {
+    for c in (l.1 + 1)..r.1 {
         map[[p.0, c]] = if infinite { '~' } else { '-' };
     }
 }
@@ -260,7 +260,7 @@ fn main() -> Result<(), Error> {
     }
 
     //display(&map, &bounds)?;
-    vertical(&mut map, &bounds, (1,  500));
+    vertical(&mut map, &bounds, (1, 500));
     println!();
     //display(&map, &bounds)?;
 
@@ -278,7 +278,7 @@ fn main() -> Result<(), Error> {
     let mut retained = 0;
     for r in bounds.y.clone() {
         for c in bounds.x.clone() {
-            if map[[r,c]] == '-' {
+            if map[[r, c]] == '-' {
                 retained += 1;
             }
         }

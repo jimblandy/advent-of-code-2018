@@ -5,7 +5,7 @@ extern crate advent_of_code_2018 as aoc;
 use std::cmp::{max, min};
 use std::iter::FromIterator;
 
-type Point=(isize, isize, isize);
+type Point = (isize, isize, isize);
 
 #[derive(Debug)]
 struct Nanobot {
@@ -26,9 +26,7 @@ fn mul(a: Point, b: Point) -> Point {
 
 /// Dot product of two `Point`s.
 fn dot(a: Point, b: Point) -> isize {
-    (a.0 * b.0 +
-     a.1 * b.1 +
-     a.2 * b.2)
+    (a.0 * b.0 + a.1 * b.1 + a.2 * b.2)
 }
 
 /// An 'orthant' is a `Point` whose components are all either `1` or `-1`. We
@@ -52,9 +50,7 @@ fn orthant(orthant: usize) -> Point {
         panic!("Not a 3d orthant number: {}", orthant);
     }
 
-    let flag_to_sign = |bit| {
-        1 - 2 * (orthant & bit != 0) as isize
-    };
+    let flag_to_sign = |bit| 1 - 2 * (orthant & bit != 0) as isize;
 
     (flag_to_sign(4), flag_to_sign(2), flag_to_sign(1))
 }
@@ -186,10 +182,14 @@ impl OctaSection {
             // actually pull the division by two out to the very end, and
             // compute the double of each coordinate of the intersection for
             // now.
-            let intersection = mul(orthant(face),
-                                   (bounds[face ^ 0b010] + bounds[face ^ 0b001],
-                                    bounds[face ^ 0b100] + bounds[face ^ 0b001],
-                                    bounds[face ^ 0b100] + bounds[face ^ 0b010]));
+            let intersection = mul(
+                orthant(face),
+                (
+                    bounds[face ^ 0b010] + bounds[face ^ 0b001],
+                    bounds[face ^ 0b100] + bounds[face ^ 0b001],
+                    bounds[face ^ 0b100] + bounds[face ^ 0b010],
+                ),
+            );
 
             // Now find the `b` value for the plane parallel to `face` that
             // contains `intersection`. Now we can divide, rounding towards +∞,
@@ -270,6 +270,7 @@ impl OctaSection {
     }
 }
 
+#[rustfmt::skip]
 #[test]
 fn test_octasection() {
     assert_eq!(OctaSection::from_center_radius((0, 0, 0), 1).0, [1, 1, 1, 1, 1, 1, 1, 1]);
@@ -312,13 +313,15 @@ fn test_octasection() {
 
 #[allow(unused_variables)]
 fn main() {
-    let bots =
-        Vec::from_iter(
-            INPUT
-                .iter()
-                .map(|bot| OctaSection::from_center_radius(bot.pos, bot.radius)));
+    let bots = Vec::from_iter(
+        INPUT
+            .iter()
+            .map(|bot| OctaSection::from_center_radius(bot.pos, bot.radius)),
+    );
 
-    let enclosure = bots.iter().fold(OctaSection::empty(), |e, b| e.enclosure(b));
+    let enclosure = bots
+        .iter()
+        .fold(OctaSection::empty(), |e, b| e.enclosure(b));
 
     let mut index_overlaps: Vec<(usize, usize)> = bots
         .iter()
@@ -341,9 +344,7 @@ fn main() {
     const START: usize = 30;
     let intersection = index_overlaps[START..]
         .iter()
-        .fold(enclosure.clone(), |int, &(i, _)| {
-            int.intersection(&bots[i])
-        });
+        .fold(enclosure.clone(), |int, &(i, _)| int.intersection(&bots[i]));
 
     if intersection.is_empty() {
         println!("Bots from {} onwards have no intersection.", START);
@@ -352,6 +353,8 @@ fn main() {
     }
 
     println!("Intersection: {:?}", intersection);
-    println!("Shortest distance from origin to point in intersection: {}",
-             intersection.shortest_distance_to_origin());
+    println!(
+        "Shortest distance from origin to point in intersection: {}",
+        intersection.shortest_distance_to_origin()
+    );
 }

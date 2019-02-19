@@ -7,7 +7,7 @@ struct Insn {
     opcode: u8,
     a: u8,
     b: u8,
-    c: u8
+    c: u8,
 }
 
 struct SampleExecution {
@@ -54,11 +54,19 @@ mod ops {
     }
 
     pub fn gt(a: Word, b: Word) -> Word {
-        if a > b { 1 } else { 0 }
+        if a > b {
+            1
+        } else {
+            0
+        }
     }
 
     pub fn eq(a: Word, b: Word) -> Word {
-        if a == b { 1 } else { 0 }
+        if a == b {
+            1
+        } else {
+            0
+        }
     }
 
     pub fn set(a: Word, _b: Word) -> Word {
@@ -72,7 +80,8 @@ mod formats {
     pub struct RR<S>(pub S);
 
     impl<S> Semantic for RR<S>
-    where S: Fn(Word, Word) -> Word
+    where
+        S: Fn(Word, Word) -> Word,
     {
         fn step(&self, insn: &Insn, state: &mut State) {
             let value = self.0(state.get(insn.a), state.get(insn.b));
@@ -83,7 +92,8 @@ mod formats {
     pub struct RI<S>(pub S);
 
     impl<S> Semantic for RI<S>
-    where S: Fn(Word, Word) -> Word
+    where
+        S: Fn(Word, Word) -> Word,
     {
         fn step(&self, insn: &Insn, state: &mut State) {
             let value = self.0(state.get(insn.a), insn.b as Word);
@@ -94,7 +104,8 @@ mod formats {
     pub struct IR<S>(pub S);
 
     impl<S> Semantic for IR<S>
-    where S: Fn(Word, Word) -> Word
+    where
+        S: Fn(Word, Word) -> Word,
     {
         fn step(&self, insn: &Insn, state: &mut State) {
             let value = self.0(insn.a as Word, state.get(insn.b));
@@ -105,8 +116,8 @@ mod formats {
 
 macro_rules! insn {
     ($name:ident : $op:ident $format:ident) => {
-        ( stringify!($name), Box::new(formats::$format(ops::$op)) )
-    }
+        (stringify!($name), Box::new(formats::$format(ops::$op)))
+    };
 }
 
 fn all_semantics() -> Vec<(&'static str, Box<dyn Semantic>)> {
@@ -115,15 +126,12 @@ fn all_semantics() -> Vec<(&'static str, Box<dyn Semantic>)> {
         insn!(muli: mul RI),
         insn!(bani: ban RI),
         insn!(bori: bor RI),
-
         insn!(addr: add RR),
         insn!(mulr: mul RR),
         insn!(banr: ban RR),
         insn!(borr: bor RR),
-
         insn!(seti: set IR),
         insn!(setr: set RR),
-
         insn!(gtir: gt IR),
         insn!(gtri: gt RI),
         insn!(gtrr: gt RR),
@@ -141,12 +149,17 @@ impl SampleExecution {
     }
 }
 
-fn main () {
+fn main() {
     let semantics = all_semantics();
 
     let example = SampleExecution {
         before: State([3, 2, 1, 1]),
-        insn: Insn { opcode: 9, a: 2, b: 1, c: 2 },
+        insn: Insn {
+            opcode: 9,
+            a: 2,
+            b: 1,
+            c: 2,
+        },
         after: State([3, 2, 2, 1]),
     };
 
@@ -162,10 +175,14 @@ fn main () {
         if semantics
             .iter()
             .filter(|(_name, sem)| execution.behaves_like(sem))
-            .count() >= 3
+            .count()
+            >= 3
         {
             count += 1;
-            println!("Sample execution #{} behaves like three or more instructions:", i);
+            println!(
+                "Sample execution #{} behaves like three or more instructions:",
+                i
+            );
             for name in semantics
                 .iter()
                 .filter(|(_name, sem)| execution.behaves_like(sem))
@@ -176,8 +193,10 @@ fn main () {
         }
     }
 
-    println!("In total, {} samples behave like three or or more opcodes.",
-             count);
+    println!(
+        "In total, {} samples behave like three or or more opcodes.",
+        count
+    );
 
     let mut possible = all_semantics()
         .into_iter()
@@ -211,7 +230,11 @@ fn main () {
         let op = {
             let (_name, _sem, opcodes, count) = &mut possible[sem_ix];
             assert_eq!(*count, 1);
-            let mut ops = opcodes.iter().enumerate().filter(|(_i, f)| **f).map(|(i, _f)| i);
+            let mut ops = opcodes
+                .iter()
+                .enumerate()
+                .filter(|(_i, f)| **f)
+                .map(|(i, _f)| i);
             let op = ops.next().expect("wait, count was at least 1");
             assert!(ops.next().is_none());
             op
@@ -235,7 +258,11 @@ fn main () {
         .into_iter()
         .map(|(name, sem, opcodes, count)| {
             assert_eq!(count, 1);
-            let mut ops = opcodes.iter().enumerate().filter(|(_i, f)| **f).map(|(i, _f)| i);
+            let mut ops = opcodes
+                .iter()
+                .enumerate()
+                .filter(|(_i, f)| **f)
+                .map(|(i, _f)| i);
             let op = ops.next().expect("wait, count was 1");
             assert!(ops.next().is_none());
             (name, sem, op)
@@ -246,7 +273,8 @@ fn main () {
 
     // Build a table mapping opcodes to names and semantics.
     assert_eq!(possible.len(), 16); // map is complete
-    let map = possible.into_iter()
+    let map = possible
+        .into_iter()
         .scan(0, |state, (name, sem, op)| {
             assert_eq!(op, *state);
             *state += 1;

@@ -3,12 +3,12 @@
 extern crate advent_of_code_2018 as aoc;
 extern crate ndarray;
 
-use aoc::Manhattan;
 use aoc::astar_weighted::astar_weighted;
+use aoc::Manhattan;
 use ndarray::{Array2, Axis};
 use std::collections::HashMap;
 use std::fmt;
-use std::iter::{FromIterator, from_fn};
+use std::iter::{from_fn, FromIterator};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 struct GeologicIndex(usize);
@@ -27,9 +27,8 @@ enum Region {
 }
 
 const DEPTH: usize = 3066;
-const TARGET: Point = (13,726);
+const TARGET: Point = (13, 726);
 const MODULUS: usize = 20183;
-
 
 fn geologic_index(size: Point, depth: usize, target: Point) -> Map {
     let mut index = Map::from_elem((size.0 + 1, size.1 + 1), GeologicIndex(0));
@@ -41,9 +40,11 @@ fn geologic_index(size: Point, depth: usize, target: Point) -> Map {
     }
     for x in 1..=size.0 {
         for y in 1..=size.1 {
-            index[[x, y]] = GeologicIndex((erosion_level(index[[x-1, y]], depth).0 *
-                                           erosion_level(index[[x, y-1]], depth).0) %
-                                          MODULUS);
+            index[[x, y]] = GeologicIndex(
+                (erosion_level(index[[x - 1, y]], depth).0
+                    * erosion_level(index[[x, y - 1]], depth).0)
+                    % MODULUS,
+            );
         }
     }
     index[target] = GeologicIndex(0);
@@ -66,14 +67,14 @@ fn risk_level(gi: &Map, depth: usize, target: Point) -> usize {
 
 #[test]
 fn test_erosion_level() {
-    let gi = geologic_index((10, 10), 510, (10,10));
-    assert_eq!(erosion_level(gi[(0,0)], 510), ErosionLevel(510));
-    assert_eq!(erosion_level(gi[(1,0)], 510), ErosionLevel(17317));
-    assert_eq!(erosion_level(gi[(0,1)], 510), ErosionLevel(8415));
-    assert_eq!(gi[[1,1]], GeologicIndex(145722555 % MODULUS));
-    assert_eq!(erosion_level(gi[(1,1)], 510), ErosionLevel(1805));
-    assert_eq!(erosion_level(gi[(10,10)], 510), ErosionLevel(510));
-    assert_eq!(risk_level(&gi, 510, (10,10)), 114);
+    let gi = geologic_index((10, 10), 510, (10, 10));
+    assert_eq!(erosion_level(gi[(0, 0)], 510), ErosionLevel(510));
+    assert_eq!(erosion_level(gi[(1, 0)], 510), ErosionLevel(17317));
+    assert_eq!(erosion_level(gi[(0, 1)], 510), ErosionLevel(8415));
+    assert_eq!(gi[[1, 1]], GeologicIndex(145722555 % MODULUS));
+    assert_eq!(erosion_level(gi[(1, 1)], 510), ErosionLevel(1805));
+    assert_eq!(erosion_level(gi[(10, 10)], 510), ErosionLevel(510));
+    assert_eq!(risk_level(&gi, 510, (10, 10)), 114);
 }
 
 impl From<ErosionLevel> for Region {
@@ -112,11 +113,15 @@ impl Region {
 
 impl fmt::Display for Region {
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-        write!(f, "{}", match self {
-            Region::Rocky => '.',
-            Region::Wet => '=',
-            Region::Narrow => '|',
-        })
+        write!(
+            f,
+            "{}",
+            match self {
+                Region::Rocky => '.',
+                Region::Wet => '=',
+                Region::Narrow => '|',
+            }
+        )
     }
 }
 
@@ -141,36 +146,47 @@ struct RescueState {
 
 impl RescueState {
     fn neighbors(&self, gi: &Map, depth: usize, goal: Point) -> Vec<(RescueState, usize, usize)> {
-
         // Compute adjacent states that are moves.
-        let mut state = (1,0);
-        let adjacents = from_fn(|| { state = (-state.1, state.0); Some(state) })
-            .take(4)
-            .filter_map(|(dx, dy)| {
-                let (x,y) = self.position;
-                if x as isize + dx < 0 || y as isize + dy < 0 {
-                    return None;
-                }
-                if x as isize + dx >= gi.len_of(Axis(0)) as isize ||
-                   y as isize + dy >= gi.len_of(Axis(1)) as isize
-                {
-                    panic!("Considered regions beyond limits of map: neighbor of {:?}", (x, y));
-                }
-                Some(((x as isize + dx) as usize, (y as isize + dy) as usize))
-            })
-            .filter(|&pos| Region::from(erosion_level(gi[pos], depth)).is_compatible(self.equipped))
-            .map(|position| (RescueState { position, ..*self },
-                             1,
-                             position.manhattan(goal)));
+        let mut state = (1, 0);
+        let adjacents = from_fn(|| {
+            state = (-state.1, state.0);
+            Some(state)
+        })
+        .take(4)
+        .filter_map(|(dx, dy)| {
+            let (x, y) = self.position;
+            if x as isize + dx < 0 || y as isize + dy < 0 {
+                return None;
+            }
+            if x as isize + dx >= gi.len_of(Axis(0)) as isize
+                || y as isize + dy >= gi.len_of(Axis(1)) as isize
+            {
+                panic!(
+                    "Considered regions beyond limits of map: neighbor of {:?}",
+                    (x, y)
+                );
+            }
+            Some(((x as isize + dx) as usize, (y as isize + dy) as usize))
+        })
+        .filter(|&pos| Region::from(erosion_level(gi[pos], depth)).is_compatible(self.equipped))
+        .map(|position| {
+            (
+                RescueState { position, ..*self },
+                1,
+                position.manhattan(goal),
+            )
+        });
 
         let mut neighbors = Vec::from_iter(adjacents);
 
         // Add adjacent states that are equipment changes.
         for &equipped in &Region::from(erosion_level(gi[self.position], depth)).all_compatible() {
             if equipped != self.equipped {
-                neighbors.push((RescueState { equipped, ..*self },
-                                7,
-                                self.position.manhattan(goal)));
+                neighbors.push((
+                    RescueState { equipped, ..*self },
+                    7,
+                    self.position.manhattan(goal),
+                ));
             }
         }
 
@@ -178,15 +194,17 @@ impl RescueState {
     }
 }
 
-
+#[rustfmt::skip]
 #[test]
 fn test_rescue_state() {
     use ndarray::arr2;
 
-    let map = arr2(&[[0, 1, 2],   // rocky, wet, narrow
-                     [2, 2, 0],   // narrow, narrow, rocky
-                     [1, 1, 0],   // wet, wet, goal (rocky)
-                     [0, 0, 0]]);
+    let map = arr2(&[
+        [0, 1, 2], // rocky, wet, narrow
+        [2, 2, 0], // narrow, narrow, rocky
+        [1, 1, 0], // wet, wet, goal (rocky)
+        [0, 0, 0],
+    ]);
     let map = map.map(|&i| GeologicIndex(i));
     let state = RescueState { position: (0,0), equipped: Equipage::Torch };
     assert_eq!(state.neighbors(&map, 0, (2,2)),
@@ -227,22 +245,31 @@ fn print_fastest_path(gi: &Map, depth: usize, target: Point) {
     println!("Risk level: {}", risk_level(&gi, depth, target));
 
     let mut back = HashMap::new();
-    let ending_state = astar_weighted(RescueState { position: (0,0), equipped: Equipage::Torch },
-                                      |state| state.neighbors(&gi, depth, target).into_iter())
-        .inspect(|edge| {
-            //eprintln!("Considering: {:?}", edge);
-            back.entry(edge.to.clone()).or_insert(edge.from.clone());
-        })
-        .filter(|edge| edge.to.position == target && edge.to.equipped == Equipage::Torch)
-        .next()
-        .unwrap();
+    let ending_state = astar_weighted(
+        RescueState {
+            position: (0, 0),
+            equipped: Equipage::Torch,
+        },
+        |state| state.neighbors(&gi, depth, target).into_iter(),
+    )
+    .inspect(|edge| {
+        //eprintln!("Considering: {:?}", edge);
+        back.entry(edge.to.clone()).or_insert(edge.from.clone());
+    })
+    .filter(|edge| edge.to.position == target && edge.to.equipped == Equipage::Torch)
+    .next()
+    .unwrap();
 
     println!("Ending state: {:?}", ending_state);
     println!("Backtrace:");
     let mut state = ending_state.to.clone();
     loop {
-        println!("    {:?}, ({})", state, Region::from(erosion_level(gi[state.position], depth)));
-        if state.position == (0,0) {
+        println!(
+            "    {:?}, ({})",
+            state,
+            Region::from(erosion_level(gi[state.position], depth))
+        );
+        if state.position == (0, 0) {
             break;
         }
         if let Some(prev) = back.get(&state) {

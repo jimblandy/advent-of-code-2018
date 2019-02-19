@@ -1,5 +1,5 @@
-use std::cmp::{min, max};
-use std::ops::{Range, RangeInclusive, RangeFrom, RangeTo, RangeToInclusive, RangeFull};
+use std::cmp::{max, min};
+use std::ops::{Range, RangeFrom, RangeFull, RangeInclusive, RangeTo, RangeToInclusive};
 
 pub trait Intersection<Right> {
     type Output;

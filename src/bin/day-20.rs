@@ -5,8 +5,8 @@ extern crate advent_of_code_2018 as aoc;
 extern crate failure;
 extern crate ndarray;
 
-use aoc::{cartesian_product, union_ranges, Cursor};
 use aoc::bfs::breadth_first;
+use aoc::{cartesian_product, union_ranges, Cursor};
 use failure::Error;
 use ndarray::{Array2, ArrayView1};
 use std::collections::HashSet;
@@ -27,7 +27,7 @@ struct Concat {
 
 #[derive(Debug, Eq, PartialEq)]
 struct Alt {
-    alternatives: Vec<Concat>
+    alternatives: Vec<Concat>,
 }
 
 type Run = Vec<Dir>;
@@ -65,10 +65,10 @@ struct Summary {
 impl Summary {
     fn initial() -> Summary {
         let mut deltas = DeltaSet::new();
-        deltas.insert((0,0));
+        deltas.insert((0, 0));
         Summary {
             bounds: (0..1, 0..1),
-            deltas
+            deltas,
         }
     }
 
@@ -76,20 +76,17 @@ impl Summary {
         let (delta, bounds) = run_delta_bounds(run);
         let mut deltas = DeltaSet::new();
         deltas.insert(delta);
-        Summary {
-            bounds,
-            deltas,
-        }
+        Summary { bounds, deltas }
     }
 
     fn concat(&self, right: &Summary) -> Summary {
         let summary = Summary {
-            bounds: self.deltas
-                .iter()
-                .fold(self.bounds.clone(),
-                      |acc, &delta| union_bounds(&acc, &shift_bounds(&right.bounds, delta))),
-            deltas: DeltaSet::from_iter(cartesian_product(&self.deltas, &right.deltas)
-                                        .map(|(a, b)| concat_deltas(a, b))),
+            bounds: self.deltas.iter().fold(self.bounds.clone(), |acc, &delta| {
+                union_bounds(&acc, &shift_bounds(&right.bounds, delta))
+            }),
+            deltas: DeltaSet::from_iter(
+                cartesian_product(&self.deltas, &right.deltas).map(|(a, b)| concat_deltas(a, b)),
+            ),
         };
         //eprintln!("  Concat of {:?}", self);
         //eprintln!("  with      {:?}", right);
@@ -118,10 +115,10 @@ impl Dir {
 impl From<Dir> for Delta {
     fn from(dir: Dir) -> Delta {
         match dir {
-            Dir::North => (-1,  0),
-            Dir::South => ( 1,  0),
-            Dir::East => ( 0,  1),
-            Dir::West => ( 0, -1),
+            Dir::North => (-1, 0),
+            Dir::South => (1, 0),
+            Dir::East => (0, 1),
+            Dir::West => (0, -1),
         }
     }
 }
@@ -160,8 +157,8 @@ impl DirSet {
         match dir {
             Dir::North => 0b0001,
             Dir::South => 0b0010,
-            Dir::East  => 0b0100,
-            Dir::West  => 0b1000,
+            Dir::East => 0b0100,
+            Dir::West => 0b1000,
         }
     }
 
@@ -189,8 +186,7 @@ impl Iterator for DirSet {
 }
 
 fn apply_delta(a: Point, b: Delta) -> Point {
-    ((a.0 as isize + b.0) as usize,
-     (a.1 as isize + b.1) as usize)
+    ((a.0 as isize + b.0) as usize, (a.1 as isize + b.1) as usize)
 }
 
 fn concat_deltas(a: &Delta, b: &Delta) -> Delta {
@@ -198,8 +194,7 @@ fn concat_deltas(a: &Delta, b: &Delta) -> Delta {
 }
 
 fn union_bounds(a: &DeltaBounds, b: &DeltaBounds) -> DeltaBounds {
-    (union_ranges(&a.0, &b.0),
-     union_ranges(&a.1, &b.1))
+    (union_ranges(&a.0, &b.0), union_ranges(&a.1, &b.1))
 }
 
 fn shift_bounds(bounds: &DeltaBounds, delta: Delta) -> DeltaBounds {
@@ -219,7 +214,7 @@ fn run_delta_bounds(run: &Run) -> (Delta, DeltaBounds) {
     let mut bounds = (0..1, 0..1);
     for &dir in run {
         d = concat_deltas(&d, &dir.into());
-        bounds = union_bounds(&bounds, &(d.0 .. d.0 + 1, d.1 .. d.1 + 1));
+        bounds = union_bounds(&bounds, &(d.0..d.0 + 1, d.1..d.1 + 1));
     }
     //eprintln!("bounds for {:?} = {:?}", run, bounds);
     (d, bounds)
@@ -243,13 +238,11 @@ impl Concat {
     }
 
     fn trace(&self, map: &mut Map, locs: &PointSet) -> PointSet {
-        let locs = self.head.iter()
-            .fold(locs.clone(),
-                  |acc, (run, alt)| {
-                      let locs = map.trace_run_from_set(run, &acc);
-                      let locs = alt.trace(map, locs);
-                      locs
-                  });
+        let locs = self.head.iter().fold(locs.clone(), |acc, (run, alt)| {
+            let locs = map.trace_run_from_set(run, &acc);
+            let locs = alt.trace(map, locs);
+            locs
+        });
         map.trace_run_from_set(&self.tail, &locs)
     }
 }
@@ -261,9 +254,12 @@ impl Alt {
     }
 
     fn summary(&self) -> Summary {
-        let summary = self.alternatives.iter()
-            .fold(Summary::initial(),
-                  |acc, concat| acc.union(&concat.summary()));
+        let summary = self
+            .alternatives
+            .iter()
+            .fold(Summary::initial(), |acc, concat| {
+                acc.union(&concat.summary())
+            });
         //eprintln!("   Alt::summary({:?}): {:?}", self, summary);
         summary
     }
@@ -308,7 +304,12 @@ impl FromStr for Concat {
                 match cursor.peek() {
                     Some('|') => cursor.next(),
                     Some(')') => break,
-                    other => return Err(format_err!("regexp alternative contains unexpected: {:?}", other)),
+                    other => {
+                        return Err(format_err!(
+                            "regexp alternative contains unexpected: {:?}",
+                            other
+                        ));
+                    }
                 };
             }
 
@@ -338,9 +339,11 @@ impl FromStr for Concat {
 
 impl fmt::Display for Map {
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-        fn vertical_doors(dir: Dir, row: ArrayView1<DirSet>, f: &mut fmt::Formatter)
-                          -> Result<(), fmt::Error>
-        {
+        fn vertical_doors(
+            dir: Dir,
+            row: ArrayView1<DirSet>,
+            f: &mut fmt::Formatter,
+        ) -> Result<(), fmt::Error> {
             for set in row {
                 if set.has(dir) {
                     f.write_str("+  ")
@@ -378,8 +381,10 @@ impl Map {
     fn from_regex(regex: &Concat) -> (Map, Point) {
         let summary = regex.summary();
         let bounds = &summary.bounds;
-        let dim = ((bounds.0.end - bounds.0.start) as usize,
-                   (bounds.1.end - bounds.1.start) as usize);
+        let dim = (
+            (bounds.0.end - bounds.0.start) as usize,
+            (bounds.1.end - bounds.1.start) as usize,
+        );
         assert!(bounds.0.start <= 0 && bounds.1.start <= 0);
         let start = (-bounds.0.start as usize, -bounds.1.start as usize);
 
@@ -392,9 +397,7 @@ impl Map {
     }
 
     fn trace_run_from_set(&mut self, run: &Run, locs: &PointSet) -> PointSet {
-        PointSet::from_iter(locs
-                            .iter()
-                            .map(|&loc| self.trace_run(run, loc)))
+        PointSet::from_iter(locs.iter().map(|&loc| self.trace_run(run, loc)))
     }
 
     fn trace_run(&mut self, run: &Run, mut loc: Point) -> Point {
@@ -433,8 +436,11 @@ fn main() {
 
         let (map, start) = Map::from_regex(&r);
         print!("map:\n{}", map);
-        println!("longest path from {:?} is {} steps",
-                 start, map.longest_path_from(start));
+        println!(
+            "longest path from {:?} is {} steps",
+            start,
+            map.longest_path_from(start)
+        );
         println!();
 
         (map, start)
@@ -446,12 +452,12 @@ fn main() {
     let (map, start) = summarize(INPUT);
 
     let mut seen = PointSet::new();
-    let at_least_1k =
-        breadth_first(start, |&f| map.0[f].map(move |d| apply_delta(f, d.into())))
+    let at_least_1k = breadth_first(start, |&f| map.0[f].map(move |d| apply_delta(f, d.into())))
         .filter(|(_from, to, _len)| seen.insert(*to)) // take only the first edge to each node
         .filter(|(_from, _to, len)| *len >= 1000)
         .count();
-    println!("{} rooms can only be reached by passing through at least 1000 doors.",
-             at_least_1k);
+    println!(
+        "{} rooms can only be reached by passing through at least 1000 doors.",
+        at_least_1k
+    );
 }
-

@@ -1,8 +1,8 @@
 use std::cmp::{Ord, Ordering};
 use std::collections::{BinaryHeap, HashSet};
-use std::ops::Add;
 use std::fmt::Debug;
 use std::hash::Hash;
+use std::ops::Add;
 
 /// Use the A* algorithm to find shortest paths from `start` to some ending
 /// location.
@@ -43,7 +43,7 @@ where
     N: Clone + Debug + Eq + Hash,
     F: FnMut(&N) -> I,
     I: IntoIterator<Item = (N, W, W)>,
-    W: Add<Output=W> + Clone + Ord,
+    W: Add<Output = W> + Clone + Ord,
 {
     let mut pending = BinaryHeap::new();
     for (neighbor, weight, estimate) in neighbors(&start) {
@@ -83,7 +83,8 @@ pub struct Edge<N, W> {
 }
 
 impl<N, W> Edge<N, W>
-    where W: Add<Output=W> + Ord + Clone
+where
+    W: Add<Output = W> + Ord + Clone,
 {
     fn full_estimate(&self) -> W {
         self.path_weight.clone() + self.estimate.clone()
@@ -101,7 +102,7 @@ where
     N: Clone + Debug + Eq + Hash,
     F: FnMut(&N) -> I,
     I: IntoIterator<Item = (N, W, W)>,
-    W: Add<Output=W> + Clone + Ord
+    W: Add<Output = W> + Clone + Ord,
 {
     type Item = Edge<N, W>;
 
@@ -128,30 +129,33 @@ where
 // other: A is 'greater than' B if A's total weight is *shorter* than B's - that
 // is, if A should be considered before B.
 impl<N, W> PartialEq for Edge<N, W>
-where W: Add<Output=W> + Ord + Clone
+where
+    W: Add<Output = W> + Ord + Clone,
 {
     fn eq(&self, other: &Edge<N, W>) -> bool {
         self.full_estimate() == other.full_estimate()
     }
 }
 
-impl<N, W> Eq for Edge<N, W>
-where W: Add<Output=W> + Ord + Clone
-{}
+impl<N, W> Eq for Edge<N, W> where W: Add<Output = W> + Ord + Clone {}
 
 impl<N, W> Ord for Edge<N, W>
-where W: Add<Output=W> + Ord + Clone
+where
+    W: Add<Output = W> + Ord + Clone,
 {
     fn cmp(&self, other: &Edge<N, W>) -> Ordering {
         // If two edges are otherwise equal, prefer the one with the shortest
         // estimate, so we focus our attention on closer edges.
-        other.full_estimate().cmp(&self.full_estimate())
+        other
+            .full_estimate()
+            .cmp(&self.full_estimate())
             .then(other.estimate.cmp(&self.estimate))
     }
 }
 
 impl<N, W> PartialOrd for Edge<N, W>
-where W: Add<Output=W> + Ord + Clone
+where
+    W: Add<Output = W> + Ord + Clone,
 {
     fn partial_cmp(&self, other: &Edge<N, W>) -> Option<Ordering> {
         Some(self.cmp(other))
@@ -166,15 +170,13 @@ mod test {
 
     impl EdgeList {
         fn neighbors<'a>(&'a self, node: i32) -> impl Iterator<Item = (i32, i32, i32)> + 'a {
-            self.0
-                .iter()
-                .filter_map(move |(from, to, weight)| {
-                    if *from == node {
-                        Some((*to, *weight, 0))
-                    } else {
-                        None
-                    }
-                })
+            self.0.iter().filter_map(move |(from, to, weight)| {
+                if *from == node {
+                    Some((*to, *weight, 0))
+                } else {
+                    None
+                }
+            })
         }
 
         fn collect_astarw(&self, start: i32) -> Vec<Edge<i32, i32>> {

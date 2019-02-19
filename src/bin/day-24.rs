@@ -36,21 +36,19 @@ impl Group {
 
 macro_rules! group {
     ($units:tt units each with $hp:tt hit points $immunities_weaknesses:tt
-     with an attack that does $damage:tt $damage_type:tt damage at initiative $initiative:tt) => {
-        {
-            let (immunities, weaknesses) = parse_immunities_weaknesses!($immunities_weaknesses);
-            Group {
-                id: 0,
-                units: $units,
-                hp_per_unit: $hp,
-                immunities,
-                weaknesses,
-                damage_type: stringify!($damage_type),
-                damage: $damage,
-                initiative: $initiative
-            }
+     with an attack that does $damage:tt $damage_type:tt damage at initiative $initiative:tt) => {{
+        let (immunities, weaknesses) = parse_immunities_weaknesses!($immunities_weaknesses);
+        Group {
+            id: 0,
+            units: $units,
+            hp_per_unit: $hp,
+            immunities,
+            weaknesses,
+            damage_type: stringify!($damage_type),
+            damage: $damage,
+            initiative: $initiative,
         }
-    }
+    }};
 }
 
 macro_rules! parse_immunities_weaknesses {
@@ -127,12 +125,8 @@ fn battle(original_teams: &[Vec<Group>; 2], boost: usize) -> (usize, usize) {
             return (0, total_units(&teams[0]));
         }
 
-        let mut targetting_order: Vec<(usize, usize)> =
-            (0..=1)
-            .flat_map(|team| {
-                (0..teams[team].len())
-                    .map(move |i| (team, i))
-            })
+        let mut targetting_order: Vec<(usize, usize)> = (0..=1)
+            .flat_map(|team| (0..teams[team].len()).map(move |i| (team, i)))
             .collect();
 
         targetting_order.sort_by_key(|&(team, i)| {
@@ -141,8 +135,10 @@ fn battle(original_teams: &[Vec<Group>; 2], boost: usize) -> (usize, usize) {
         });
         targetting_order.reverse();
 
-        let mut unchosen: [BTreeSet<usize>; 2] = [BTreeSet::from_iter(0..teams[0].len()),
-                                                  BTreeSet::from_iter(0..teams[1].len())];
+        let mut unchosen: [BTreeSet<usize>; 2] = [
+            BTreeSet::from_iter(0..teams[0].len()),
+            BTreeSet::from_iter(0..teams[1].len()),
+        ];
 
         let mut targets: Vec<(usize, usize, usize)> = targetting_order
             .into_iter()
@@ -160,9 +156,11 @@ fn battle(original_teams: &[Vec<Group>; 2], boost: usize) -> (usize, usize) {
                         let enemy_group = &teams[enemy][group_ix];
                         //println!("{} group {} would deal defending group {} {} damage",
                         //         team_name(team), attacker.id, enemy_group.id, attacker.damage(enemy_group));
-                        (attacker.damage(enemy_group),
-                         enemy_group.effective_power(),
-                         enemy_group.initiative)
+                        (
+                            attacker.damage(enemy_group),
+                            enemy_group.effective_power(),
+                            enemy_group.initiative,
+                        )
                     });
                 if let Some(group_ix) = best_target {
                     unchosen[enemy].remove(&group_ix);
@@ -183,8 +181,11 @@ fn battle(original_teams: &[Vec<Group>; 2], boost: usize) -> (usize, usize) {
                 let attacker = &teams[team][i];
                 if attacker.units == 0 {
                     if NOISY {
-                        println!("{} group {} has been defeated, and does not attack",
-                                 team_name(team), attacker.id);
+                        println!(
+                            "{} group {} has been defeated, and does not attack",
+                            team_name(team),
+                            attacker.id
+                        );
                     }
                     continue;
                 }
@@ -194,14 +195,19 @@ fn battle(original_teams: &[Vec<Group>; 2], boost: usize) -> (usize, usize) {
                 killed = min(target.units, damage / target.hp_per_unit);
 
                 if NOISY {
-                    println!("{} group {} attacks defending group {} killing {} units",
-                             team_name(team), attacker.id, target.id, killed);
+                    println!(
+                        "{} group {} attacks defending group {} killing {} units",
+                        team_name(team),
+                        attacker.id,
+                        target.id,
+                        killed
+                    );
                 }
             }
             if killed > 0 {
                 any_killed = true;
             }
-            teams[1-team][target].units -= killed;
+            teams[1 - team][target].units -= killed;
         }
         if NOISY {
             println!();

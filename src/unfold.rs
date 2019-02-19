@@ -12,8 +12,9 @@
 ///     # use aoc::unfold::unfold;
 ///     let fib = unfold((0, 1), |(a, b)| Some(((b, a+b), b)));
 ///     assert_eq!(fib.take(5).collect::<Vec<_>>(), vec![1,1,2,3,5]);
-pub fn unfold<T, U, F>(initial: T, step: F) -> impl Iterator<Item=U>
-    where F: FnMut(T) -> Option<(T, U)>
+pub fn unfold<T, U, F>(initial: T, step: F) -> impl Iterator<Item = U>
+where
+    F: FnMut(T) -> Option<(T, U)>,
 {
     Unfolder(Some((step, initial)))
 }
@@ -22,28 +23,29 @@ pub fn unfold<T, U, F>(initial: T, step: F) -> impl Iterator<Item=U>
 pub struct Unfolder<F, T>(Option<(F, T)>);
 
 impl<T, U, F> Iterator for Unfolder<F, T>
-    where F: FnMut(T) -> Option<(T, U)>
+where
+    F: FnMut(T) -> Option<(T, U)>,
 {
     type Item = U;
     fn next(&mut self) -> Option<U> {
         match self.0.take() {
             None => None,
-            Some((mut step, state)) => {
-                match step(state) {
-                    None => None,
-                    Some((next_state, item)) => {
-                        self.0 = Some((step, next_state));
-                        Some(item)
-                    }
+            Some((mut step, state)) => match step(state) {
+                None => None,
+                Some((next_state, item)) => {
+                    self.0 = Some((step, next_state));
+                    Some(item)
                 }
-            }
+            },
         }
     }
 }
 
 #[test]
 fn test_unfold() {
-     let fib = unfold((0, 1), |(a, b)| Some(((b, a+b), b)));
-     assert_eq!(fib.take(10).collect::<Vec<_>>(),
-                vec![1,1,2,3,5,8,13,21,34,55]);
+    let fib = unfold((0, 1), |(a, b)| Some(((b, a + b), b)));
+    assert_eq!(
+        fib.take(10).collect::<Vec<_>>(),
+        vec![1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+    );
 }

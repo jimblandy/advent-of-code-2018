@@ -260,22 +260,21 @@ fn test_first_run() {
 /// Given an iterable producing string slices representing rows of some sort of
 /// map, return the height and width of the map, as a pair `(rows, columns)`.
 pub fn map_bounds<'a, I>(lines: I) -> (usize, usize)
-where I: IntoIterator<Item=&'a str>
+where
+    I: IntoIterator<Item = &'a str>,
 {
-    lines
-        .into_iter()
-        .fold((0, 0), |(rows, columns), line| {
-            (rows + 1, max(columns, line.len()))
-        })
+    lines.into_iter().fold((0, 0), |(rows, columns), line| {
+        (rows + 1, max(columns, line.len()))
+    })
 }
 
 /// Given an iterable producing string slices representing rows of some sort of
 /// map, and whose iterator is clonable, return the map as an `Array2<char>`.
 /// Use `default` to pad shorter lines out to the full length.
 pub fn parse_map<'a, I>(lines: I, default: char) -> Array2<char>
-where I: IntoIterator<Item=&'a str>,
-      I::IntoIter: Clone
-
+where
+    I: IntoIterator<Item = &'a str>,
+    I::IntoIter: Clone,
 {
     let iter = lines.into_iter();
     let mut map = Array2::from_elem(map_bounds(iter.clone()), default);
@@ -289,14 +288,12 @@ where I: IntoIterator<Item=&'a str>,
     map
 }
 
-pub fn union_ranges<Idx: Ord + Copy>(a: &Range<Idx>, b: &Range<Idx>) -> Range<Idx>
-{
-    min(a.start, b.start) .. max(a.end, b.end)
+pub fn union_ranges<Idx: Ord + Copy>(a: &Range<Idx>, b: &Range<Idx>) -> Range<Idx> {
+    min(a.start, b.start)..max(a.end, b.end)
 }
 
-pub fn extend_range<Idx: Ord + Copy>(a: Range<Idx>, b:Idx) -> Range<Idx>
-{
-    min(a.start, b) .. max(a.end, b)
+pub fn extend_range<Idx: Ord + Copy>(a: Range<Idx>, b: Idx) -> Range<Idx> {
+    min(a.start, b)..max(a.end, b)
 }
 
 pub struct Cursor<'a>(std::iter::Peekable<std::str::Chars<'a>>);
@@ -319,7 +316,8 @@ impl<'a> Iterator for Cursor<'a> {
 }
 
 pub fn manhattan<T>(a: T, b: T) -> T
-where T: PartialOrd + Add<Output=T> + Sub<Output=T>
+where
+    T: PartialOrd + Add<Output = T> + Sub<Output = T>,
 {
     if a >= b {
         a - b
@@ -334,7 +332,8 @@ pub trait Manhattan {
 }
 
 impl<T> Manhattan for (T, T)
-where T: PartialOrd + Add<Output=T> + Sub<Output=T>
+where
+    T: PartialOrd + Add<Output = T> + Sub<Output = T>,
 {
     type Output = T;
     fn manhattan(self, b: (T, T)) -> T {
@@ -343,7 +342,8 @@ where T: PartialOrd + Add<Output=T> + Sub<Output=T>
 }
 
 impl<T> Manhattan for (T, T, T)
-where T: PartialOrd + Add<Output=T> + Sub<Output=T>
+where
+    T: PartialOrd + Add<Output = T> + Sub<Output = T>,
 {
     type Output = T;
     fn manhattan(self, b: (T, T, T)) -> T {
@@ -352,10 +352,14 @@ where T: PartialOrd + Add<Output=T> + Sub<Output=T>
 }
 
 impl<T> Manhattan for (T, T, T, T)
-where T: PartialOrd + Add<Output=T> + Sub<Output=T>
+where
+    T: PartialOrd + Add<Output = T> + Sub<Output = T>,
 {
     type Output = T;
     fn manhattan(self, b: Self) -> T {
-        manhattan(self.0, b.0) + manhattan(self.1, b.1) + manhattan(self.2, b.2) + manhattan(self.3, b.3)
+        manhattan(self.0, b.0)
+            + manhattan(self.1, b.1)
+            + manhattan(self.2, b.2)
+            + manhattan(self.3, b.3)
     }
 }

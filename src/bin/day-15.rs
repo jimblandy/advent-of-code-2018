@@ -3,9 +3,9 @@ extern crate advent_of_code_2018 as aoc;
 extern crate failure;
 extern crate ndarray;
 
-use aoc::{first_run, Manhattan, map_bounds, select_iter};
 use aoc::astar::{astar, Edge};
 use aoc::bfs::breadth_first;
+use aoc::{first_run, map_bounds, select_iter, Manhattan};
 use failure::Error;
 use ndarray::{Array2, Axis};
 use std::fmt;
@@ -140,10 +140,13 @@ impl FromStr for Map {
                 }
             }
         }
-        Ok(Map(map, Params {
-            elf_damage: 3,
-            goblin_damage: 3,
-        }))
+        Ok(Map(
+            map,
+            Params {
+                elf_damage: 3,
+                goblin_damage: 3,
+            },
+        ))
     }
 }
 
@@ -163,7 +166,7 @@ enum TurnOutcome {
     NoKill,
 
     /// Killed unit at given location.
-    Killed(Point)
+    Killed(Point),
 }
 
 impl Map {
@@ -196,7 +199,11 @@ impl Map {
         let mut units = self.units();
         units.reverse();
         while let Some(unit) = units.pop() {
-            assert!(if let Square::Unit { .. } = self.0[unit] { true } else { false });
+            assert!(if let Square::Unit { .. } = self.0[unit] {
+                true
+            } else {
+                false
+            });
             match self.turn(unit) {
                 TurnOutcome::NoEnemiesLeft => return false,
                 TurnOutcome::NoEnemiesInRange | TurnOutcome::NoKill => (),
@@ -220,7 +227,7 @@ impl Map {
                     TurnOutcome::NoEnemiesInRange
                 } else {
                     TurnOutcome::NoEnemiesLeft
-                }
+                };
             }
         };
 
@@ -362,7 +369,7 @@ impl Map {
             self.0[weakest_enemy] = Square::Empty;
             outcome = TurnOutcome::Killed(weakest_enemy);
         } else {
-            outcome= TurnOutcome::NoKill;
+            outcome = TurnOutcome::NoKill;
         }
         outcome
     }
@@ -408,12 +415,20 @@ impl Map {
     }
 
     fn census(&self) -> Census {
-        let mut census = Census { elves: 0, goblins: 0 };
+        let mut census = Census {
+            elves: 0,
+            goblins: 0,
+        };
         for row in 0..self.0.len_of(Axis(0)) {
             for col in 0..self.0.len_of(Axis(1)) {
                 match &self.0[[row, col]] {
-                    Square::Unit { tribe: Tribe::Elf, .. } => census.elves += 1,
-                    Square::Unit { tribe: Tribe::Goblin, .. } => census.goblins += 1,
+                    Square::Unit {
+                        tribe: Tribe::Elf, ..
+                    } => census.elves += 1,
+                    Square::Unit {
+                        tribe: Tribe::Goblin,
+                        ..
+                    } => census.goblins += 1,
                     _ => (),
                 }
             }
@@ -996,17 +1011,24 @@ mod test_map {
 
     #[test]
     fn no_double_move() {
-        let mut map = test_map("
+        let mut map = test_map(
+            "
             #######
             #.G...#
             #GE..E# G(200), E(2), E(200)
-            #######");
+            #######",
+        );
         assert!(map.round());
-        assert_eq!(map, test_map("
+        assert_eq!(
+            map,
+            test_map(
+                "
             #######
             #.G...#
             #.G.E.# G(200), E(200)
-            #######"));
+            #######"
+            )
+        );
     }
 }
 
@@ -1025,14 +1047,20 @@ fn main() -> Result<(), Error> {
     let mut map = Map::from_str(INPUT)?;
     let elf_damage = 25;
     map.1.elf_damage = elf_damage;
-    println!("Let's let elves deal {} points of damage.", map.1.elf_damage);
+    println!(
+        "Let's let elves deal {} points of damage.",
+        map.1.elf_damage
+    );
     let initial_census = map.census();
     let mut rounds = 0;
     loop {
         //eprintln!("Round #{} begins:", rounds + 1);
         let just_before = map.clone();
         if !map.round() {
-            println!("Combat ended with no elf deaths, after {} complete rounds!", rounds);
+            println!(
+                "Combat ended with no elf deaths, after {} complete rounds!",
+                rounds
+            );
             println!("final map:{}", map);
             break;
         }
