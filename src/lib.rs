@@ -156,8 +156,8 @@ where
 }
 
 /// Split `input` into fields separated by the non-underscore sections of
-/// `seps`, trim any surrounding whitespace, and return the result as a vector
-/// of slices.
+/// `seps`, trim any surrounding whitespace, apply `parser` to each, and return
+/// the result as a vector of success values from `parser`.
 pub fn splits<'a, T, E, P>(mut input: &'a str, seps: &str, mut parser: P) -> Result<Vec<T>, E>
 where
     P: FnMut(&str) -> Result<T, E>,
