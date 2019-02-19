@@ -350,3 +350,12 @@ where T: PartialOrd + Add<Output=T> + Sub<Output=T>
         manhattan(self.0, b.0) + manhattan(self.1, b.1) + manhattan(self.2, b.2)
     }
 }
+
+impl<T> Manhattan for (T, T, T, T)
+where T: PartialOrd + Add<Output=T> + Sub<Output=T>
+{
+    type Output = T;
+    fn manhattan(self, b: Self) -> T {
+        manhattan(self.0, b.0) + manhattan(self.1, b.1) + manhattan(self.2, b.2) + manhattan(self.3, b.3)
+    }
+}
